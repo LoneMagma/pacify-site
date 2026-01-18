@@ -12,6 +12,22 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// DARK MODE TOGGLE
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+
+// Check for saved theme preference or default to light mode
+const currentTheme = localStorage.getItem('theme') || 'light';
+html.setAttribute('data-theme', currentTheme);
+
+themeToggle.addEventListener('click', () => {
+    const theme = html.getAttribute('data-theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+});
+
 // MODAL FUNCTIONALITY FOR ARCHITECTURE DIAGRAMS
 const modal = document.getElementById('modal');
 const modalImg = document.getElementById('modal-img');
@@ -22,9 +38,9 @@ function openModal(element) {
     
     // Map diagram types to image paths
     const imagePaths = {
-        'user-flow': 'images/user-flow.png',
-        'technical': 'images/technical-arch.png',
-        'security': 'images/security-flow.png'
+        'user-flow': 'images/UserFlowSVG.svg',
+        'technical': 'images/TechnicalFlowSVG.svg',
+        'security': 'images/SecurityFlowSVG.svg'
     };
     
     modal.style.display = 'block';
