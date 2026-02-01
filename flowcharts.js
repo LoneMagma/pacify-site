@@ -1,114 +1,280 @@
-// Flowchart data - optimized for no-scroll viewing
+// Flowchart data - redesigned for single-page, modular viewing
 const flowcharts = {
     'technical': {
         title: 'Technical Architecture',
         nodes: [
-            { title: 'User Interface', desc: 'React + TypeScript frontend with real-time WebSocket connections', tech: ['React', 'TypeScript', 'WebSocket'] },
-            { title: 'Authentication', desc: 'JWT-based auth with bcrypt password hashing', tech: ['JWT', 'bcrypt'] },
-            { title: 'API Gateway', desc: 'FastAPI backend handling HTTP and WebSocket connections', tech: ['FastAPI', 'Python'] },
-            { title: 'AI Modes', desc: '', split: [
-                { title: 'Pacify Mode', desc: 'Balanced AI with safety guardrails' },
-                { title: 'Defy Mode', desc: 'Uncensored technical responses' }
-            ]},
-            { title: 'Data Layer', desc: 'Multi-tenant architecture with complete data isolation', tech: ['PostgreSQL', 'Redis'] },
-            { title: 'Deployment', desc: 'Containerized with Docker for consistency', tech: ['Docker'] }
+            {
+                id: 'ui',
+                title: 'User Interface',
+                shortDesc: 'React + TypeScript + WebSocket',
+                fullDesc: 'React frontend with TypeScript for type safety. Real-time WebSocket connections enable streaming AI responses without page refreshes. Component-based architecture for maintainability.',
+                tech: ['React', 'TypeScript', 'WebSocket']
+            },
+            {
+                id: 'auth',
+                title: 'Authentication',
+                shortDesc: 'JWT + bcrypt hashing',
+                fullDesc: 'Secure JWT-based authentication flow. Passwords hashed with bcrypt before storage. Tokens expire after configured duration and refresh automatically.',
+                tech: ['JWT', 'bcrypt']
+            },
+            {
+                id: 'api',
+                title: 'API Gateway',
+                shortDesc: 'FastAPI backend',
+                fullDesc: 'FastAPI handles both HTTP REST endpoints and WebSocket connections. Async architecture for high concurrency. OpenAPI docs auto-generated.',
+                tech: ['FastAPI', 'Python', 'Async']
+            },
+            {
+                id: 'modes',
+                title: 'AI Modes',
+                shortDesc: 'Pacify & Defy personas',
+                fullDesc: 'Two distinct AI personalities: Pacify (balanced, helpful, safety-conscious) and Defy (uncensored, technical, direct). Each has sub-personas for variety.',
+                split: [
+                    { title: 'Pacify', desc: 'Balanced AI with guardrails' },
+                    { title: 'Defy', desc: 'Uncensored technical mode' }
+                ]
+            },
+            {
+                id: 'data',
+                title: 'Data Layer',
+                shortDesc: 'PostgreSQL + Redis',
+                fullDesc: 'PostgreSQL for persistent storage with multi-tenant data isolation. Redis for session caching and rate limiting counters.',
+                tech: ['PostgreSQL', 'Redis']
+            },
+            {
+                id: 'deploy',
+                title: 'Deployment',
+                shortDesc: 'Docker containers',
+                fullDesc: 'Fully containerized with Docker for consistent deployments across environments. Docker Compose for local development, ready for Kubernetes scaling.',
+                tech: ['Docker', 'Nginx']
+            }
         ]
     },
     'user-flow': {
         title: 'User Flow Journey',
         nodes: [
-            { title: 'Landing', desc: 'User arrives and chooses sign up or log in' },
-            { title: 'Authentication', desc: 'Credentials validated, JWT token issued' },
-            { title: 'Dashboard', desc: 'View conversation history, start new chat' },
-            { title: 'Mode Selection', desc: 'Choose Pacify (balanced) or Defy (uncensored)' },
-            { title: 'Real-time Chat', desc: 'WebSocket connection with streaming responses' },
-            { title: 'Persistence', desc: 'Conversations saved with encryption' }
+            {
+                id: 'landing',
+                title: 'Landing',
+                shortDesc: 'Welcome & auth options',
+                fullDesc: 'Clean landing page with clear call-to-action. Users can sign up for a new account or log in to existing one. OAuth options planned for future.'
+            },
+            {
+                id: 'auth',
+                title: 'Authentication',
+                shortDesc: 'Secure login flow',
+                fullDesc: 'Credentials validated server-side. Passwords checked against bcrypt hashes. On success, JWT token issued and stored in httpOnly cookie.'
+            },
+            {
+                id: 'dashboard',
+                title: 'Dashboard',
+                shortDesc: 'Conversation management',
+                fullDesc: 'View all conversation history organized by date. Start new chats, continue previous ones, or delete unwanted conversations. Search functionality included.'
+            },
+            {
+                id: 'mode',
+                title: 'Mode Selection',
+                shortDesc: 'Choose AI persona',
+                fullDesc: 'Toggle between Pacify (balanced, thoughtful responses) and Defy (uncensored, direct answers). Each mode has distinct personality and response style.'
+            },
+            {
+                id: 'chat',
+                title: 'Real-time Chat',
+                shortDesc: 'WebSocket streaming',
+                fullDesc: 'Messages streamed token-by-token via WebSocket for instant feedback. No waiting for complete responses. Supports markdown rendering.'
+            },
+            {
+                id: 'persist',
+                title: 'Persistence',
+                shortDesc: 'Encrypted storage',
+                fullDesc: 'All conversations automatically saved with end-to-end encryption. Data isolated per user - no cross-tenant access possible.'
+            }
         ]
     },
     'security': {
         title: 'Security Flow',
         nodes: [
-            { title: 'Request', desc: 'API receives request with auth headers' },
-            { title: 'Token Validation', desc: 'JWT verified for signature and expiration' },
-            { title: 'Rate Limiting', desc: 'Request count checked, excessive requests throttled' },
-            { title: 'Authorization', desc: 'User permissions validated for resource access' },
-            { title: 'Encryption', desc: 'Data encrypted at rest, TLS for communication' },
-            { title: 'Audit Logging', desc: 'Security events logged, suspicious activity flagged' }
+            {
+                id: 'request',
+                title: 'Request',
+                shortDesc: 'Incoming API call',
+                fullDesc: 'Every API request includes authentication headers. CORS policies restrict origins. Request body validated against schemas before processing.'
+            },
+            {
+                id: 'token',
+                title: 'Token Validation',
+                shortDesc: 'JWT verification',
+                fullDesc: 'JWT signature verified using secret key. Expiration time checked. Invalid or expired tokens rejected with 401 response.'
+            },
+            {
+                id: 'rate',
+                title: 'Rate Limiting',
+                shortDesc: 'Throttle protection',
+                fullDesc: 'Redis-backed rate limiting tracks requests per user. Excessive requests get 429 response. Prevents abuse and ensures fair usage.'
+            },
+            {
+                id: 'authz',
+                title: 'Authorization',
+                shortDesc: 'Permission checks',
+                fullDesc: 'After authentication, authorization verifies user can access requested resource. Users can only access their own data.'
+            },
+            {
+                id: 'encrypt',
+                title: 'Encryption',
+                shortDesc: 'Data protection',
+                fullDesc: 'All data encrypted at rest using AES-256. TLS 1.3 for all network communication. Secrets stored in environment variables.'
+            },
+            {
+                id: 'audit',
+                title: 'Audit Logging',
+                shortDesc: 'Security monitoring',
+                fullDesc: 'Security events logged with timestamps and user IDs. Failed login attempts tracked. Suspicious patterns trigger alerts.'
+            }
         ]
     }
 };
 
+// State management
+let activeNode = null;
+let currentFlowchart = null;
+
 function openFlowchart(type) {
     const modal = document.getElementById('flowchart-modal');
     const data = flowcharts[type];
-    
-    let html = `
-        <div class="flowchart-overlay" onclick="closeFlowchart()">
-            <div class="flowchart-content" onclick="event.stopPropagation()">
-                <button class="flowchart-close" onclick="closeFlowchart()">×</button>
-                <h1 class="flowchart-title">${data.title}</h1>
-                <div class="flowchart-container">
-    `;
-    
-    data.nodes.forEach((node, index) => {
-        if (node.split) {
-            html += `
-                <div class="flow-split-container" style="animation-delay: ${index * 0.1}s">
-                    <div class="flow-grid">
-                        ${node.split.map((subNode, subIndex) => `
-                            <div class="flow-node flow-split" style="animation-delay: ${(index * 0.1) + (subIndex * 0.05)}s">
-                                <h3>${subNode.title}</h3>
-                                <p>${subNode.desc}</p>
-                            </div>
-                        `).join('')}
+    currentFlowchart = type;
+    activeNode = null;
+
+    const html = `
+        <div class="flowchart-overlay" onclick="handleOverlayClick(event)">
+            <div class="flowchart-panel">
+                <button class="flowchart-close" onclick="closeFlowchart()" aria-label="Close">×</button>
+                
+                <div class="flowchart-header">
+                    <h1 class="flowchart-title">${data.title}</h1>
+                    <p class="flowchart-hint">Click any node for details</p>
+                </div>
+                
+                <div class="flowchart-body">
+                    <div class="flowchart-nodes">
+                        ${generateNodes(data.nodes)}
                     </div>
-                </div>
-            `;
-        } else {
-            html += `
-                <div class="flow-node" style="animation-delay: ${index * 0.1}s">
-                    <h3>${node.title}</h3>
-                    <p>${node.desc}</p>
-                    ${node.tech ? `
-                        <div class="tech-badges">
-                            ${node.tech.map((t, i) => `<span class="tech-badge" style="animation-delay: ${(index * 0.1) + 0.2 + (i * 0.05)}s">${t}</span>`).join('')}
+                    
+                    <div class="flowchart-detail" id="flowchart-detail">
+                        <div class="detail-placeholder">
+                            <p class="detail-prompt">Select a node to explore</p>
                         </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-        
-        if (index < data.nodes.length - 1) {
-            html += `<div class="flow-arrow" style="animation-delay: ${(index * 0.1) + 0.05}s">↓</div>`;
-        }
-    });
-    
-    html += `
+                    </div>
                 </div>
             </div>
         </div>
     `;
-    
+
     modal.innerHTML = html;
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    
-    // Trigger animations
-    setTimeout(() => {
+
+    // Trigger entrance animation
+    requestAnimationFrame(() => {
         const overlay = modal.querySelector('.flowchart-overlay');
         if (overlay) overlay.classList.add('active');
-    }, 10);
+    });
+}
+
+function generateNodes(nodes) {
+    return nodes.map((node, index) => {
+        const isLast = index === nodes.length - 1;
+
+        if (node.split) {
+            return `
+                <div class="flow-row">
+                    <div class="flow-node flow-node-split" data-id="${node.id}" onclick="showNodeDetail('${node.id}')">
+                        <span class="node-title">${node.title}</span>
+                        <span class="node-short">${node.shortDesc}</span>
+                        <div class="split-badges">
+                            ${node.split.map(s => `<span class="split-badge">${s.title}</span>`).join('')}
+                        </div>
+                    </div>
+                    ${!isLast ? '<div class="flow-connector"><span>↓</span></div>' : ''}
+                </div>
+            `;
+        }
+
+        return `
+            <div class="flow-row">
+                <div class="flow-node" data-id="${node.id}" onclick="showNodeDetail('${node.id}')">
+                    <span class="node-title">${node.title}</span>
+                    <span class="node-short">${node.shortDesc}</span>
+                </div>
+                ${!isLast ? '<div class="flow-connector"><span>↓</span></div>' : ''}
+            </div>
+        `;
+    }).join('');
+}
+
+function showNodeDetail(nodeId) {
+    const data = flowcharts[currentFlowchart];
+    const node = data.nodes.find(n => n.id === nodeId);
+    if (!node) return;
+
+    // Update active state
+    document.querySelectorAll('.flow-node').forEach(n => n.classList.remove('active'));
+    document.querySelector(`[data-id="${nodeId}"]`)?.classList.add('active');
+    activeNode = nodeId;
+
+    const detailPanel = document.getElementById('flowchart-detail');
+
+    let techBadges = '';
+    if (node.tech) {
+        techBadges = `
+            <div class="detail-tech">
+                ${node.tech.map(t => `<span class="detail-badge">${t}</span>`).join('')}
+            </div>
+        `;
+    }
+
+    let splitInfo = '';
+    if (node.split) {
+        splitInfo = `
+            <div class="detail-split">
+                ${node.split.map(s => `
+                    <div class="split-item">
+                        <strong>${s.title}</strong>
+                        <span>${s.desc}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    detailPanel.innerHTML = `
+        <div class="detail-content">
+            <h2 class="detail-title">${node.title}</h2>
+            <p class="detail-desc">${node.fullDesc}</p>
+            ${techBadges}
+            ${splitInfo}
+        </div>
+    `;
+
+    detailPanel.classList.add('has-content');
+}
+
+function handleOverlayClick(event) {
+    if (event.target.classList.contains('flowchart-overlay')) {
+        closeFlowchart();
+    }
 }
 
 function closeFlowchart() {
     const modal = document.getElementById('flowchart-modal');
     const overlay = modal.querySelector('.flowchart-overlay');
-    
+
     if (overlay) {
         overlay.classList.remove('active');
         setTimeout(() => {
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+            currentFlowchart = null;
+            activeNode = null;
         }, 300);
     } else {
         modal.style.display = 'none';
@@ -116,7 +282,7 @@ function closeFlowchart() {
     }
 }
 
-// Close on Escape key
+// Keyboard navigation
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeFlowchart();
