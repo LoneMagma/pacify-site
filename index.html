@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pacify - Building real projects while learning real skills. AI-assisted development portfolio.">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="title" content="Pacify - LoneMagma's Portfolio | AI-Assisted Development">
+    <meta name="keywords" content="AI development, student developer, portfolio, full-stack, LoneMagma, FastAPI, React, WebSocket, Claude AI, machine learning, BurnLab, offline AI">
+    <meta name="author" content="LoneMagma">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pacify.site/">
+    <meta property="og:title" content="Pacify - LoneMagma's Portfolio | AI-Assisted Development">
+    <meta property="og:description" content="Building Real Projects While Learning Real Skills. Student developer architecting with AI and learning along the way.">
+    <meta property="og:image" content="https://pacify.site/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://pacify.site/">
+    <meta name="twitter:title" content="Pacify - LoneMagma's Portfolio | AI-Assisted Development">
+    <meta name="twitter:description" content="Building Real Projects While Learning Real Skills. Student developer architecting with AI and learning along the way.">
+    <meta name="twitter:image" content="https://pacify.site/og-image.jpg">
+    
+    <title>Pacify - LoneMagma's Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "LoneMagma",
+      "url": "https://pacify.site",
+      "sameAs": ["https://www.instagram.com/lonemagma/", "https://github.com/LoneMagma"],
+      "jobTitle": "Student Developer",
+      "description": "Student developer learning through AI-assisted development"
+    }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">Pacify</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <a href="https://github.com/LoneMagma" target="_blank" aria-label="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/lonemagma/" target="_blank" aria-label="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 10-2.5 0 1.25 1.25 0 002.5 0zM12 9a3 3 0 110 6 3 3 0 010-6z"/>
+                    </svg>
+                </a>
+                <a href="mailto:lonemagma29@gmail.com" aria-label="Email">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Building Real Projects While Learning Real Skills</h1>
+            <p class="hero-subtitle">Architecting with AI and Learning along the way.</p>
+            <p class="hero-description">Student and Learner, Learning by Building and Breaking Systems, also I don't write every line of code myself- but I understand the systems I create.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#about" class="btn btn-secondary">About Me</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            
+            <!-- BurnLab Project (Most Recent) -->
+            <article class="project-card project-featured">
+                <div class="project-header">
+                    <div class="project-title-group">
+                        <h3 class="project-title">BurnLab</h3>
+                        <span class="project-badge">Latest</span>
+                    </div>
+                    <span class="project-status">Stable Release V1</span>
+                </div>
+                
+                <p class="project-tagline">The Sovereign Development Environment</p>
+                
+                <p class="project-description">
+                    A complete air-gapped & AI-powered development laboratory that runs entirely from a USB drive. BurnLab transforms any PC into a self contained coding environment with local LLMs, offline documentation, and professional tooling, no internet, no installation, no data left behind.
+                </p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4 class="feature-title"> Local Intelligence</h4>
+                        <p class="feature-description">Integrated Ollama runtime with Qwen2.5-Coder for offline code generation and debugging</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="feature-title"> Universal Reference</h4>
+                        <p class="feature-description">15GB+ of offline knowledge: Wikipedia, Stack Overflow, MDN, Arch Wiki</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="feature-title"> Professional Tooling</h4>
+                        <p class="feature-description">VS Code, Python 3.11+ Scientific Stack, Git, and complete build essentials</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="feature-title"> Zero-Trace</h4>
+                        <p class="feature-description">Runs entirely from RAM and USB. No data touches the host computer</p>
+                    </div>
+                </div>
+
+                <div class="architecture-section">
+                    <h4 class="architecture-title">Key Features</h4>
+                    <ul class="feature-list">
+                        <li><strong>One-Command Bootstrap:</strong> Entire environment deployed via single bash script!</li>
+                        <li><strong>Adaptive Storage:</strong> Smart compression allows full functionality on 16GB drives</li>
+                        <li><strong>Intuitive Aliases:</strong> <code>ask "How do I reverse a list?"</code> queries local LLM with offline docs</li>
+                        <li><strong>Layered Architecture:</strong> BunsenLabs base --> Btrfs persistence --> Kiwix knowledge --> Quantized LLMs</li>
+                    </ul>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-badge">BunsenLabs Linux</span>
+                    <span class="tech-badge">Ollama</span>
+                    <span class="tech-badge">Qwen2.5-Coder</span>
+                    <span class="tech-badge">Kiwix</span>
+                    <span class="tech-badge">VS Code</span>
+                    <span class="tech-badge">Btrfs</span>
+                    <span class="tech-badge">Python</span>
+                </div>
+
+                <div class="confession-box">
+                    <p>Built this because I wanted a development environment that works anywhere! School's Computer Lab, libraries or random computers that too without leaving traces or depending on internet. The entire system fits on a USB drive smaller than your thumb.</p>
+                </div>
+
+                <div class="project-buttons">
+                    <a href="https://github.com/LoneMagma/BurnLab" target="_blank" class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        View Code
+                    </a>
+                    <a href="https://github.com/LoneMagma/BurnLab#readme" target="_blank" class="btn btn-secondary">View Documentation</a>
+                </div>
+            </article>
+
+            <!-- Pacify & Defy AI Project -->
+            <article class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title">Pacify & Defy AI</h3>
+                    <span class="project-status">In Development</span>
+                </div>
+                
+                <p class="project-description">
+                    A dual mode conversational AI with real-time streaming, multiuser authentication, and complete data isolation.Features Pacify (Balanced, Smart AI) and Defy (Unhinged and Uncensored) both with two more personas of their own.
+                </p>
+
+                <div class="architecture-section">
+                    <h4 class="architecture-title">System Architecture</h4>
+                    <p class="architecture-subtitle">Click diagrams to view interactive flowcharts</p>
+                    <div class="architecture-diagrams">
+                        <div class="diagram-placeholder" onclick="openFlowchart('user-flow')" data-diagram="user-flow">
+                            <div class="placeholder-content">
+                                <span class="placeholder-label">User Flow Journey</span>
+                            </div>
+                        </div>
+                        <div class="diagram-placeholder" onclick="openFlowchart('technical')" data-diagram="technical">
+                            <div class="placeholder-content">
+                                <span class="placeholder-label">Technical Architecture Flow</span>
+                            </div>
+                        </div>
+                        <div class="diagram-placeholder" onclick="openFlowchart('security')" data-diagram="security">
+                            <div class="placeholder-content">
+                                <span class="placeholder-label">Security Flow</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4 class="feature-title">Real-time Streaming</h4>
+                        <p class="feature-description">WebSocket based chat because nobody has patience for loading spinners anymore</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="feature-title">Secure Authentication</h4>
+                        <p class="feature-description">JWT sessions with bcrypt hashing. (Sounds fancy but works reliably.)</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="feature-title">Multi-user Support</h4>
+                        <p class="feature-description">Your data stays yours, in complete isolation with rate limiting</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 class="feature-title">Dual Personas</h4>
+                        <p class="feature-description">Switch between 'Pacify' & 'Defy' AI modes</p>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-badge">FastAPI</span>
+                    <span class="tech-badge">React</span>
+                    <span class="tech-badge">TypeScript</span>
+                    <span class="tech-badge">WebSocket</span>
+                    <span class="tech-badge">JWT Auth</span>
+                    <span class="tech-badge">Docker</span>
+                </div>
+
+                <div class="confession-box">
+                    <p>This entire project was architected, tested, and deployed by a human (i.e- me), but entirely coded by Claude and other Agentic AIs. I basically "project-managed" an AI into building this. Modern problems require modern solutions! :P  </p>
+                </div>
+
+                <div class="project-buttons">
+                    <button class="btn btn-disabled" disabled>Live Demo - (PWA Coming Soon)</button>
+                    <a href="https://github.com/LoneMagma/Pacify-DefyAI" target="_blank" class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        View Code
+                    </a>
+                </div>
+            </article>
+
+            <p class="projects-footer">More projects loading... (once I and Claude figure out what to build next xD)</p>
+        </div>
+    </section>
+
+    <section id="learnings" class="learnings">
+        <div class="container">
+            <h2 class="section-title">What Building This Taught Me</h2>
+            <p class="section-subtitle">Real skills from real problems</p>
+
+            <div class="learning-cards">
+                <div class="learning-card">
+                    <h3 class="learning-title">Architecture & Design</h3>
+                    <ul class="learning-list">
+                        <li>How frontend and backend actually talk to each other</li>
+                        <li>Why WebSockets beat regular HTTP for real-time chat</li>
+                        <li>Designing API endpoints that make logical sense</li>
+                        <li>Data modeling and proper separation of concerns</li>
+                    </ul>
+                </div>
+
+                <div class="learning-card">
+                    <h3 class="learning-title">Security Isn't Optional</h3>
+                    <ul class="learning-list">
+                        <li>Password hashing with bcrypt (never store plain text)</li>
+                        <li>JWT authentication flows and token management</li>
+                        <li>Keeping user data completely isolated (multi-tenancy basics)</li>
+                        <li>Why .env files should never touch GitHub (learned this one the hard way T_T )</li>
+                    </ul>
+                </div>
+
+                <div class="learning-card">
+                    <h3 class="learning-title">Deployment & DevOps</h3>
+                    <ul class="learning-list">
+                        <li>Docker containerization ("works on my machine" implies "works everywhere")</li>
+                        <li>Environment configuration for development vs production</li>
+                        <li>Debugging issues you can't replicate locally</li>
+                        <li>Basic networking concepts (ports, protocols, DNS)</li>
+                    </ul>
+                </div>
+
+                <div class="learning-card">
+                    <h3 class="learning-title">Systems & Infrastructure</h3>
+                    <ul class="learning-list">
+                        <li>Linux system architecture and persistent storage strategies</li>
+                        <li>File system optimization (Btrfs compression saved 40% space)</li>
+                        <li>Offline-first design and air-gapped development environments</li>
+                        <li>Resource management on constrained hardware (16GB USB drives)</li>
+                    </ul>
+                </div>
+
+                <div class="learning-card learning-card-meta">
+                    <h3 class="learning-title">The Meta-Lesson</h3>
+                    <p class="learning-meta-text">
+                        You don't need to write every line to understand the system. Architecting, testing, deploying, breaking and iterating taught me more about real development than memorizing syntax ever could.
+                    </p>
+                    <p class="learning-meta-text">
+                        The value isn't in who typed the code! it's in understanding what problems you're solving and how the pieces fit together.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About</h2>
+            <div class="about-content">
+                <p>Hey, I'm LoneMagma, a student who discovered that you don't need to be a coding wizard to build stuff anymore. You just need good ideas and the ability to use latest Tools and AI running on NLP model!.</p>
+                
+                <p>I'm currently giving Claude a serious workout while learning Python, Web Dev and whatever else seems interesting. My development philosophy? Build first, understand deeply later. (And its Suprisingly effective!.)</p>
+                
+                <p>This site is both a portfolio and a testing ground. Everything here is a work in progress because "done" is a myth. If something breaks, it's instead a feature that teaches me debugging.</p>
+                
+                <p>Real talk: Currently learning WebDev, so these AI-assisted projects are my way of staying ahead of the curve. Or at least looking like I know what I'm doing until I actually do.</p>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">Have a project idea? Want to collaborate? Let's build something.</p>
+            
+            <div class="contact-content">
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <h3 class="contact-card-title">Email</h3>
+                        <p class="contact-card-description">Best for project inquiries and detailed discussions</p>
+                        <a href="mailto:lonemagma29@gmail.com" class="contact-link">lonemagma29@gmail.com</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 10-2.5 0 1.25 1.25 0 002.5 0zM12 9a3 3 0 110 6 3 3 0 010-6z"/>
+                            </svg>
+                        </div>
+                        <h3 class="contact-card-title">Instagram</h3>
+                        <p class="contact-card-description">Follow my journey and behind-the-scenes</p>
+                        <a href="https://www.instagram.com/lonemagma/" target="_blank" class="contact-link">@lonemagma</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </div>
+                        <h3 class="contact-card-title">GitHub</h3>
+                        <p class="contact-card-description">Check out my code and projects</p>
+                        <a href="https://github.com/LoneMagma" target="_blank" class="contact-link">@LoneMagma</a>
+                    </div>
+                </div>
+
+                <div class="contact-cta">
+                    <p class="contact-cta-text">Currently open to collaborations and learning opportunities. If you have an interesting project or just want to chat about tech, feel free to reach out!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">Last updated: 2nd February 2026</p>
+            <div class="footer-socials">
+                <a href="https://github.com/LoneMagma" target="_blank" aria-label="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/lonemagma/" target="_blank" aria-label="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 10-2.5 0 1.25 1.25 0 002.5 0zM12 9a3 3 0 110 6 3 3 0 010-6z"/>
+                    </svg>
+                </a>
+                <a href="mailto:lonemagma29@gmail.com" aria-label="Email">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="flowchart-modal" class="flowchart-modal"></div>
+    
+    <script src="script.js"></script>
+    <script src="flowcharts.js"></script>
+</body>
+</html>
