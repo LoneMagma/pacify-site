@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate unique, symmetric identicons like GitHub avatars. Deterministic pixel art generator for usernames, projects, and more.">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="title" content="IconizeiT - GitHub-Style Identicon Generator | Pacify">
+    <meta name="keywords" content="identicon generator, GitHub avatar, pixel art, deterministic, symmetric, username avatar">
+    <meta name="author" content="LoneMagma">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pacify.site/iconizeit">
+    <meta property="og:title" content="IconizeiT - GitHub-Style Identicon Generator">
+    <meta property="og:description" content="Create unique, symmetric pixel art identicons. Same input, same output. Perfect for avatars, logos, and visual identity.">
+    
+    <title>IconizeiT - Identicon Generator | Pacify</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- React & ReactDOM from CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+        /* Portfolio Color Scheme */
+        :root {
+            /* Light Mode - From Portfolio */
+            --cream: #FAF7F2;
+            --charcoal: #1a2332;
+            --burnt-orange: #CC5937;
+            --teal: #8B7355;
+            --light-gray: #E5DDD5;
+            --dark-gray: #6B8E23;
+            --white: #FFFFFF;
+            --dark-brown: #5D4037;
+            --warm-rust: #A0522D;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode - From Portfolio */
+            --cream: #0D1117;
+            --charcoal: #C9D1D9;
+            --burnt-orange: #39FF14;
+            --teal: #58A6FF;
+            --light-gray: #21262D;
+            --dark-gray: #8B949E;
+            --white: #0D1117;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        #root {
+            min-height: 100vh;
+        }
+
+        /* Loading Spinner */
+        .loading-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--light-gray);
+            border-top-color: var(--burnt-orange);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--light-gray);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--burnt-orange);
+        }
+
+        /* Selection */
+        ::selection {
+            background-color: var(--burnt-orange);
+            color: var(--white);
+        }
+
+        [data-theme="dark"] ::selection {
+            background-color: #39FF14;
+            color: #0D1117;
+        }
+
+        /* Focus styles */
+        button:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--burnt-orange);
+            outline-offset: 2px;
+        }
+
+        /* Utility classes */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p style="color: var(--charcoal); font-weight: 500;">Loading IconizeiT...</p>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        const { useState, useRef, useEffect, useCallback } = React;
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+
+        const hashCode = (str) => {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash);
+        };
+
+        const seededRandom = (seed) => {
+            const x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        };
+
+        // ============================================
+        // COLOR THEMES
+        // ============================================
+
+        const COLOR_THEMES = {
+            'gallery-autumn': {
+                name: 'Gallery Autumn',
+                bg: '#FAF7F2',
+                primary: '#CC5937',
+                secondary: '#8B7355',
+                accent: '#5D4037'
+            },
+            'retro-terminal': {
+                name: 'Retro Terminal',
+                bg: '#0D1117',
+                primary: '#39FF14',
+                secondary: '#58A6FF',
+                accent: '#FF6B9D'
+            },
+            'pastel-dream': {
+                name: 'Pastel Dream',
+                bg: '#FFF9FB',
+                primary: '#FFB7C5',
+                secondary: '#B3E5FC',
+                accent: '#E1BEE7'
+            },
+            'ocean': {
+                name: 'Ocean',
+                bg: '#F0F9FF',
+                primary: '#0EA5E9',
+                secondary: '#06B6D4',
+                accent: '#3B82F6'
+            },
+            'monochrome': {
+                name: 'Monochrome',
+                bg: '#FAFAFA',
+                primary: '#171717',
+                secondary: '#525252',
+                accent: '#737373'
+            }
+        };
+
+        // ============================================
+        // PATTERN GENERATOR
+        // ============================================
+
+        const generateGitHubStylePattern = (hash, gridSize, seed = 0) => {
+            const pattern = [];
+            const halfSize = Math.ceil(gridSize / 2);
+            let rngSeed = hash + seed;
+            
+            const patternStyle = Math.floor(seededRandom(rngSeed++) * 4);
+            
+            for (let y = 0; y < gridSize; y++) {
+                const row = [];
+                
+                for (let x = 0; x < halfSize; x++) {
+                    let cellValue = 0;
+                    const random = seededRandom(rngSeed++);
+                    
+                    if (patternStyle === 0) {
+                        // Face-like pattern
+                        if (y === 1 && (x === 0 || x === halfSize - 1)) {
+                            cellValue = random > 0.3 ? 2 : 0;
+                        } else if (y === Math.floor(gridSize / 2) && x === Math.floor(halfSize / 2)) {
+                            cellValue = random > 0.4 ? 1 : 0;
+                        } else if (y === gridSize - 2) {
+                            cellValue = random > 0.5 ? 1 : 0;
+                        } else {
+                            cellValue = random > 0.6 ? 1 : 0;
+                        }
+                    } else if (patternStyle === 1) {
+                        // Vertical emphasis
+                        if (x === Math.floor(halfSize / 2)) {
+                            cellValue = random > 0.3 ? (random > 0.7 ? 2 : 1) : 0;
+                        } else {
+                            cellValue = random > 0.65 ? 1 : 0;
+                        }
+                    } else if (patternStyle === 2) {
+                        // Border/frame
+                        if (x === 0 || y === 0 || y === gridSize - 1) {
+                            cellValue = random > 0.4 ? 1 : 0;
+                        } else if (x === Math.floor(halfSize / 2) && y === Math.floor(gridSize / 2)) {
+                            cellValue = random > 0.3 ? 2 : 0;
+                        } else {
+                            cellValue = random > 0.7 ? 1 : 0;
+                        }
+                    } else {
+                        // Classic distributed
+                        if (random > 0.55) {
+                            cellValue = 1;
+                        } else if (random > 0.50 && x === Math.floor(halfSize / 2) && y < gridSize / 2) {
+                            cellValue = 2;
+                        }
+                    }
+                    
+                    row.push(cellValue);
+                }
+                
+                const fullRow = [...row];
+                const mirrorStart = gridSize % 2 === 0 ? row.length - 1 : row.length - 2;
+                for (let x = mirrorStart; x >= 0; x--) {
+                    fullRow.push(row[x]);
+                }
+                pattern.push(fullRow);
+            }
+            
+            return pattern;
+        };
+
+        const drawPixelPattern = (ctx, hash, theme, size, useAccent, gridSize, seed = 0) => {
+            const pattern = generateGitHubStylePattern(hash, gridSize, seed);
+            const cellSize = size / gridSize;
+            
+            ctx.fillStyle = theme.bg;
+            ctx.fillRect(0, 0, size, size);
+            
+            pattern.forEach((row, y) => {
+                row.forEach((cell, x) => {
+                    if (cell === 1) {
+                        ctx.fillStyle = theme.primary;
+                        ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                    } else if (cell === 2 && useAccent) {
+                        ctx.fillStyle = theme.accent;
+                        ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                    }
+                });
+            });
+        };
+
+        const generateSVG = (input, hash, theme, useAccent, gridSize, customSeed) => {
+            const size = 200;
+            const pattern = generateGitHubStylePattern(hash, gridSize, customSeed);
+            const cellSize = size / gridSize;
+            
+            let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">\n`;
+            svg += `  <rect width="${size}" height="${size}" fill="${theme.bg}"/>\n`;
+            
+            pattern.forEach((row, y) => {
+                row.forEach((cell, x) => {
+                    if (cell === 1) {
+                        svg += `  <rect x="${x * cellSize}" y="${y * cellSize}" width="${cellSize}" height="${cellSize}" fill="${theme.primary}"/>\n`;
+                    } else if (cell === 2 && useAccent) {
+                        svg += `  <rect x="${x * cellSize}" y="${y * cellSize}" width="${cellSize}" height="${cellSize}" fill="${theme.accent}"/>\n`;
+                    }
+                });
+            });
+            
+            svg += '</svg>';
+            return svg;
+        };
+
+        const generateRandomTheme = () => {
+            const randomColor = () => {
+                const hue = Math.floor(Math.random() * 360);
+                const saturation = 60 + Math.floor(Math.random() * 40);
+                const lightness = 45 + Math.floor(Math.random() * 20);
+                return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            };
+            
+            const bgLightness = Math.random() > 0.5 ? 95 : 10;
+            
+            return {
+                name: 'Random',
+                bg: `hsl(0, 0%, ${bgLightness}%)`,
+                primary: randomColor(),
+                secondary: randomColor(),
+                accent: randomColor()
+            };
+        };
+
+        // ============================================
+        // MAIN COMPONENT
+        // ============================================
+
+        function IconizeiT() {
+            const [theme, setTheme] = useState('dark');
+            const [input, setInput] = useState('');
+            const [colorTheme, setColorTheme] = useState('retro-terminal');
+            const [useAccent, setUseAccent] = useState(false);
+            const [customColors, setCustomColors] = useState({
+                bg: '#0D1117',
+                primary: '#39FF14',
+                secondary: '#58A6FF',
+                accent: '#FF6B9D'
+            });
+            const [isCustomTheme, setIsCustomTheme] = useState(false);
+            const [gridSize, setGridSize] = useState(5);
+            const [customSize, setCustomSize] = useState(512);
+            const [customSeed, setCustomSeed] = useState(0);
+            const [favorites, setFavorites] = useState([]);
+            const [showFavorites, setShowFavorites] = useState(false);
+            const [showControls, setShowControls] = useState(true);
+            const [previewZoom, setPreviewZoom] = useState(false);
+            
+            const canvasRef = useRef(null);
+            const downloadCanvasRef = useRef(null);
+            const inputRef = useRef(null);
+
+            // Apply theme to document
+            useEffect(() => {
+                document.documentElement.setAttribute('data-theme', theme);
+            }, [theme]);
+            
+            // Load favorites
+            useEffect(() => {
+                const saved = localStorage.getItem('iconizeit-favorites');
+                if (saved) {
+                    try {
+                        setFavorites(JSON.parse(saved));
+                    } catch (e) {
+                        console.error('Failed to load favorites');
+                    }
+                }
+            }, []);
+            
+            // Save favorites
+            useEffect(() => {
+                localStorage.setItem('iconizeit-favorites', JSON.stringify(favorites));
+            }, [favorites]);
+            
+            // Generate identicon
+            useEffect(() => {
+                if (!input || !canvasRef.current) return;
+                
+                const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+                const hash = hashCode(input);
+                
+                const themeColors = isCustomTheme ? customColors : COLOR_THEMES[colorTheme];
+                
+                drawPixelPattern(ctx, hash, themeColors, 400, useAccent, gridSize, customSeed);
+            }, [input, colorTheme, customSeed, isCustomTheme, customColors, useAccent, gridSize]);
+
+            // Keyboard shortcuts
+            useEffect(() => {
+                const handleKeyPress = (e) => {
+                    // Don't trigger if typing in input
+                    if (e.target.tagName === 'INPUT') return;
+                    
+                    if (e.code === 'Space' && input) {
+                        e.preventDefault();
+                        generateVariation();
+                    } else if (e.key === 'r' || e.key === 'R') {
+                        e.preventDefault();
+                        randomizeTheme();
+                    } else if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+                        e.preventDefault();
+                        if (input) downloadImage();
+                    }
+                };
+                
+                window.addEventListener('keydown', handleKeyPress);
+                return () => window.removeEventListener('keydown', handleKeyPress);
+            }, [input, customSeed]);
+            
+            const downloadImage = () => {
+                if (!input || !downloadCanvasRef.current) return;
+                
+                const canvas = downloadCanvasRef.current;
+                const size = Math.min(Math.max(customSize, 64), 2048);
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                const hash = hashCode(input);
+                const themeColors = isCustomTheme ? customColors : COLOR_THEMES[colorTheme];
+                
+                drawPixelPattern(ctx, hash, themeColors, size, useAccent, gridSize, customSeed);
+                
+                const link = document.createElement('a');
+                link.download = `${input.toLowerCase().replace(/\s+/g, '-')}-${size}px.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+                
+                showToast(`Downloaded ${size}px PNG`);
+            };
+            
+            const copyAsPNG = async () => {
+                if (!input || !canvasRef.current) return;
+                
+                try {
+                    const blob = await new Promise(resolve => canvasRef.current.toBlob(resolve));
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': blob })
+                    ]);
+                    showToast('PNG copied to clipboard');
+                } catch (err) {
+                    showToast('Clipboard not supported. Use download instead.');
+                }
+            };
+            
+            const copySVG = () => {
+                if (!input) return;
+                
+                const hash = hashCode(input);
+                const themeColors = isCustomTheme ? customColors : COLOR_THEMES[colorTheme];
+                const svg = generateSVG(input, hash, themeColors, useAccent, gridSize, customSeed);
+                
+                navigator.clipboard.writeText(svg);
+                showToast('SVG code copied to clipboard');
+            };
+            
+            const downloadSVG = () => {
+                if (!input) return;
+                
+                const hash = hashCode(input);
+                const themeColors = isCustomTheme ? customColors : COLOR_THEMES[colorTheme];
+                const svg = generateSVG(input, hash, themeColors, useAccent, gridSize, customSeed);
+                
+                const blob = new Blob([svg], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = `${input.toLowerCase().replace(/\s+/g, '-')}.svg`;
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+                
+                showToast('SVG downloaded');
+            };
+            
+            const showToast = (message) => {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 2rem;
+                    right: 2rem;
+                    padding: 1rem 1.5rem;
+                    background: ${theme === 'dark' ? '#39FF14' : '#CC5937'};
+                    color: ${theme === 'dark' ? '#0D1117' : '#FFFFFF'};
+                    border-radius: 0.5rem;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    z-index: 1000;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    animation: slideIn 0.3s ease;
+                `;
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, 2500);
+            };
+            
+            const generateVariation = () => {
+                setCustomSeed(prev => prev + 1);
+                showToast(`Variation ${customSeed + 1}`);
+            };
+            
+            const resetSeed = () => {
+                setCustomSeed(0);
+                showToast('Reset to original');
+            };
+            
+            const randomizeTheme = () => {
+                const randomTheme = generateRandomTheme();
+                setCustomColors(randomTheme);
+                setIsCustomTheme(true);
+                showToast('Random theme generated');
+            };
+            
+            const saveFavorite = () => {
+                if (!input) return;
+                
+                if (favorites.some(f => f.input === input && f.customSeed === customSeed)) {
+                    showToast('Already in favorites');
+                    return;
+                }
+                
+                if (favorites.length >= 20) {
+                    showToast('Maximum 20 favorites. Remove one first.');
+                    return;
+                }
+                
+                const favorite = {
+                    id: Date.now(),
+                    input,
+                    colorTheme: isCustomTheme ? 'custom' : colorTheme,
+                    customColors: isCustomTheme ? customColors : null,
+                    customSeed,
+                    useAccent,
+                    gridSize,
+                    dataUrl: canvasRef.current.toDataURL()
+                };
+                
+                setFavorites(prev => [favorite, ...prev]);
+                showToast('Added to favorites');
+            };
+            
+            const removeFavorite = (id) => {
+                setFavorites(prev => prev.filter(f => f.id !== id));
+                showToast('Removed from favorites');
+            };
+            
+            const loadFavorite = (fav) => {
+                setInput(fav.input);
+                setUseAccent(fav.useAccent);
+                setGridSize(fav.gridSize);
+                if (fav.colorTheme === 'custom') {
+                    setIsCustomTheme(true);
+                    setCustomColors(fav.customColors);
+                } else {
+                    setIsCustomTheme(false);
+                    setColorTheme(fav.colorTheme);
+                }
+                setCustomSeed(fav.customSeed);
+                setShowFavorites(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                showToast(`Loaded: ${fav.input}`);
+            };
+            
+            const selectPresetTheme = (themeKey) => {
+                setIsCustomTheme(false);
+                setColorTheme(themeKey);
+            };
+            
+            const enableCustomTheme = () => {
+                setIsCustomTheme(true);
+                if (!isCustomTheme && COLOR_THEMES[colorTheme]) {
+                    setCustomColors({
+                        bg: COLOR_THEMES[colorTheme].bg,
+                        primary: COLOR_THEMES[colorTheme].primary,
+                        secondary: COLOR_THEMES[colorTheme].secondary,
+                        accent: COLOR_THEMES[colorTheme].accent
+                    });
+                }
+            };
+            
+            const presetSizes = [128, 256, 512, 1024, 2048];
+            const gridSizes = [4, 5, 6, 7];
+            
+            const styles = {
+                container: {
+                    minHeight: '100vh',
+                    backgroundColor: 'var(--cream)',
+                    color: 'var(--charcoal)',
+                    transition: 'all 0.3s ease'
+                },
+                header: {
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 50,
+                    backgroundColor: theme === 'dark' ? 'rgba(13, 17, 23, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+                    backdropFilter: 'blur(12px)',
+                    borderBottom: theme === 'dark' ? '2px solid #30363D' : '1px solid #E5DDD5',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
+                },
+                headerContainer: {
+                    maxWidth: '1400px',
+                    margin: '0 auto',
+                    padding: '1rem 2rem',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '1rem'
+                },
+                logo: {
+                    fontSize: '1.75rem',
+                    fontWeight: 800,
+                    color: 'var(--burnt-orange)',
+                    textDecoration: 'none',
+                    letterSpacing: '-0.02em'
+                },
+                backLink: {
+                    color: 'var(--charcoal)',
+                    textDecoration: 'none',
+                    fontSize: '0.875rem',
+                    opacity: 0.7,
+                    transition: 'opacity 0.3s ease'
+                },
+                themeToggle: {
+                    padding: '0.5rem 1rem',
+                    backgroundColor: 'var(--light-gray)',
+                    color: 'var(--charcoal)',
+                    border: 'none',
+                    borderRadius: '0.5rem',
+                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                },
+                main: {
+                    maxWidth: '1400px',
+                    margin: '0 auto',
+                    padding: '3rem 2rem'
+                },
+                hero: {
+                    textAlign: 'center',
+                    marginBottom: '3rem',
+                    animation: 'fadeIn 0.6s ease'
+                },
+                title: {
+                    fontSize: '3rem',
+                    fontWeight: 800,
+                    marginBottom: '1rem',
+                    background: theme === 'dark' 
+                        ? 'linear-gradient(135deg, #39FF14 0%, #58A6FF 100%)'
+                        : 'linear-gradient(135deg, #CC5937 0%, #8B7355 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    letterSpacing: '-0.03em'
+                },
+                subtitle: {
+                    fontSize: '1.125rem',
+                    color: 'var(--dark-gray)',
+                    marginBottom: '2rem',
+                    maxWidth: '600px',
+                    margin: '0 auto 2rem'
+                },
+                input: {
+                    width: '100%',
+                    maxWidth: '800px',
+                    margin: '0 auto',
+                    padding: '1rem 1.5rem',
+                    fontSize: '1.125rem',
+                    backgroundColor: theme === 'dark' ? '#161B22' : '#FFFFFF',
+                    border: `2px solid ${theme === 'dark' ? '#30363D' : '#E5DDD5'}`,
+                    borderRadius: '0.75rem',
+                    color: 'var(--charcoal)',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'inherit'
+                },
+                previewContainer: {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '2rem',
+                    marginBottom: '3rem'
+                },
+                canvas: {
+                    width: previewZoom ? '500px' : '400px',
+                    height: previewZoom ? '500px' : '400px',
+                    maxWidth: '90vw',
+                    borderRadius: '1rem',
+                    border: `2px solid ${theme === 'dark' ? '#30363D' : '#E5DDD5'}`,
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    cursor: 'pointer',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    imageRendering: 'pixelated'
+                },
+                emptyState: {
+                    width: '400px',
+                    height: '400px',
+                    maxWidth: '90vw',
+                    borderRadius: '1rem',
+                    border: `2px dashed ${theme === 'dark' ? '#30363D' : '#E5DDD5'}`,
+                    backgroundColor: theme === 'dark' ? '#161B22' : '#FFFFFF',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--dark-gray)',
+                    opacity: 0.6
+                },
+                quickActions: {
+                    display: 'flex',
+                    gap: '1rem',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    animation: 'scaleIn 0.4s ease'
+                },
+                primaryButton: {
+                    padding: '1rem 2rem',
+                    backgroundColor: 'var(--burnt-orange)',
+                    color: theme === 'dark' ? '#0D1117' : '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '0.75rem',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'inherit',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+                },
+                secondaryButton: {
+                    padding: '1rem 2rem',
+                    backgroundColor: 'var(--light-gray)',
+                    color: 'var(--charcoal)',
+                    border: 'none',
+                    borderRadius: '0.75rem',
+                    fontWeight: 600,
+                    fontSize: '1rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'inherit'
+                },
+                controlsPanel: {
+                    maxWidth: '1200px',
+                    margin: '0 auto',
+                    padding: '2rem',
+                    backgroundColor: theme === 'dark' ? '#161B22' : '#FFFFFF',
+                    border: `1px solid ${theme === 'dark' ? '#30363D' : '#E5DDD5'}`,
+                    borderRadius: '1rem',
+                    marginBottom: '2rem'
+                },
+                controlsHeader: {
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '2rem',
+                    paddingBottom: '1rem',
+                    borderBottom: `1px solid ${theme === 'dark' ? '#30363D' : '#E5DDD5'}`
+                },
+                grid: {
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gap: '2rem'
+                },
+                controlGroup: {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1rem'
+                },
+                label: {
+                    fontSize: '0.875rem',
+                    fontWeight: 700,
+                    color: 'var(--charcoal)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                },
+                gridButtons: {
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gap: '0.5rem'
+                },
+                gridButton: (isActive) => ({
+                    padding: '1rem',
+                    backgroundColor: isActive ? 'var(--burnt-orange)' : 'var(--light-gray)',
+                    color: isActive ? (theme === 'dark' ? '#0D1117' : '#FFFFFF') : 'var(--charcoal)',
+                    border: `2px solid ${isActive ? 'var(--burnt-orange)' : 'transparent'}`,
+                    borderRadius: '0.5rem',
+                    fontWeight: 700,
+                    fontSize: '0.875rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'inherit'
+                }),
+                themeGrid: {
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+                    gap: '0.75rem'
+                },
+                themeButton: (isActive) => ({
+                    padding: '1rem',
+                    backgroundColor: theme === 'dark' ? '#161B22' : '#FFFFFF',
+                    border: `2px solid ${isActive ? 'var(--burnt-orange)' : (theme === 'dark' ? '#30363D' : '#E5DDD5')}`,
+                    borderRadius: '0.75rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    textAlign: 'left'
+                }),
+                themeName: {
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    marginBottom: '0.5rem',
+                    opacity: 0.7
+                },
+                themeColors: {
+                    display: 'flex',
+                    gap: '0.25rem',
+                    height: '2rem',
+                    borderRadius: '0.375rem',
+                    overflow: 'hidden'
+                },
+                colorSwatch: {
+                    flex: 1
+                },
+                shortcuts: {
+                    display: 'flex',
+                    gap: '1rem',
+                    flexWrap: 'wrap',
+                    padding: '1rem',
+                    backgroundColor: theme === 'dark' ? 'rgba(57, 255, 20, 0.05)' : 'rgba(204, 89, 55, 0.05)',
+                    borderRadius: '0.5rem',
+                    fontSize: '0.75rem',
+                    color: 'var(--dark-gray)',
+                    marginTop: '1rem'
+                },
+                kbd: {
+                    padding: '0.25rem 0.5rem',
+                    backgroundColor: 'var(--light-gray)',
+                    borderRadius: '0.25rem',
+                    fontFamily: 'monospace',
+                    fontSize: '0.7rem',
+                    fontWeight: 600
+                }
+            };
+            
+            return (
+                <div style={styles.container}>
+                    {/* Header */}
+                    <header style={styles.header}>
+                        <div style={styles.headerContainer}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                                <h1 style={styles.logo}>IconizeiT</h1>
+                                <a href="/" style={styles.backLink} onMouseOver={e => e.target.style.opacity = 1} onMouseOut={e => e.target.style.opacity = 0.7}>
+                                    ← Back to Portfolio
+                                </a>
+                            </div>
+                            <button 
+                                style={styles.themeToggle}
+                                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                                onMouseOver={e => e.target.style.transform = 'scale(1.05)'}
+                                onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                            >
+                                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main style={styles.main}>
+                        {/* Hero */}
+                        <div style={styles.hero}>
+                            <h2 style={styles.title}>
+                                Create Your Visual Identity
+                            </h2>
+                            <p style={styles.subtitle}>
+                                Generate unique, symmetric pixel art identicons. GitHub-style avatars that are deterministic, recognizable, and yours.
+                            </p>
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                placeholder="Enter username, project name, or any text..."
+                                style={styles.input}
+                                onFocus={(e) => e.target.style.borderColor = 'var(--burnt-orange)'}
+                                onBlur={(e) => e.target.style.borderColor = theme === 'dark' ? '#30363D' : '#E5DDD5'}
+                            />
+                        </div>
+
+                        {/* Preview */}
+                        <div style={styles.previewContainer}>
+                            {input ? (
+                                <>
+                                    <canvas
+                                        ref={canvasRef}
+                                        width={400}
+                                        height={400}
+                                        style={styles.canvas}
+                                        onClick={() => setPreviewZoom(!previewZoom)}
+                                        onMouseOver={e => e.target.style.transform = 'scale(1.02)'}
+                                        onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                                    />
+                                    
+                                    {/* Quick Actions */}
+                                    <div style={styles.quickActions}>
+                                        <button 
+                                            style={styles.primaryButton}
+                                            onClick={downloadImage}
+                                            onMouseOver={e => e.target.style.transform = 'translateY(-2px)'}
+                                            onMouseOut={e => e.target.style.transform = 'translateY(0)'}
+                                        >
+                                            Download PNG
+                                        </button>
+                                        <button 
+                                            style={styles.primaryButton}
+                                            onClick={downloadSVG}
+                                            onMouseOver={e => e.target.style.transform = 'translateY(-2px)'}
+                                            onMouseOut={e => e.target.style.transform = 'translateY(0)'}
+                                        >
+                                            Download SVG
+                                        </button>
+                                        <button 
+                                            style={styles.secondaryButton}
+                                            onClick={copyAsPNG}
+                                            onMouseOver={e => e.target.style.transform = 'translateY(-2px)'}
+                                            onMouseOut={e => e.target.style.transform = 'translateY(0)'}
+                                        >
+                                            Copy PNG
+                                        </button>
+                                        <button 
+                                            style={styles.secondaryButton}
+                                            onClick={copySVG}
+                                            onMouseOver={e => e.target.style.transform = 'translateY(-2px)'}
+                                            onMouseOut={e => e.target.style.transform = 'translateY(0)'}
+                                        >
+                                            Copy SVG
+                                        </button>
+                                        <button 
+                                            style={styles.secondaryButton}
+                                            onClick={saveFavorite}
+                                            disabled={favorites.length >= 20}
+                                            onMouseOver={e => !e.target.disabled && (e.target.style.transform = 'translateY(-2px)')}
+                                            onMouseOut={e => e.target.style.transform = 'translateY(0)'}
+                                        >
+                                            Save to Favorites
+                                        </button>
+                                    </div>
+
+                                    <p style={{ fontSize: '0.875rem', color: 'var(--dark-gray)', textAlign: 'center' }}>
+                                        {customSize}px × {customSize}px • {gridSize}×{gridSize} grid • {useAccent ? '3 colors' : '2 colors'}
+                                        {customSeed > 0 && ` • Variation #${customSeed}`}
+                                    </p>
+                                </>
+                            ) : (
+                                <div style={styles.emptyState}>
+                                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ marginBottom: '1rem' }}>
+                                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <path d="M21 15l-5-5L5 21" />
+                                    </svg>
+                                    <p style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                                        Start typing to generate
+                                    </p>
+                                    <p style={{ fontSize: '0.875rem', opacity: 0.7 }}>
+                                        Your unique identicon will appear here
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Controls Panel */}
+                        {input && (
+                            <div style={styles.controlsPanel}>
+                                <div style={styles.controlsHeader}>
+                                    <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--charcoal)' }}>
+                                        Customize
+                                    </h3>
+                                    <button
+                                        style={styles.secondaryButton}
+                                        onClick={() => setShowControls(!showControls)}
+                                    >
+                                        {showControls ? 'Hide Controls' : 'Show Controls'}
+                                    </button>
+                                </div>
+
+                                {showControls && (
+                                    <div style={styles.grid}>
+                                        {/* Grid Size */}
+                                        <div style={styles.controlGroup}>
+                                            <label style={styles.label}>Grid Size</label>
+                                            <div style={styles.gridButtons}>
+                                                {gridSizes.map(size => (
+                                                    <button
+                                                        key={size}
+                                                        style={styles.gridButton(gridSize === size)}
+                                                        onClick={() => setGridSize(size)}
+                                                        onMouseOver={e => e.target.style.transform = 'scale(1.05)'}
+                                                        onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                                                    >
+                                                        {size}×{size}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Variations */}
+                                        <div style={styles.controlGroup}>
+                                            <label style={styles.label}>Variations</label>
+                                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                <button
+                                                    style={{ ...styles.secondaryButton, flex: 1 }}
+                                                    onClick={generateVariation}
+                                                    onMouseOver={e => e.target.style.transform = 'scale(1.02)'}
+                                                    onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                                                >
+                                                    Next (Space)
+                                                </button>
+                                                <button
+                                                    style={{ ...styles.secondaryButton, flex: 1 }}
+                                                    onClick={resetSeed}
+                                                    disabled={customSeed === 0}
+                                                    onMouseOver={e => !e.target.disabled && (e.target.style.transform = 'scale(1.02)')}
+                                                    onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                                                >
+                                                    Reset
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Export Size */}
+                                        <div style={styles.controlGroup}>
+                                            <label style={styles.label}>Export Size: {customSize}px</label>
+                                            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                                                {presetSizes.map(size => (
+                                                    <button
+                                                        key={size}
+                                                        style={{
+                                                            ...styles.gridButton(customSize === size),
+                                                            fontSize: '0.75rem',
+                                                            padding: '0.5rem'
+                                                        }}
+                                                        onClick={() => setCustomSize(size)}
+                                                    >
+                                                        {size}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            <input
+                                                type="range"
+                                                value={customSize}
+                                                onChange={(e) => setCustomSize(parseInt(e.target.value))}
+                                                min="64"
+                                                max="2048"
+                                                step="64"
+                                                style={{ width: '100%', accentColor: 'var(--burnt-orange)' }}
+                                            />
+                                        </div>
+
+                                        {/* Color Themes */}
+                                        <div style={{ ...styles.controlGroup, gridColumn: '1 / -1' }}>
+                                            <label style={styles.label}>Color Palette</label>
+                                            <div style={styles.themeGrid}>
+                                                {Object.entries(COLOR_THEMES).map(([key, palette]) => (
+                                                    <button
+                                                        key={key}
+                                                        style={styles.themeButton(!isCustomTheme && colorTheme === key)}
+                                                        onClick={() => selectPresetTheme(key)}
+                                                        onMouseOver={e => e.target.style.transform = 'scale(1.05)'}
+                                                        onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                                                    >
+                                                        <div style={styles.themeName}>{palette.name}</div>
+                                                        <div style={styles.themeColors}>
+                                                            <div style={{ ...styles.colorSwatch, backgroundColor: palette.primary }} />
+                                                            <div style={{ ...styles.colorSwatch, backgroundColor: palette.secondary }} />
+                                                            {useAccent && <div style={{ ...styles.colorSwatch, backgroundColor: palette.accent }} />}
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                                
+                                                {/* Random */}
+                                                <button
+                                                    style={styles.themeButton(false)}
+                                                    onClick={randomizeTheme}
+                                                    onMouseOver={e => e.target.style.transform = 'scale(1.05)'}
+                                                    onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                                                >
+                                                    <div style={styles.themeName}>Random (R)</div>
+                                                    <div style={{
+                                                        height: '2rem',
+                                                        borderRadius: '0.375rem',
+                                                        background: 'linear-gradient(90deg, #FF0080, #FF8C00, #40E0D0, #9370DB)',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        color: 'white',
+                                                        fontSize: '0.7rem',
+                                                        fontWeight: 700
+                                                    }}>
+                                                        SHUFFLE
+                                                    </div>
+                                                </button>
+
+                                                {/* Custom */}
+                                                <button
+                                                    style={styles.themeButton(isCustomTheme)}
+                                                    onClick={enableCustomTheme}
+                                                    onMouseOver={e => e.target.style.transform = 'scale(1.05)'}
+                                                    onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                                                >
+                                                    <div style={styles.themeName}>Custom</div>
+                                                    <div style={styles.themeColors}>
+                                                        <div style={{ ...styles.colorSwatch, backgroundColor: customColors.primary }} />
+                                                        <div style={{ ...styles.colorSwatch, backgroundColor: customColors.secondary }} />
+                                                        {useAccent && <div style={{ ...styles.colorSwatch, backgroundColor: customColors.accent }} />}
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Accent Toggle */}
+                                        <div style={{ ...styles.controlGroup, gridColumn: '1 / -1' }}>
+                                            <label style={{ ...styles.label, display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={() => setUseAccent(!useAccent)}>
+                                                <span>Use Accent Color (adds focal points)</span>
+                                                <div style={{
+                                                    width: '3rem',
+                                                    height: '1.5rem',
+                                                    borderRadius: '1rem',
+                                                    backgroundColor: useAccent ? 'var(--burnt-orange)' : 'var(--light-gray)',
+                                                    position: 'relative',
+                                                    transition: 'all 0.3s ease',
+                                                    cursor: 'pointer'
+                                                }}>
+                                                    <div style={{
+                                                        width: '1.25rem',
+                                                        height: '1.25rem',
+                                                        borderRadius: '50%',
+                                                        backgroundColor: '#FFFFFF',
+                                                        position: 'absolute',
+                                                        top: '0.125rem',
+                                                        left: useAccent ? '1.625rem' : '0.125rem',
+                                                        transition: 'all 0.3s ease',
+                                                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                                    }} />
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        {/* Custom Color Editor */}
+                                        {isCustomTheme && (
+                                            <div style={{ ...styles.controlGroup, gridColumn: '1 / -1' }}>
+                                                <label style={styles.label}>Edit Custom Colors</label>
+                                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                                                    {['primary', 'secondary', useAccent && 'accent', 'bg'].filter(Boolean).map(colorKey => (
+                                                        <div key={colorKey} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                                            <input
+                                                                type="color"
+                                                                value={customColors[colorKey]}
+                                                                onChange={(e) => setCustomColors(prev => ({ ...prev, [colorKey]: e.target.value }))}
+                                                                style={{ width: '3rem', height: '3rem', border: 'none', borderRadius: '0.5rem', cursor: 'pointer' }}
+                                                            />
+                                                            <div style={{ flex: 1 }}>
+                                                                <div style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.25rem', textTransform: 'capitalize' }}>
+                                                                    {colorKey}
+                                                                </div>
+                                                                <input
+                                                                    type="text"
+                                                                    value={customColors[colorKey]}
+                                                                    onChange={(e) => setCustomColors(prev => ({ ...prev, [colorKey]: e.target.value }))}
+                                                                    style={{
+                                                                        width: '100%',
+                                                                        padding: '0.5rem',
+                                                                        fontSize: '0.875rem',
+                                                                        backgroundColor: theme === 'dark' ? '#0D1117' : '#FAF7F2',
+                                                                        border: `1px solid ${theme === 'dark' ? '#30363D' : '#E5DDD5'}`,
+                                                                        borderRadius: '0.375rem',
+                                                                        color: 'var(--charcoal)',
+                                                                        fontFamily: 'monospace'
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Keyboard Shortcuts */}
+                                <div style={styles.shortcuts}>
+                                    <span><kbd style={styles.kbd}>Space</kbd> Next variation</span>
+                                    <span><kbd style={styles.kbd}>R</kbd> Random theme</span>
+                                    <span><kbd style={styles.kbd}>Ctrl+D</kbd> Download</span>
+                                    <span><kbd style={styles.kbd}>Click preview</kbd> Zoom</span>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Favorites */}
+                        {favorites.length > 0 && (
+                            <div style={{
+                                ...styles.controlsPanel,
+                                animation: 'fadeIn 0.6s ease'
+                            }}>
+                                <div style={styles.controlsHeader}>
+                                    <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--charcoal)' }}>
+                                        Favorites ({favorites.length}/20)
+                                    </h3>
+                                    <button
+                                        style={styles.secondaryButton}
+                                        onClick={() => setShowFavorites(!showFavorites)}
+                                    >
+                                        {showFavorites ? 'Hide' : 'Show'}
+                                    </button>
+                                </div>
+
+                                {showFavorites && (
+                                    <div style={{
+                                        display: 'grid',
+                                        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+                                        gap: '1rem'
+                                    }}>
+                                        {favorites.map(fav => (
+                                            <div key={fav.id} style={{ animation: 'scaleIn 0.3s ease' }}>
+                                                <button
+                                                    onClick={() => loadFavorite(fav)}
+                                                    style={{
+                                                        width: '100%',
+                                                        padding: 0,
+                                                        border: `2px solid ${theme === 'dark' ? '#30363D' : '#E5DDD5'}`,
+                                                        borderRadius: '0.75rem',
+                                                        overflow: 'hidden',
+                                                        cursor: 'pointer',
+                                                        backgroundColor: 'transparent',
+                                                        marginBottom: '0.5rem',
+                                                        transition: 'all 0.3s ease'
+                                                    }}
+                                                    onMouseOver={e => e.target.style.transform = 'scale(1.05)'}
+                                                    onMouseOut={e => e.target.style.transform = 'scale(1)'}
+                                                >
+                                                    <img src={fav.dataUrl} alt={fav.input} style={{ width: '100%', display: 'block', imageRendering: 'pixelated' }} />
+                                                </button>
+                                                <p style={{ fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.5rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                    {fav.input}
+                                                </p>
+                                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                    <button
+                                                        onClick={() => loadFavorite(fav)}
+                                                        style={{ ...styles.secondaryButton, flex: 1, padding: '0.5rem', fontSize: '0.8rem' }}
+                                                    >
+                                                        Load
+                                                    </button>
+                                                    <button
+                                                        onClick={() => removeFavorite(fav.id)}
+                                                        style={{ ...styles.secondaryButton, padding: '0.5rem 0.75rem', fontSize: '0.8rem' }}
+                                                    >
+                                                        ×
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Footer */}
+                        <div style={{
+                            textAlign: 'center',
+                            marginTop: '4rem',
+                            paddingTop: '2rem',
+                            borderTop: `1px solid ${theme === 'dark' ? '#30363D' : '#E5DDD5'}`,
+                            color: 'var(--dark-gray)',
+                            opacity: 0.7
+                        }}>
+                            <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+                                Built with Claude AI • Deterministic Generation • Perfect Symmetry
+                            </p>
+                            <p style={{ fontSize: '0.75rem' }}>
+                                <a href="/" style={{ color: 'var(--burnt-orange)', textDecoration: 'none' }}>pacify.site</a>
+                                {' • '}
+                                <a href="https://github.com/LoneMagma" style={{ color: 'var(--burnt-orange)', textDecoration: 'none' }}>@LoneMagma</a>
+                            </p>
+                        </div>
+                    </main>
+
+                    {/* Hidden canvas for downloads */}
+                    <canvas ref={downloadCanvasRef} style={{ display: 'none' }} />
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<IconizeiT />, document.getElementById('root'));
+    </script>
+</body>
+</html>
