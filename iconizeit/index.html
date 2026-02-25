@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IconizeiT — LoneMagma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:           #111111;
+      --border:       #272727;
+      --border-hover: #424242;
+      --fg:           #e2e2e2;
+      --fg-bright:    #f8f8f8;
+      --dim:          #888888;
+      --mid:          #b0b0b0;
+      --faint:        #555555;
+      --mono:         'DM Mono', monospace;
+      --sans:         'Sora', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+    .wrap { max-width: 660px; margin: 0 auto; padding: 0 28px; }
+
+    nav { padding: 36px 0 0; }
+    .nav-back {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.18s;
+    }
+    .nav-back:hover { color: var(--fg-bright); }
+
+    .hero { padding: 72px 0 56px; }
+    .project-title {
+      font-family: var(--sans);
+      font-size: clamp(38px, 8vw, 56px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--fg-bright);
+      margin-bottom: 16px;
+    }
+    .title-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--faint);
+    }
+    .tag.live  { border-color: #1f3320; color: #5a9960; }
+    .tagline { font-family: var(--mono); font-size: 14px; font-weight: 300; color: var(--mid); letter-spacing: 0.02em; line-height: 1.7; }
+
+    .rule { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--faint);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .body-text { font-family: var(--mono); font-size: 13px; font-weight: 300; color: var(--mid); line-height: 2; }
+    .body-text + .body-text { margin-top: 16px; }
+
+    /* identicon live preview */
+    .identicon-demo {
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: #161616;
+      padding: 28px 24px;
+      margin: 28px 0;
+    }
+    .identicon-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .identicon-input-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 28px;
+    }
+    .identicon-input {
+      flex: 1;
+      background: #111;
+      border: 1px solid var(--border);
+      border-right: none;
+      border-radius: 2px 0 0 2px;
+      color: var(--fg);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 12px;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+    .identicon-input:focus { border-color: var(--border-hover); }
+    .identicon-input::placeholder { color: var(--faint); }
+    .identicon-input-label {
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      border-radius: 0 2px 2px 0;
+      padding: 8px 12px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--faint);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+    .identicon-grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .identicon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .identicon-item canvas {
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      image-rendering: pixelated;
+    }
+    .identicon-item-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--faint);
+      letter-spacing: 0.08em;
+      max-width: 80px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .identicon-note {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--faint);
+      margin-top: 20px;
+      letter-spacing: 0.04em;
+    }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 28px 0;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .flow-step {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      padding: 12px 16px;
+      background: #161616;
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .flow-step:last-child { border-right: none; }
+    .flow-arrow { font-size: 12px; color: var(--faint); padding: 12px 6px; background: #161616; border-right: 1px solid var(--border); }
+
+    .links-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 4px; }
+    .proj-link {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.18s, border-color 0.18s;
+    }
+    .proj-link:hover { color: var(--fg-bright); border-color: var(--mid); }
+
+    footer {
+      padding: 28px 0 44px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      margin-top: 64px;
+    }
+    .footer-text { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--faint); text-transform: uppercase; }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ani { opacity: 0; animation: up 0.55s ease forwards; animation-play-state: paused; }
+
+    @media (max-width: 520px) {
+      .wrap { padding: 0 20px; }
+      .hero { padding: 56px 0 40px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="ani" style="animation-delay:0.05s">
+    <a href="/" class="nav-back">← Back to pacify.site</a>
+  </nav>
+
+  <section class="hero">
+    <h1 class="project-title ani" style="animation-delay:0.12s">IconizeiT</h1>
+    <div class="title-meta ani" style="animation-delay:0.18s">
+      <span class="tag live">Web</span>
+      <span class="tag live">Live</span>
+    </div>
+    <p class="tagline ani" style="animation-delay:0.24s">
+      Same input, same output — always. Deterministic pixel-art identicons from any string.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.28s">
+
+  <section class="ani" style="animation-delay:0.32s">
+    <p class="section-label">What it is</p>
+    <p class="body-text">
+      IconizeiT generates symmetric pixel-art avatars deterministically from any input string. Feed it a username, an email, a UUID — it always produces the same icon for the same input, zero randomness involved. It's the same idea as GitHub's default avatars, but open, embeddable, and with a visual style I actually like: tight 5×5 grids with bold colours, symmetric across the vertical axis.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.34s">
+
+  <section class="ani" style="animation-delay:0.36s">
+    <p class="section-label">How it works</p>
+    <p class="body-text">
+      The input string is hashed using a simple but stable hash function — FNV-1a — producing a 32-bit integer. Bits from that integer determine which cells in the left half of a 5×5 grid are filled; the right half is a mirror. The colour is derived from the hash remainder, mapped to a curated palette of high-contrast colours that always look good against dark backgrounds. No canvas library, no dependencies — just a single <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">&lt;canvas&gt;</code> element and about 60 lines of vanilla JS.
+    </p>
+
+    <div class="flow">
+      <span class="flow-step">Input string</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">FNV-1a hash</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Bit → cell map</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Mirror + colour</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Canvas render</span>
+    </div>
+
+    <!-- live demo -->
+    <div class="identicon-demo">
+      <p class="identicon-label">Live Preview</p>
+      <div class="identicon-input-row">
+        <input class="identicon-input" id="ident-input" type="text" placeholder="type anything…" maxlength="64" autocomplete="off" spellcheck="false">
+        <span class="identicon-input-label">→ identicon</span>
+      </div>
+      <div class="identicon-grid" id="ident-grid"></div>
+      <p class="identicon-note" id="ident-note">Showing default examples — start typing to generate your own.</p>
+    </div>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.38s">
+
+  <section class="ani" style="animation-delay:0.40s">
+    <p class="section-label">How it was built</p>
+    <p class="body-text">
+      Pure vanilla JS — no build step, no npm. The generator itself is a single file you can drop into any project. There's also a lightweight REST API wrapper (Node/Express) that accepts a string via URL param and returns a PNG — useful for <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">&lt;img src="/icon/username"&gt;</code> use cases in backend-rendered apps. The hosted version runs on a single Cloudflare Worker, so it's essentially free to operate at any scale.
+    </p>
+    <p class="body-text">
+      The palette selection was the most iterative part. I went through about a dozen colour sets before landing on one that looked good across different background colours, didn't produce ugly combinations, and still felt varied enough that users looked noticeably different from each other.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.42s">
+
+  <section class="ani" style="animation-delay:0.44s">
+    <p class="section-label">What I learned</p>
+    <p class="body-text">
+      FNV-1a is delightfully simple and surprisingly well-distributed for this use case. I initially used a more complex hash and then realised I was massively over-engineering it — the avalanche effect you need for good visual variety kicks in even with a very simple hash.
+    </p>
+    <p class="body-text">
+      The more interesting lesson was about API design. The hosted version gets used in ways I didn't anticipate — people passing it emoji strings, multi-line text, even binary-looking data. Making it robust to arbitrary input without breaking the determinism guarantee was trickier than the core algorithm.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.46s">
+
+  <section class="ani" style="animation-delay:0.48s">
+    <p class="section-label">Links</p>
+    <div class="links-row">
+      <a href="/iconizeit" class="proj-link">Try It →</a>
+      <a href="https://github.com/LoneMagma/IconizeiT" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+  </section>
+
+  <footer class="ani" style="animation-delay:0.52s">
+    <span class="footer-text">pacify.site</span>
+    <span class="footer-text">2026</span>
+  </footer>
+
+</div>
+<script>
+  // IntersectionObserver for animations
+  const els = document.querySelectorAll('.ani');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  els.forEach(el => io.observe(el));
+
+  // Identicon generator
+  const PALETTE = [
+    '#5a9960','#6060b0','#9060a0','#60909a','#a07040',
+    '#5a7ab0','#a05060','#60a090','#8080c0','#b06050'
+  ];
+
+  function fnv1a(str) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = (h * 0x01000193) >>> 0;
+    }
+    return h;
+  }
+
+  function drawIdenticon(canvas, str, size = 80) {
+    const ctx = canvas.getContext('2d');
+    const cell = size / 5;
+    canvas.width = size;
+    canvas.height = size;
+    const hash = fnv1a(str);
+    const color = PALETTE[hash % PALETTE.length];
+    ctx.fillStyle = '#161616';
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = color;
+    // 5x5 grid, symmetric on vertical axis
+    // left 3 columns determined by bits: col 0,1,2 — col 3 mirrors col 1, col 4 mirrors col 0
+    let bit = 0;
+    const grid = [];
+    for (let row = 0; row < 5; row++) {
+      grid[row] = [];
+      for (let col = 0; col < 3; col++) {
+        grid[row][col] = (hash >> bit) & 1;
+        bit++;
+      }
+    }
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
+        const srcCol = col < 3 ? col : 4 - col;
+        if (grid[row][srcCol]) {
+          ctx.fillRect(col * cell + 2, row * cell + 2, cell - 2, cell - 2);
+        }
+      }
+    }
+  }
+
+  const defaults = ['LoneMagma','IconizeiT','pacify.site','hello@world','user#0001'];
+  const grid = document.getElementById('ident-grid');
+
+  function renderGrid(input, custom) {
+    grid.innerHTML = '';
+    const items = custom
+      ? [custom, ...defaults.slice(0,4)]
+      : defaults;
+    items.forEach((str, i) => {
+      const item = document.createElement('div');
+      item.className = 'identicon-item';
+      const canvas = document.createElement('canvas');
+      canvas.width = 80; canvas.height = 80;
+      canvas.style.width = '80px'; canvas.style.height = '80px';
+      drawIdenticon(canvas, str, 80);
+      const lbl = document.createElement('div');
+      lbl.className = 'identicon-item-label';
+      lbl.textContent = str;
+      item.appendChild(canvas);
+      item.appendChild(lbl);
+      grid.appendChild(item);
+    });
+  }
+
+  renderGrid();
+
+  const inp = document.getElementById('ident-input');
+  const note = document.getElementById('ident-note');
+  inp.addEventListener('input', () => {
+    const val = inp.value.trim();
+    if (val) {
+      note.textContent = `"${val.slice(0,24)}${val.length>24?'…':''}" always produces the same icon.`;
+      renderGrid(null, val);
+    } else {
+      note.textContent = 'Showing default examples — start typing to generate your own.';
+      renderGrid();
+    }
+  });
+</script>
+</body>
+</html>

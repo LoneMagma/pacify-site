@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BurnLab — LoneMagma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:           #111111;
+      --border:       #272727;
+      --border-hover: #424242;
+      --fg:           #e2e2e2;
+      --fg-bright:    #f8f8f8;
+      --dim:          #888888;
+      --mid:          #b0b0b0;
+      --faint:        #555555;
+      --mono:         'DM Mono', monospace;
+      --sans:         'Sora', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+    .wrap { max-width: 660px; margin: 0 auto; padding: 0 28px; }
+
+    nav { padding: 36px 0 0; }
+    .nav-back {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.18s;
+    }
+    .nav-back:hover { color: var(--fg-bright); }
+
+    .hero { padding: 72px 0 56px; }
+    .project-title {
+      font-family: var(--sans);
+      font-size: clamp(38px, 8vw, 56px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--fg-bright);
+      margin-bottom: 16px;
+    }
+    .title-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--faint);
+    }
+    .tag.live  { border-color: #1f3320; color: #5a9960; }
+    .tagline { font-family: var(--mono); font-size: 14px; font-weight: 300; color: var(--mid); letter-spacing: 0.02em; line-height: 1.7; }
+
+    .rule { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--faint);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .body-text { font-family: var(--mono); font-size: 13px; font-weight: 300; color: var(--mid); line-height: 2; }
+    .body-text + .body-text { margin-top: 16px; }
+
+    /* ASCII diagram */
+    .ascii-block {
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: #0e0e0e;
+      padding: 24px 20px;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+    .ascii-block pre {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      line-height: 1.7;
+      white-space: pre;
+    }
+    .ascii-block pre .hi { color: var(--mid); }
+    .ascii-block pre .lo { color: var(--faint); }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 28px 0;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .flow-step {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      padding: 12px 16px;
+      background: #161616;
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .flow-step:last-child { border-right: none; }
+    .flow-arrow { font-size: 12px; color: var(--faint); padding: 12px 6px; background: #161616; border-right: 1px solid var(--border); }
+
+    .links-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 4px; }
+    .proj-link {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.18s, border-color 0.18s;
+    }
+    .proj-link:hover { color: var(--fg-bright); border-color: var(--mid); }
+
+    footer {
+      padding: 28px 0 44px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      margin-top: 64px;
+    }
+    .footer-text { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--faint); text-transform: uppercase; }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ani { opacity: 0; animation: up 0.55s ease forwards; animation-play-state: paused; }
+
+    @media (max-width: 520px) {
+      .wrap { padding: 0 20px; }
+      .hero { padding: 56px 0 40px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="ani" style="animation-delay:0.05s">
+    <a href="/" class="nav-back">← Back to pacify.site</a>
+  </nav>
+
+  <section class="hero">
+    <h1 class="project-title ani" style="animation-delay:0.12s">BurnLab</h1>
+    <div class="title-meta ani" style="animation-delay:0.18s">
+      <span class="tag live">Stable v1</span>
+      <span class="tag live">Portable</span>
+    </div>
+    <p class="tagline ani" style="animation-delay:0.24s">
+      A complete AI dev environment on a USB drive. No install, no internet, no traces.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.28s">
+
+  <section class="ani" style="animation-delay:0.32s">
+    <p class="section-label">What it is</p>
+    <p class="body-text">
+      BurnLab is a portable, self-contained development environment that runs from a USB drive. You plug it in on any compatible machine, run a single script, and you have a local AI assistant, code editor, Python runtime, and shell environment — all without installing anything on the host machine. Unplug and the host is exactly as you found it.
+    </p>
+    <p class="body-text">
+      It's aimed at the situation where you're working on a machine you don't own or trust, or where you simply want zero footprint. Security researchers, students in labs, developers on travel laptops, people who just don't want their dev environment scattered across three machines.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.34s">
+
+  <section class="ani" style="animation-delay:0.36s">
+    <p class="section-label">How it works</p>
+    <p class="body-text">
+      The USB contains a minimal Linux environment (via a lightweight portable runtime), a bundled Ollama instance with a quantized model pre-loaded, VS Code Portable, and a set of shell scripts that wire everything together at boot. The LLM runs entirely in RAM from the drive — no model weights are ever written to the host disk.
+    </p>
+
+    <div class="ascii-block">
+      <pre>
+  <span class="lo">┌─── USB Drive ──────────────────────────────────────────┐</span>
+  <span class="lo">│</span>                                                        <span class="lo">│</span>
+  <span class="lo">│</span>  <span class="hi">runtime/</span>          portable linux env (no install)    <span class="lo">│</span>
+  <span class="lo">│</span>  <span class="hi">ollama/</span>           LLM engine + quantized model        <span class="lo">│</span>
+  <span class="lo">│</span>  <span class="hi">vscode-portable/</span>  editor, settings, extensions       <span class="lo">│</span>
+  <span class="lo">│</span>  <span class="hi">workspace/</span>        your code lives here                <span class="lo">│</span>
+  <span class="lo">│</span>  <span class="hi">burn.sh</span>           the one script you run              <span class="lo">│</span>
+  <span class="lo">│</span>                                                        <span class="lo">│</span>
+  <span class="lo">└────────────────────────────────────────────────────────┘</span>
+           <span class="lo">│</span>
+           <span class="lo">▼</span>  plug in + run burn.sh
+  <span class="lo">┌─── Host Machine ────────────────────────────────────────┐</span>
+  <span class="lo">│</span>                                                        <span class="lo">│</span>
+  <span class="lo">│</span>  model loads into RAM           nothing written to disk  <span class="lo">│</span>
+  <span class="lo">│</span>  VS Code opens from USB         host FS never touched  <span class="lo">│</span>
+  <span class="lo">│</span>  shell + AI ready in ~30s       unplug = clean slate   <span class="lo">│</span>
+  <span class="lo">│</span>                                                        <span class="lo">│</span>
+  <span class="lo">└────────────────────────────────────────────────────────┘</span>
+</pre>
+    </div>
+
+    <p class="body-text">
+      On startup, <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">burn.sh</code> detects the host OS, starts the Ollama server pointed at the USB model directory, launches VS Code Portable with a pre-configured workspace, and drops you into a shell with the Python environment activated. All paths are relative to the drive mount point so nothing breaks when the drive letter or mount path changes between machines.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.38s">
+
+  <section class="ani" style="animation-delay:0.40s">
+    <p class="section-label">How it was built</p>
+    <p class="body-text">
+      The hardest engineering problem was making the startup script fully portable across Windows (PowerShell), macOS, and Linux without requiring any pre-installed dependencies. On Windows that means using PowerShell's <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">Start-Process</code> to bootstrap the runtime; on Unix it's a standard sh shebang. A single <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">burn.cmd</code> wrapper handles the Windows case so users can double-click on either OS.
+    </p>
+    <p class="body-text">
+      Model selection was a deliberate trade-off. A 4-bit quantized 7B model fits on a 32GB drive with room for a full workspace, starts in under 30 seconds on modest hardware, and is good enough for the target use case (coding assistance, not creative writing). The setup script also supports swapping models — it's just a folder.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.42s">
+
+  <section class="ani" style="animation-delay:0.44s">
+    <p class="section-label">What I learned</p>
+    <p class="body-text">
+      Portable software is harder than it looks because every assumption you've ever made about paths, permissions, and environment variables turns out to be wrong on someone else's machine. I spent a disproportionate amount of time on Windows path handling alone — spaces in drive labels, UAC quirks, antivirus flagging the startup script as suspicious.
+    </p>
+    <p class="body-text">
+      The project also forced me to think seriously about what "no traces" actually means in practice. Swap files, prefetch caches, Windows event logs — there are a surprising number of places the OS records that you ran a process. The current version makes a best-effort attempt at cleanup on exit, but I document the known gaps honestly in the README rather than pretending it's perfect.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.46s">
+
+  <section class="ani" style="animation-delay:0.48s">
+    <p class="section-label">Links</p>
+    <div class="links-row">
+      <a href="https://github.com/LoneMagma/BurnLab" target="_blank" class="proj-link">GitHub →</a>
+      <a href="https://github.com/LoneMagma/BurnLab#readme" target="_blank" class="proj-link">Docs →</a>
+    </div>
+  </section>
+
+  <footer class="ani" style="animation-delay:0.52s">
+    <span class="footer-text">pacify.site</span>
+    <span class="footer-text">2026</span>
+  </footer>
+
+</div>
+<script>
+  const els = document.querySelectorAll('.ani');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>

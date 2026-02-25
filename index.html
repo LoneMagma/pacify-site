@@ -1,644 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Pacify - Building real projects while learning real skills. AI-assisted development portfolio.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pacify — LoneMagma</title>
+  <meta name="description" content="LoneMagma — building real things." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- SEO Meta Tags -->
-    <meta name="title" content="Pacify - LoneMagma's Portfolio | AI-Assisted Development">
-    <meta name="keywords"
-        content="AI development, student developer, portfolio, full-stack, LoneMagma, FastAPI, React, WebSocket, Claude AI, machine learning, BurnLab, offline AI">
-    <meta name="author" content="LoneMagma">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://pacify.site/">
-    <meta property="og:title" content="Pacify - LoneMagma's Portfolio | AI-Assisted Development">
-    <meta property="og:description"
-        content="Building Real Projects While Learning Real Skills. Student developer architecting with AI and learning along the way.">
-    <meta property="og:image" content="https://pacify.site/og-image.jpg">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://pacify.site/">
-    <meta name="twitter:title" content="Pacify - LoneMagma's Portfolio | AI-Assisted Development">
-    <meta name="twitter:description"
-        content="Building Real Projects While Learning Real Skills. Student developer architecting with AI and learning along the way.">
-    <meta name="twitter:image" content="https://pacify.site/og-image.jpg">
-
-    <title>Pacify - LoneMagma's Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Schema Markup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "LoneMagma",
-      "url": "https://pacify.site",
-      "sameAs": ["https://www.instagram.com/lonemagma/", "https://github.com/LoneMagma"],
-      "jobTitle": "Student Developer",
-      "description": "Student developer learning through AI-assisted development"
+    :root {
+      --bg:           #111111;
+      --border:       #272727;
+      --border-hover: #424242;
+      --fg:           #e2e2e2;
+      --fg-bright:    #f8f8f8;
+      --dim:          #888888;
+      --mid:          #b0b0b0;
+      --faint:        #555555;
+      --mono:         'DM Mono', monospace;
+      --sans:         'Sora', sans-serif;
     }
-    </script>
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .wrap {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ── nav ── */
+    nav {
+      padding: 36px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.18s;
+    }
+
+    .nav-links a:hover { color: var(--fg-bright); }
+
+    /* ── hero ── */
+    .hero { padding: 100px 0 88px; }
+
+    .hero-name {
+      font-family: var(--sans);
+      font-size: clamp(42px, 9vw, 62px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin-bottom: 18px;
+      color: var(--fg-bright);
+    }
+
+    .hero-line {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── section heading ── */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--faint);
+      text-transform: uppercase;
+    }
+
+    .section-count {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--faint);
+    }
+
+    /* ── projects ── */
+    #projects { padding: 0 0 88px; }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 16px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.18s;
+    }
+
+    .project-row:hover { border-bottom-color: var(--border-hover); }
+    .project-row:hover .project-name { color: var(--fg-bright); }
+    .project-row:hover .project-arrow { opacity: 1; transform: translate(3px, -3px); }
+
+    .project-left { display: flex; flex-direction: column; gap: 8px; }
+
+    .project-name-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .project-name {
+      font-family: var(--sans);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--fg);
+      transition: color 0.18s;
+    }
+
+    .project-tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--faint);
+    }
+
+    .project-tag.live  { border-color: #1f3320; color: #5a9960; }
+    .project-tag.indev { border-color: #1e1e35; color: #6060b0; }
+    .project-tag.beta  { border-color: #332a18; color: #8a7040; }
+
+    .project-desc {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.8;
+      max-width: 460px;
+    }
+
+    /* ── project actions ── */
+    .project-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .project-link {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.18s, border-color 0.18s;
+    }
+
+    .project-link:hover { color: var(--fg-bright); border-color: var(--mid); }
+
+    /* disabled demo button */
+    .demo-btn {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--faint);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 3px 10px;
+      cursor: not-allowed;
+      user-select: none;
+      position: relative;
+    }
+
+    .demo-btn::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 2px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      z-index: 10;
+    }
+
+    .demo-btn:hover::after { opacity: 1; }
+
+    .project-arrow {
+      font-size: 14px;
+      color: var(--faint);
+      opacity: 0;
+      transition: opacity 0.18s, transform 0.18s;
+      margin-top: 4px;
+    }
+
+    /* ── coming soon block ── */
+    .coming-soon-block {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .coming-soon-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--faint);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .coming-soon-names {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .coming-soon-name {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--faint);
+    }
+
+    /* ── about ── */
+    #about { padding: 0 0 88px; }
+
+    .about-body {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 540px;
+    }
+
+    .about-text {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.95;
+    }
+
+    /* ── contact ── */
+    #contact { padding: 0 0 112px; margin-top: 88px; }
+
+    .contact-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.18s;
+    }
+
+    .contact-item:hover { border-bottom-color: var(--border-hover); }
+    .contact-item:hover .contact-label { color: var(--fg-bright); }
+    .contact-item:hover .contact-hint { opacity: 1; }
+    .contact-item:hover .contact-arrow { opacity: 1; transform: translate(3px, -3px); }
+
+    .contact-left { display: flex; align-items: baseline; gap: 16px; }
+
+    .contact-label {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--fg);
+      transition: color 0.18s;
+    }
+
+    .contact-hint {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+
+    .contact-arrow {
+      font-size: 13px;
+      color: var(--faint);
+      opacity: 0;
+      transition: opacity 0.18s, transform 0.18s;
+    }
+
+    /* ── footer ── */
+    footer {
+      padding: 28px 0 44px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--faint);
+      text-transform: uppercase;
+    }
+
+    /* ── animations ── */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .ani {
+      opacity: 0;
+      animation: up 0.55s ease forwards;
+      animation-play-state: paused;
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 520px) {
+      .wrap { padding: 0 20px; }
+      .hero { padding: 72px 0 64px; }
+      .hero-name { font-size: clamp(36px, 11vw, 48px); }
+      .nav-links { gap: 18px; }
+    }
+  </style>
 </head>
-
 <body>
-    <header class="header">
-        <nav class="nav-container">
-            <div class="logo">Pacify</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="social-icons">
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-                <a href="https://github.com/LoneMagma" target="_blank" aria-label="GitHub">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                    </svg>
-                </a>
-                <a href="https://www.instagram.com/lonemagma/" target="_blank" aria-label="Instagram">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 10-2.5 0 1.25 1.25 0 002.5 0zM12 9a3 3 0 110 6 3 3 0 010-6z" />
-                    </svg>
-                </a>
-                <a href="mailto:lonemagma29@gmail.com" aria-label="Email">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                </a>
-            </div>
-        </nav>
-    </header>
+<div class="wrap">
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Architecting Systems and Defying Syntax.</h1>
-            <p class="hero-subtitle">Building in the open. Breaking for the better.</p>
-            <p class="hero-description">I build, test, and break systems to engineer resilient, AI driven workflows. I
-                don't just write lines of code; I architect the very logic that defines them.</p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#about" class="btn btn-secondary">About Me</a>
-            </div>
+  <!-- Nav -->
+  <nav class="ani" style="animation-delay:0.05s">
+    <a href="/" class="nav-brand">Pacify</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero-name ani" style="animation-delay:0.15s">LoneMagma</h1>
+    <p  class="hero-line ani" style="animation-delay:0.25s">Building real things while the world catches up.</p>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-header ani" style="animation-delay:0.3s">
+      <span class="section-label">Projects</span>
+      <span class="section-count">05 + 2 soon</span>
+    </div>
+
+    <!-- FocusED -->
+    <div class="project-row ani" style="animation-delay:0.35s">
+      <div class="project-left">
+        <div class="project-name-row">
+          <span class="project-name">FocusED</span>
+          <span class="project-tag live">Android</span>
         </div>
-
-        <div class="hero-mascot-container">
-            <!-- Kawaii Flower Bot Mascot SVG -->
-            <svg id="mascot-svg" viewBox="0 0 320 360" xmlns="http://www.w3.org/2000/svg"
-                aria-label="Cute Kawaii Flower Bot Mascot" role="img">
-                <title>Pacify Portfolio Mascot - Flower Edition</title>
-
-                <defs>
-                    <!-- Head Gradient - Light Mode -->
-                    <radialGradient id="head-gradient" cx="35%" cy="30%" r="65%">
-                        <stop offset="0%" stop-color="#FFFFFF" />
-                        <stop offset="60%" stop-color="#F5F5F5" />
-                        <stop offset="100%" stop-color="#E0E0E0" />
-                    </radialGradient>
-
-                    <!-- Head Gradient - Dark Mode -->
-                    <radialGradient id="head-gradient-dark" cx="35%" cy="30%" r="65%">
-                        <stop offset="0%" stop-color="#2D333B" />
-                        <stop offset="60%" stop-color="#22272E" />
-                        <stop offset="100%" stop-color="#1C2128" />
-                    </radialGradient>
-
-                    <!-- Starry Eye Gradient (Blue) -->
-                    <linearGradient id="eye-gradient-blue" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#4A9FFF" />
-                        <stop offset="40%" stop-color="#2563EB" />
-                        <stop offset="100%" stop-color="#1D4ED8" />
-                    </linearGradient>
-
-                    <!-- Pink Eye Gradient (Right Eye - Dark Mode) -->
-                    <linearGradient id="eye-gradient-pink" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#F48FB1" />
-                        <stop offset="40%" stop-color="#EC407A" />
-                        <stop offset="100%" stop-color="#D81B60" />
-                    </linearGradient>
-
-                    <!-- Neon Eye Gradient (Legacy/Green) -->
-                    <linearGradient id="eye-gradient-green" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#4ADE80" />
-                        <stop offset="40%" stop-color="#22C55E" />
-                        <stop offset="100%" stop-color="#16A34A" />
-                    </linearGradient>
-                </defs>
-
-                <!-- Floating Sparkles (Background) -->
-                <path d="M40 80 L43 88 L51 91 L43 94 L40 102 L37 94 L29 91 L37 88 Z" class="mascot-sparkle"
-                    fill="#FFF59D" />
-                <path d="M280 60 L283 68 L291 71 L283 74 L280 82 L277 74 L269 71 L277 68 Z" class="mascot-sparkle"
-                    fill="#FFF59D" />
-                <circle cx="20" cy="150" r="3" class="mascot-sparkle" fill="#FFF59D" />
-                <circle cx="300" cy="200" r="4" class="mascot-sparkle" fill="#FFF59D" />
-
-                <g class="mascot-group">
-
-                    <!-- Left Ear & Charm -->
-                    <g class="mascot-ear-group-left">
-                        <path d="M60 180 L50 180 A 15 35 0 0 0 50 240 L 60 240 Z" class="mascot-ear" />
-                        <!-- Connection Stud -->
-                        <circle cx="55" cy="235" r="3" class="mascot-antenna-tip" fill="white" />
-                        <!-- Dangling Charm (Flattened Coordinates) -->
-                        <g class="mascot-charm-group-left">
-                            <line x1="55" y1="235" x2="55" y2="275" class="mascot-string" />
-                            <polygon points="55,280 52,287 59,287" class="mascot-charm-star"
-                                transform="translate(0, -6) scale(0.8)" />
-                            <path d="M55 280 L50 285 L55 290 L60 285 Z" class="mascot-charm-star" />
-                            <path d="M55 293 l2 2 l-2 2 l-2 -2 z" fill="#FF8A80" class="mascot-charm-heart" />
-                        </g>
-                    </g>
-
-                    <!-- Right Ear & Charm -->
-                    <g class="mascot-ear-group-right">
-                        <path d="M260 180 L270 180 A 15 35 0 0 1 270 240 L 260 240 Z" class="mascot-ear" />
-                        <!-- Connection Stud -->
-                        <circle cx="265" cy="235" r="3" class="mascot-antenna-tip" fill="white" />
-                        <!-- Dangling Charm (Flattened Coordinates) -->
-                        <g class="mascot-charm-group-right">
-                            <line x1="265" y1="235" x2="265" y2="265" class="mascot-string" />
-                            <path
-                                d="M265 267 C262 264, 257 264, 257 269 C257 274, 265 278, 265 278 C265 278, 273 274, 273 269 C273 264, 268 264, 265 267 Z"
-                                class="mascot-charm-heart" />
-                        </g>
-                    </g>
-
-                    <!-- Antennas with Tips -->
-                    <line x1="100" y1="120" x2="70" y2="70" class="mascot-antenna" />
-                    <circle cx="70" cy="70" r="12" class="mascot-antenna-tip" />
-                    <circle cx="70" cy="70" r="6" fill="white" opacity="0.4" />
-
-                    <line x1="220" y1="120" x2="250" y2="70" class="mascot-antenna" />
-                    <circle cx="250" cy="70" r="12" class="mascot-antenna-tip" />
-                    <circle cx="250" cy="70" r="6" fill="white" opacity="0.4" />
-
-                    <!-- Main Head -->
-                    <circle cx="160" cy="200" r="100" class="mascot-head" />
-
-                    <!-- Flower Crown -->
-                    <g class="mascot-flower-crown" transform="translate(0, -2)">
-                        <!-- Flower 1 (Left) -->
-                        <g transform="translate(75, 140) rotate(-45)">
-                            <path
-                                d="M0,-12 Q5,-20 10,-12 Q20,-5 12,0 Q20,5 10,12 Q5,20 0,12 Q-5,20 -10,12 Q-20,5 -12,0 Q-20,-5 -10,-12 Q-5,-20 0,-12 Z"
-                                class="mascot-flower-purple" />
-                            <circle r="4" class="mascot-flower-center" />
-                        </g>
-                        <!-- Flower 2 -->
-                        <g transform="translate(100, 120) rotate(-20)">
-                            <circle r="12" class="mascot-flower-yellow" fill-opacity="0.3" />
-                            <path
-                                d="M0,-11 Q5,-18 10,-11 Q18,-5 11,0 Q18,5 10,11 Q5,18 0,11 Q-5,18 -10,11 Q-18,5 -11,0 Q-18,-5 -10,-11 Z"
-                                class="mascot-flower-pink" />
-                            <circle r="4" class="mascot-flower-center" />
-                        </g>
-                        <!-- Flower 3 (Center) -->
-                        <g transform="translate(135, 110)">
-                            <path
-                                d="M0,-13 Q6,-21 12,-13 Q21,-6 13,0 Q21,6 12,13 Q6,21 0,13 Q-6,21 -12,13 Q-21,6 -13,0 Q-21,-6 -12,-13 Z"
-                                class="mascot-flower-blue" />
-                            <circle r="5" class="mascot-flower-center" />
-                        </g>
-                        <!-- Flower 4 -->
-                        <g transform="translate(170, 112) rotate(15)">
-                            <path
-                                d="M0,-11 Q5,-18 10,-11 Q18,-5 11,0 Q18,5 10,11 Q5,18 0,11 Q-5,18 -10,11 Q-18,5 -11,0 Q-18,-5 -10,-11 Z"
-                                class="mascot-flower-pink" />
-                            <circle r="4" class="mascot-flower-center" />
-                        </g>
-                        <!-- Flower 5 (Right) -->
-                        <g transform="translate(205, 122) rotate(30)">
-                            <path
-                                d="M0,-12 Q5,-20 10,-12 Q20,-5 12,0 Q20,5 10,12 Q5,20 0,12 Q-5,20 -10,12 Q-20,5 -12,0 Q-20,-5 -10,-12 Q-5,-20 0,-12 Z"
-                                class="mascot-flower-yellow" />
-                            <circle r="4" class="mascot-flower-center" />
-                        </g>
-                        <!-- Flower 6 (Far Right) -->
-                        <g transform="translate(235, 140) rotate(50)">
-                            <circle r="9" class="mascot-flower-purple" />
-                            <circle r="3" class="mascot-flower-center" />
-                        </g>
-                    </g>
-
-                    <!-- Left Eye -->
-                    <g id="left-eye-container" class="eye-container" transform="translate(110, 195)">
-                        <!-- Blink Group: Scales everything inside (bg + pupil) -->
-                        <g class="mascot-blink-group">
-                            <ellipse cx="0" cy="0" rx="30" ry="38" class="mascot-eye-bg" />
-                            <circle id="left-pupil" cx="0" cy="4" r="14" class="mascot-pupil" />
-                            <!-- Starry Highlights -->
-                            <polygon points="5,-14 8,-20 11,-14 17,-11 11,-8 8,-2 5,-8 -1,-11"
-                                class="mascot-highlight" />
-                            <circle cx="-10" cy="10" r="4" class="mascot-highlight" opacity="0.6" />
-                            <circle cx="12" cy="12" r="2" class="mascot-highlight" opacity="0.8" />
-                        </g>
-                        <!-- Eyelashes (Fixed, don't blink/scale) -->
-                        <path d="M-28 -25 Q-38 -45 -50 -35" class="mascot-lash" />
-                        <path d="M-22 -30 Q-30 -50 -42 -45" class="mascot-lash" />
-                        <path d="M-15 -32 Q-20 -52 -32 -50" class="mascot-lash" />
-                    </g>
-
-                    <!-- Right Eye -->
-                    <g id="right-eye-container" class="eye-container" transform="translate(210, 195)">
-                        <!-- Blink Group -->
-                        <g class="mascot-blink-group">
-                            <ellipse cx="0" cy="0" rx="30" ry="38" class="mascot-eye-bg" />
-                            <circle id="right-pupil" cx="0" cy="4" r="14" class="mascot-pupil" />
-                            <!-- Starry Highlights -->
-                            <polygon points="-5,-14 -8,-20 -11,-14 -17,-11 -11,-8 -8,-2 -5,-8 1,-11"
-                                class="mascot-highlight" />
-                            <circle cx="10" cy="10" r="4" class="mascot-highlight" opacity="0.6" />
-                            <circle cx="-12" cy="12" r="2" class="mascot-highlight" opacity="0.8" />
-                        </g>
-                        <!-- Eyelashes (Fixed) -->
-                        <path d="M28 -25 Q38 -45 50 -35" class="mascot-lash" />
-                        <path d="M22 -30 Q30 -50 42 -45" class="mascot-lash" />
-                        <path d="M15 -32 Q20 -52 32 -50" class="mascot-lash" />
-                    </g>
-
-                    <!-- Blush - Left -->
-                    <ellipse cx="90" cy="235" rx="18" ry="10" class="mascot-blush" />
-                    <!-- Blush - Right -->
-                    <ellipse cx="230" cy="235" rx="18" ry="10" class="mascot-blush" />
-
-                    <!-- Mouth (Small Smile) -->
-                    <path d="M145 250 Q160 265, 175 250" class="mascot-mouth" />
-
-                </g><!-- Foreground Sparkles -->
-                <path d="M80 160 L82 165 L87 167 L82 169 L80 174 L78 169 L73 167 L78 165 Z" class="mascot-sparkle"
-                    fill="#FFF59D" />
-                <path d="M250 160 L248 165 L243 167 L248 169 L250 174 L252 169 L257 167 L252 165 Z"
-                    class="mascot-sparkle" fill="#FFF59D" />
-            </svg>
+        <p class="project-desc">Blocks Reels and Shorts. DMs work. Everything else works. No data, no accounts, no internet permission.</p>
+        <div class="project-actions">
+          <a href="/focused" class="project-link">Download</a>
+          <a href="https://github.com/LoneMagma/FocusED" target="_blank" class="project-link">GitHub</a>
         </div>
-    </section>
+      </div>
+      <span class="project-arrow">↗</span>
+    </div>
 
-
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Projects</h2>
-
-            <!-- BurnLab Project (Most Recent) -->
-            <article class="project-card project-featured">
-                <div class="project-header">
-                    <div class="project-title-group">
-                        <h3 class="project-title">BurnLab</h3>
-                        <span class="project-badge">Latest</span>
-                    </div>
-                    <span class="project-status">Stable Release V1</span>
-                </div>
-
-                <p class="project-tagline">The Sovereign Development Environment</p>
-
-                <p class="project-description">
-                    A complete air-gapped & AI-powered development laboratory that runs entirely from a USB drive.
-                    BurnLab transforms any PC into a self contained coding environment with local LLMs, offline
-                    documentation, and professional tooling, no internet, no installation, no data left behind.
-                </p>
-
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h4 class="feature-title"> Local Intelligence</h4>
-                        <p class="feature-description">Integrated Ollama runtime with Qwen2.5-Coder for offline code
-                            generation and debugging</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4 class="feature-title"> Universal Reference</h4>
-                        <p class="feature-description">15GB+ of offline knowledge: Wikipedia, Stack Overflow, MDN, Arch
-                            Wiki</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4 class="feature-title"> Zero-Trace</h4>
-                        <p class="feature-description">Runs entirely from RAM and USB. No data touches the host computer
-                        </p>
-                    </div>
-                </div>
-
-                <div class="architecture-section">
-                    <h4 class="architecture-title">Key Features</h4>
-                    <ul class="feature-list">
-                        <li><strong>One-Command Bootstrap:</strong> Entire environment deployed via single bash script!
-                        </li>
-                        <li><strong>Adaptive Storage:</strong> Smart compression allows full functionality on 16GB
-                            drives</li>
-                        <li><strong>Intuitive Aliases:</strong> <code>ask "How do I reverse a list?"</code> queries
-                            local LLM with offline docs</li>
-                        <li><strong>Layered Architecture:</strong> BunsenLabs base --> Btrfs persistence --> Kiwix
-                            knowledge --> Quantized LLMs</li>
-                    </ul>
-                </div>
-
-                <div class="tech-stack">
-                    <span class="tech-badge">BunsenLabs Linux</span>
-                    <span class="tech-badge">Ollama</span>
-                    <span class="tech-badge">Qwen2.5-Coder</span>
-                    <span class="tech-badge">Kiwix</span>
-                    <span class="tech-badge">VS Code</span>
-                    <span class="tech-badge">Btrfs</span>
-                    <span class="tech-badge">Python</span>
-                </div>
-
-                <div class="confession-box">
-                    <p>Built this because I wanted a development environment that works anywhere! School's Computer Lab,
-                        libraries or random computers that too without leaving traces or depending on internet. The
-                        entire system fits on a USB drive smaller than your thumb.</p>
-                </div>
-
-                <div class="project-buttons">
-                    <a href="https://github.com/LoneMagma/BurnLab" target="_blank" class="btn btn-primary">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-                            <path
-                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                        </svg>
-                        View Code
-                    </a>
-                    <a href="https://github.com/LoneMagma/BurnLab#readme" target="_blank" class="btn btn-secondary">View
-                        Documentation</a>
-                </div>
-            </article>
-
-            <!-- Pacify & Defy AI Project -->
-            <article class="project-card">
-                <div class="project-header">
-                    <h3 class="project-title">Pacify & Defy AI</h3>
-                    <span class="project-status">In Development</span>
-                </div>
-
-                <p class="project-tagline">Balanced. Bold. Beyond.</p>
-
-                <p class="project-description">
-                    A dual mode conversational AI with real-time streaming, multiuser authentication, and complete data
-                    isolation. Features Pacify (Balanced, Smart AI) and Defy (Unhinged and Uncensored) both with two
-                    more personas of their own.
-                </p>
-
-                <div class="architecture-section">
-                    <h4 class="architecture-title">System Architecture</h4>
-                    <p class="architecture-subtitle">Click diagrams to view interactive flowcharts</p>
-                    <div class="architecture-diagrams">
-                        <div class="diagram-placeholder" onclick="openFlowchart('user-flow')" data-diagram="user-flow">
-                            <div class="placeholder-content">
-                                <span class="placeholder-label">User Flow Journey</span>
-                            </div>
-                        </div>
-                        <div class="diagram-placeholder" onclick="openFlowchart('technical')" data-diagram="technical">
-                            <div class="placeholder-content">
-                                <span class="placeholder-label">Technical Architecture Flow</span>
-                            </div>
-                        </div>
-                        <div class="diagram-placeholder" onclick="openFlowchart('security')" data-diagram="security">
-                            <div class="placeholder-content">
-                                <span class="placeholder-label">Security Flow</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h4 class="feature-title">Real-time Streaming</h4>
-                        <p class="feature-description">WebSocket based chat because nobody has patience for loading
-                            spinners anymore</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4 class="feature-title">Secure Authentication</h4>
-                        <p class="feature-description">JWT sessions with bcrypt hashing. (Sounds fancy but works
-                            reliably.)</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4 class="feature-title">Multi-user Support</h4>
-                        <p class="feature-description">Your data stays yours, in complete isolation with rate limiting
-                        </p>
-                    </div>
-                </div>
-
-                <div class="tech-stack">
-                    <span class="tech-badge">FastAPI</span>
-                    <span class="tech-badge">React</span>
-                    <span class="tech-badge">TypeScript</span>
-                    <span class="tech-badge">WebSocket</span>
-                    <span class="tech-badge">JWT Auth</span>
-                    <span class="tech-badge">Docker</span>
-                </div>
-
-                <div class="confession-box">
-                    <p>This entire project was architected, tested, and deployed by a human (i.e- me), but entirely
-                        coded by Claude and other Agentic AIs. I basically "project-managed" an AI into building this.
-                        Modern problems require modern solutions! :P </p>
-                </div>
-
-                <div class="project-buttons">
-                    <button class="btn btn-disabled" disabled>Live Demo - (PWA Coming Soon)</button>
-                    <a href="https://github.com/LoneMagma/Pacify-DefyAI" target="_blank" class="btn btn-primary">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-                            <path
-                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                        </svg>
-                        View Code
-                    </a>
-                </div>
-            </article>
-
-            <p class="projects-footer">More projects loading... (once I and Claude figure out what to build next xD)</p>
+    <!-- IconizeiT -->
+    <div class="project-row ani" style="animation-delay:0.40s">
+      <div class="project-left">
+        <div class="project-name-row">
+          <span class="project-name">IconizeiT</span>
+          <span class="project-tag live">Live</span>
         </div>
-    </section>
-
-    <section id="learnings" class="learnings">
-        <div class="container">
-            <h2 class="section-title">What Building This Taught Me</h2>
-            <p class="section-subtitle">Real skills from real problems</p>
-
-            <div class="learning-cards">
-                <div class="learning-card">
-                    <h3 class="learning-title">Architecture & Design</h3>
-                    <ul class="learning-list">
-                        <li>How frontend and backend actually talk to each other</li>
-                        <li>Why WebSockets beat regular HTTP for real-time chat</li>
-                        <li>Designing API endpoints that make logical sense</li>
-                        <li>Data modeling and proper separation of concerns</li>
-                    </ul>
-                </div>
-
-                <div class="learning-card">
-                    <h3 class="learning-title">Systems From Scratch</h3>
-                    <ul class="learning-list">
-                        <li>Burning, booting, and deploying custom Linux environments</li>
-                        <li>Installing and configuring local LLMs for air-gapped use</li>
-                        <li>Understanding shell scripts and real automation workflows</li>
-                        <li>Making complex systems work on constrained hardware</li>
-                    </ul>
-                </div>
-
-                <div class="learning-card">
-                    <h3 class="learning-title">Deployment & DevOps</h3>
-                    <ul class="learning-list">
-                        <li>Docker containerization ("works on my machine" implies "works everywhere")</li>
-                        <li>Environment configuration for development vs production</li>
-                        <li>Debugging issues you can't replicate locally</li>
-                        <li>Basic networking concepts (ports, protocols, DNS)</li>
-                    </ul>
-                </div>
-
-
-
-                <div class="learning-card learning-card-meta">
-                    <h3 class="learning-title">The Meta-Lesson</h3>
-                    <p class="learning-meta-text">
-                        You don't need to write every line to understand the system. Architecting, testing, deploying,
-                        breaking and iterating taught me more about real development than memorizing syntax ever could.
-                    </p>
-                    <p class="learning-meta-text">
-                        The value isn't in who typed the code! it's in understanding what problems you're solving and
-                        how the pieces fit together.
-                    </p>
-                </div>
-            </div>
+        <p class="project-desc">Deterministic, symmetric pixel-art identicons from any string. Same input, same output — every time.</p>
+        <div class="project-actions">
+          <a href="/iconizeit" class="project-link">Try It</a>
+          <a href="https://github.com/LoneMagma/IconizeiT" target="_blank" class="project-link">GitHub</a>
         </div>
-    </section>
+      </div>
+      <span class="project-arrow">↗</span>
+    </div>
 
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About</h2>
-            <div class="about-content">
-                <p>Hey, I'm LoneMagma, a student who discovered that you don't need to be a coding wizard to build stuff
-                    anymore. You just need good ideas and the ability to use latest Tools and AI running on NLP model!.
-                </p>
-
-                <p>I'm currently giving Claude a serious workout while learning Python, Web Dev and whatever else seems
-                    interesting. My development philosophy? Build first, understand deeply later. (Suprisingly
-                    effective.)</p>
-
-                <p>This site is both a portfolio and a testing ground. Everything here is a work in progress because
-                    "done" is a myth. If something breaks, it's instead a feature that teaches me debugging.</p>
-
-                <p>Real talk: Currently learning WebDev, so these AI-assisted projects are my way of staying ahead of
-                    the curve. Or at least looking like I know what I'm doing until I actually do.</p>
-
-            </div>
+    <!-- BurnLab -->
+    <div class="project-row ani" style="animation-delay:0.45s">
+      <div class="project-left">
+        <div class="project-name-row">
+          <span class="project-name">BurnLab</span>
+          <span class="project-tag live">Stable v1</span>
         </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <p class="section-subtitle">Have a project idea? Want to collaborate? Let's build something.</p>
-
-            <div class="contact-content">
-                <div class="contact-cards">
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                </path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                        </div>
-                        <h3 class="contact-card-title">Email</h3>
-                        <p class="contact-card-description">Best for project inquiries and detailed discussions</p>
-                        <a href="mailto:lonemagma29@gmail.com" class="contact-link">lonemagma29@gmail.com</a>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 10-2.5 0 1.25 1.25 0 002.5 0zM12 9a3 3 0 110 6 3 3 0 010-6z" />
-                            </svg>
-                        </div>
-                        <h3 class="contact-card-title">Instagram</h3>
-                        <p class="contact-card-description">Follow my journey and behind-the-scenes</p>
-                        <a href="https://www.instagram.com/lonemagma/" target="_blank"
-                            class="contact-link">@lonemagma</a>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                            </svg>
-                        </div>
-                        <h3 class="contact-card-title">GitHub</h3>
-                        <p class="contact-card-description">Check out my code and projects</p>
-                        <a href="https://github.com/LoneMagma" target="_blank" class="contact-link">@LoneMagma</a>
-                    </div>
-                </div>
-
-                <div class="contact-cta">
-                    <p class="contact-cta-text">Currently open to collaborations and learning opportunities. If you have
-                        an interesting project or just want to chat about tech, feel free to reach out!</p>
-                </div>
-            </div>
+        <p class="project-desc">AI-powered dev lab on a USB drive. No internet, no install, no traces left behind. Fits in your pocket.</p>
+        <div class="project-actions">
+          <span class="demo-btn" data-tip="runs locally — no hosted demo">Live Demo</span>
+          <a href="https://github.com/LoneMagma/BurnLab" target="_blank" class="project-link">GitHub</a>
+          <a href="https://github.com/LoneMagma/BurnLab#readme" target="_blank" class="project-link">Docs</a>
         </div>
-    </section>
+      </div>
+      <span class="project-arrow">↗</span>
+    </div>
 
-    <footer class="footer">
-        <div class="container">
-            <p class="footer-text" data-admin-trigger>Last updated: 2nd February 2026</p>
-            <div class="footer-socials">
-                <a href="https://github.com/LoneMagma" target="_blank" aria-label="GitHub">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                    </svg>
-                </a>
-                <a href="https://www.instagram.com/lonemagma/" target="_blank" aria-label="Instagram">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153.509.5.902 1.105 1.153 1.772.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 01-1.153 1.772c-.5.508-1.105.902-1.772 1.153-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 01-1.772-1.153 4.904 4.904 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 011.153-1.772A4.897 4.897 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 10-2.5 0 1.25 1.25 0 002.5 0zM12 9a3 3 0 110 6 3 3 0 010-6z" />
-                    </svg>
-                </a>
-                <a href="mailto:lonemagma29@gmail.com" aria-label="Email">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                </a>
-            </div>
+    <!-- Pacify & Defy AI -->
+    <div class="project-row ani" style="animation-delay:0.50s">
+      <div class="project-left">
+        <div class="project-name-row">
+          <span class="project-name">Pacify & Defy AI</span>
+          <span class="project-tag indev">In Dev</span>
         </div>
-    </footer>
+        <p class="project-desc">Dual-mode conversational AI — Pacify is balanced, Defy is unhinged. Real-time streaming, full auth, complete data isolation.</p>
+        <div class="project-actions">
+          <span class="demo-btn" data-tip="still cooking">Live Demo</span>
+          <a href="https://github.com/LoneMagma/Pacify-DefyAI" target="_blank" class="project-link">GitHub</a>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </div>
 
-    <div id="flowchart-modal" class="flowchart-modal"></div>
+    <!-- Key4ce -->
+    <div class="project-row ani" style="animation-delay:0.55s">
+      <div class="project-left">
+        <div class="project-name-row">
+          <span class="project-name">Key4ce</span>
+          <span class="project-tag beta">Beta</span>
+        </div>
+        <p class="project-desc">Terminal typing game with keystroke analytics. Cross-platform, offline, no fluff.</p>
+        <div class="project-actions">
+          <a href="https://github.com/LoneMagma/Key4ce/releases" target="_blank" class="project-link">Download</a>
+          <a href="https://github.com/LoneMagma/Key4ce" target="_blank" class="project-link">GitHub</a>
+          <a href="https://github.com/LoneMagma/Key4ce#readme" target="_blank" class="project-link">Docs</a>
+        </div>
+      </div>
+      <span class="project-arrow">↗</span>
+    </div>
 
-    <script src="config.js"></script>
-    <script src="script.js"></script>
-    <script src="flowcharts.js"></script>
-    <script src="mascot.js"></script>
-    <script src="access.js"></script>
-    <script src="track.js"></script>
+    <!-- Coming Soon — grouped -->
+    <div class="coming-soon-block ani" style="animation-delay:0.60s">
+      <p class="coming-soon-label">In the pipeline</p>
+      <div class="coming-soon-names">
+        <span class="coming-soon-name">SOUL</span>
+        <span class="coming-soon-name">GhostOps</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="section-header ani" style="animation-delay:0.3s">
+      <span class="section-label">About</span>
+    </div>
+    <div class="about-body">
+      <p class="about-text ani" style="animation-delay:0.35s">
+        Hey, I'm LoneMagma — a student who figured out you don't need to be a coding wizard anymore. You just need good ideas, the right tools, and the willingness to break things until they work.
+      </p>
+      <p class="about-text ani" style="animation-delay:0.40s">
+        I'm currently giving Claude a serious workout while learning Python, Web Dev, Android, and whatever else looks interesting that week. My development philosophy? Build first, understand deeply later. Surprisingly effective.
+      </p>
+      <p class="about-text ani" style="animation-delay:0.45s">
+        This site is both a portfolio and a testing ground. Everything here is a work in progress because "done" is a myth. If something breaks, it's a feature that teaches me debugging.
+      </p>
+      <p class="about-text ani" style="animation-delay:0.50s">
+        Real talk: AI-assisted development isn't a shortcut — it's a new kind of literacy. I architect the systems, understand the logic, and ship things. The value is in what problem you're solving, not who typed which line.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="section-header ani" style="animation-delay:0.3s">
+      <span class="section-label">Contact</span>
+    </div>
+
+    <a href="https://github.com/LoneMagma" target="_blank" class="contact-item ani" style="animation-delay:0.35s">
+      <div class="contact-left">
+        <span class="contact-label">GitHub</span>
+        <span class="contact-hint">@LoneMagma</span>
+      </div>
+      <span class="contact-arrow">↗</span>
+    </a>
+
+    <a href="https://www.instagram.com/lonemagma/" target="_blank" class="contact-item ani" style="animation-delay:0.40s">
+      <div class="contact-left">
+        <span class="contact-label">Instagram</span>
+        <span class="contact-hint">@lonemagma</span>
+      </div>
+      <span class="contact-arrow">↗</span>
+    </a>
+
+    <a href="mailto:lonemagma29@gmail.com" class="contact-item ani" style="animation-delay:0.45s">
+      <div class="contact-left">
+        <span class="contact-label">Email</span>
+        <span class="contact-hint">lonemagma29@gmail.com</span>
+      </div>
+      <span class="contact-arrow">↗</span>
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="ani" style="animation-delay:0.5s">
+    <span class="footer-text">pacify.site</span>
+    <span class="footer-text">2026</span>
+  </footer>
+
+</div>
+<script>
+  const els = document.querySelectorAll('.ani');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  els.forEach(el => io.observe(el));
+</script>
 </body>
-
 </html>

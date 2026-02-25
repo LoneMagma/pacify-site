@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://pacify.site/sitemap.xml
-
-# Block admin panel from search engines if you create one
-Disallow: /admin
-Disallow: /admin/*

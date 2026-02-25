@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pacify & Defy AI — LoneMagma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:           #111111;
+      --border:       #272727;
+      --border-hover: #424242;
+      --fg:           #e2e2e2;
+      --fg-bright:    #f8f8f8;
+      --dim:          #888888;
+      --mid:          #b0b0b0;
+      --faint:        #555555;
+      --mono:         'DM Mono', monospace;
+      --sans:         'Sora', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+    .wrap { max-width: 660px; margin: 0 auto; padding: 0 28px; }
+
+    nav { padding: 36px 0 0; }
+    .nav-back {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.18s;
+    }
+    .nav-back:hover { color: var(--fg-bright); }
+
+    .hero { padding: 72px 0 56px; }
+    .project-title {
+      font-family: var(--sans);
+      font-size: clamp(32px, 7vw, 50px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--fg-bright);
+      margin-bottom: 16px;
+    }
+    .title-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--faint);
+    }
+    .tag.indev { border-color: #1e1e35; color: #6060b0; }
+    .tagline { font-family: var(--mono); font-size: 14px; font-weight: 300; color: var(--mid); letter-spacing: 0.02em; line-height: 1.7; }
+
+    .rule { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--faint);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .body-text { font-family: var(--mono); font-size: 13px; font-weight: 300; color: var(--mid); line-height: 2; }
+    .body-text + .body-text { margin-top: 16px; }
+
+    /* dual chat mockup */
+    .chat-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .chat-pane {
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: #0e0e0e;
+      overflow: hidden;
+    }
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      background: #161616;
+    }
+    .chat-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    .chat-dot.pacify { background: #5a9960; }
+    .chat-dot.defy   { background: #9060a0; }
+    .chat-header-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .chat-header-label.pacify { color: #5a9960; }
+    .chat-header-label.defy   { color: #9060a0; }
+    .chat-messages {
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .msg {
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.7;
+      padding: 8px 10px;
+      border-radius: 2px;
+      max-width: 85%;
+    }
+    .msg.user {
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      align-self: flex-end;
+    }
+    .msg.bot-pacify {
+      background: #131a13;
+      border: 1px solid #1f3320;
+      color: #7ab07e;
+      align-self: flex-start;
+    }
+    .msg.bot-defy {
+      background: #18121a;
+      border: 1px solid #2a1a30;
+      color: #b07ac0;
+      align-self: flex-start;
+    }
+    .chat-cursor {
+      display: inline-block;
+      width: 6px;
+      height: 10px;
+      background: currentColor;
+      opacity: 0.6;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 28px 0;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .flow-step {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      padding: 12px 16px;
+      background: #161616;
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .flow-step:last-child { border-right: none; }
+    .flow-arrow { font-size: 12px; color: var(--faint); padding: 12px 6px; background: #161616; border-right: 1px solid var(--border); }
+
+    .links-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 4px; }
+    .proj-link {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.18s, border-color 0.18s;
+    }
+    .proj-link:hover { color: var(--fg-bright); border-color: var(--mid); }
+    .proj-link.disabled { color: var(--faint); border-color: var(--border); cursor: default; pointer-events: none; }
+
+    footer {
+      padding: 28px 0 44px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      margin-top: 64px;
+    }
+    .footer-text { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--faint); text-transform: uppercase; }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ani { opacity: 0; animation: up 0.55s ease forwards; animation-play-state: paused; }
+
+    @media (max-width: 520px) {
+      .wrap { padding: 0 20px; }
+      .hero { padding: 56px 0 40px; }
+      .chat-demo { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="ani" style="animation-delay:0.05s">
+    <a href="/" class="nav-back">← Back to pacify.site</a>
+  </nav>
+
+  <section class="hero">
+    <h1 class="project-title ani" style="animation-delay:0.12s">Pacify & Defy AI</h1>
+    <div class="title-meta ani" style="animation-delay:0.18s">
+      <span class="tag indev">In Dev</span>
+      <span class="tag indev">Full-Stack</span>
+    </div>
+    <p class="tagline ani" style="animation-delay:0.24s">
+      One prompt. Two personalities. Balanced or unhinged — you pick.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.28s">
+
+  <section class="ani" style="animation-delay:0.32s">
+    <p class="section-label">What it is</p>
+    <p class="body-text">
+      Pacify & Defy AI is a dual-mode conversational AI web app. Pacify mode is measured, direct, well-reasoned — the kind of response you'd want when you actually need help thinking through something. Defy mode has the guardrails removed: blunter, weirder, willing to go places the other mode won't. Same model underneath, very different system prompt and temperature. The idea is to make the personality switch explicit and user-controlled rather than hidden behind vague "tone" settings.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.34s">
+
+  <section class="ani" style="animation-delay:0.36s">
+    <p class="section-label">How it works</p>
+
+    <div class="chat-demo">
+      <div class="chat-pane">
+        <div class="chat-header">
+          <div class="chat-dot pacify"></div>
+          <span class="chat-header-label pacify">Pacify</span>
+        </div>
+        <div class="chat-messages">
+          <div class="msg user">is coffee bad for you</div>
+          <div class="msg bot-pacify">Moderate consumption — 1 to 3 cups daily — is associated with reduced risk of several conditions in long-term studies. At higher doses it disrupts sleep and raises cortisol. The research is genuinely mixed. It depends heavily on how you metabolise caffeine.</div>
+        </div>
+      </div>
+      <div class="chat-pane">
+        <div class="chat-header">
+          <div class="chat-dot defy"></div>
+          <span class="chat-header-label defy">Defy</span>
+        </div>
+        <div class="chat-messages">
+          <div class="msg user">is coffee bad for you</div>
+          <div class="msg bot-defy">You're running on a stimulant that makes your heart beat faster and tells your adrenal glands it's an emergency. Every morning. And calling it a ritual. Probably fine. <span class="chat-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Each message triggers a streaming completion request to the API. Pacify uses a conservative temperature and a system prompt focused on accuracy and nuance. Defy uses a higher temperature, a very different system prompt, and no hedging instructions. The mode switch is instantaneous — users can flip mid-conversation, though the history carries over so the contrast becomes even more apparent.
+    </p>
+
+    <div class="flow">
+      <span class="flow-step">User message</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Mode select</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">System prompt</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Stream tokens</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Render live</span>
+    </div>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.38s">
+
+  <section class="ani" style="animation-delay:0.40s">
+    <p class="section-label">How it was built</p>
+    <p class="body-text">
+      Next.js frontend, Supabase for auth and data. The streaming is done properly — the API route uses <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">TransformStream</code> to pipe tokens from the model API to the client as they arrive, so the response renders character by character rather than appearing all at once after a delay.
+    </p>
+    <p class="body-text">
+      Auth is real — JWT-based sessions, row-level security in Supabase so users can only see their own conversation history. Each user's Pacify and Defy conversation histories are stored completely separately; mixing them felt wrong UX-wise and creates cleaner data boundaries. The API key never touches the client.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.42s">
+
+  <section class="ani" style="animation-delay:0.44s">
+    <p class="section-label">What I learned</p>
+    <p class="body-text">
+      Streaming responses are significantly more complex to implement correctly than I expected. Getting the token stream to render smoothly without layout thrashing required thinking carefully about how React's reconciler handles rapid state updates. Batching the token appends and using a ref for the in-flight message before committing to state made a noticeable difference.
+    </p>
+    <p class="body-text">
+      The other thing I didn't anticipate was how much of the project ended up being about the system prompts rather than the code. The difference between a good Defy response and a bad one is entirely in the prompt. I spent more time iterating on those than on any individual feature.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.46s">
+
+  <section class="ani" style="animation-delay:0.48s">
+    <p class="section-label">Links</p>
+    <div class="links-row">
+      <span class="proj-link disabled">Live Demo — still cooking</span>
+      <a href="https://github.com/LoneMagma/Pacify-DefyAI" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+  </section>
+
+  <footer class="ani" style="animation-delay:0.52s">
+    <span class="footer-text">pacify.site</span>
+    <span class="footer-text">2026</span>
+  </footer>
+
+</div>
+<script>
+  const els = document.querySelectorAll('.ani');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>

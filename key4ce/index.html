@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Key4ce — LoneMagma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:           #111111;
+      --border:       #272727;
+      --border-hover: #424242;
+      --fg:           #e2e2e2;
+      --fg-bright:    #f8f8f8;
+      --dim:          #888888;
+      --mid:          #b0b0b0;
+      --faint:        #555555;
+      --mono:         'DM Mono', monospace;
+      --sans:         'Sora', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+    .wrap { max-width: 660px; margin: 0 auto; padding: 0 28px; }
+
+    nav { padding: 36px 0 0; }
+    .nav-back {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.18s;
+    }
+    .nav-back:hover { color: var(--fg-bright); }
+
+    .hero { padding: 72px 0 56px; }
+    .project-title {
+      font-family: var(--sans);
+      font-size: clamp(38px, 8vw, 56px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--fg-bright);
+      margin-bottom: 16px;
+    }
+    .title-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--faint);
+    }
+    .tag.beta  { border-color: #332a18; color: #8a7040; }
+    .tagline { font-family: var(--mono); font-size: 14px; font-weight: 300; color: var(--mid); letter-spacing: 0.02em; line-height: 1.7; }
+
+    .rule { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--faint);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .body-text { font-family: var(--mono); font-size: 13px; font-weight: 300; color: var(--mid); line-height: 2; }
+    .body-text + .body-text { margin-top: 16px; }
+
+    /* terminal window */
+    .terminal-wrap {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 28px 0;
+      background: #0a0a0a;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: #161616;
+      border-bottom: 1px solid var(--border);
+    }
+    .term-btn {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid transparent;
+    }
+    .term-btn.close  { background: #3a1a1a; border-color: #4a2020; }
+    .term-btn.min    { background: #2a2a1a; border-color: #3a3a20; }
+    .term-btn.max    { background: #1a2a1a; border-color: #203020; }
+    .term-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--faint);
+      margin-left: 6px;
+    }
+    .terminal-body {
+      padding: 18px 20px 20px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.9;
+    }
+    .term-prompt { color: var(--faint); }
+    .term-cmd    { color: var(--mid); }
+    .term-out    { color: var(--faint); margin-left: 0; }
+    .term-sep    { color: #333; }
+    .term-stat-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: 10px 0 4px;
+    }
+    .term-stat { display: flex; flex-direction: column; gap: 2px; }
+    .term-stat-key { font-size: 9px; letter-spacing: 0.12em; color: var(--faint); text-transform: uppercase; }
+    .term-stat-val { font-size: 14px; color: var(--mid); }
+    .term-stat-val.hi { color: #8a7040; }
+    .term-word {
+      display: inline-block;
+    }
+    .term-word.correct { color: #5a9960; }
+    .term-word.wrong   { color: #905050; text-decoration: underline; text-decoration-color: #905050; }
+    .term-word.current { color: var(--fg); background: #1e1e1e; border-radius: 1px; }
+    .term-word.pending { color: var(--faint); }
+    .term-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background: var(--mid);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+      margin-left: 1px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 28px 0;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .flow-step {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      padding: 12px 16px;
+      background: #161616;
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .flow-step:last-child { border-right: none; }
+    .flow-arrow { font-size: 12px; color: var(--faint); padding: 12px 6px; background: #161616; border-right: 1px solid var(--border); }
+
+    .links-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 4px; }
+    .proj-link {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.18s, border-color 0.18s;
+    }
+    .proj-link:hover { color: var(--fg-bright); border-color: var(--mid); }
+
+    footer {
+      padding: 28px 0 44px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      margin-top: 64px;
+    }
+    .footer-text { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--faint); text-transform: uppercase; }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ani { opacity: 0; animation: up 0.55s ease forwards; animation-play-state: paused; }
+
+    @media (max-width: 520px) {
+      .wrap { padding: 0 20px; }
+      .hero { padding: 56px 0 40px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="ani" style="animation-delay:0.05s">
+    <a href="/" class="nav-back">← Back to pacify.site</a>
+  </nav>
+
+  <section class="hero">
+    <h1 class="project-title ani" style="animation-delay:0.12s">Key4ce</h1>
+    <div class="title-meta ani" style="animation-delay:0.18s">
+      <span class="tag beta">Beta</span>
+      <span class="tag beta">Cross-platform</span>
+    </div>
+    <p class="tagline ani" style="animation-delay:0.24s">
+      Terminal typing game with real keystroke analytics. No fluff, no internet, no accounts.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.28s">
+
+  <section class="ani" style="animation-delay:0.32s">
+    <p class="section-label">What it is</p>
+    <p class="body-text">
+      Key4ce is a terminal-based typing speed test that actually tells you something useful about how you type. Beyond WPM and accuracy, it tracks per-key latency, bigram hesitation patterns, and error frequency by finger. The idea is that knowing you average 94 WPM is less useful than knowing you consistently fumble the right-hand top row and pause 40ms longer on every 'n' than any other letter.
+    </p>
+    <p class="body-text">
+      It runs entirely in the terminal, stores nothing remotely, and works on Windows, macOS, and Linux with a single binary. No Electron, no web view — actual curses-style terminal UI.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.34s">
+
+  <section class="ani" style="animation-delay:0.36s">
+    <p class="section-label">How it works</p>
+
+    <div class="terminal-wrap">
+      <div class="terminal-bar">
+        <div class="term-btn close"></div>
+        <div class="term-btn min"></div>
+        <div class="term-btn max"></div>
+        <span class="term-title">key4ce — session #47</span>
+      </div>
+      <div class="terminal-body">
+        <div>
+          <span class="term-prompt">key4ce </span><span class="term-cmd">start --mode 1min --wordset common-1k</span>
+        </div>
+        <div class="term-out" style="margin-bottom:10px">─────────────────────────────────────────────</div>
+        <div style="line-height:2.2;word-spacing:6px">
+          <span class="term-word correct">the</span>
+          <span class="term-word correct">quick</span>
+          <span class="term-word correct">brown</span>
+          <span class="term-word wrong">foxe</span>
+          <span class="term-word correct">jumps</span>
+          <span class="term-word correct">over</span>
+          <span class="term-word current">the<span class="term-cursor"></span></span>
+          <span class="term-word pending">lazy</span>
+          <span class="term-word pending">dog</span>
+          <span class="term-word pending">and</span>
+          <span class="term-word pending">kept</span>
+          <span class="term-word pending">running</span>
+        </div>
+        <div class="term-out" style="margin-top:10px;margin-bottom:6px">─────────────────────────────────────────────</div>
+        <div class="term-stat-row">
+          <div class="term-stat">
+            <span class="term-stat-key">WPM</span>
+            <span class="term-stat-val hi">87</span>
+          </div>
+          <div class="term-stat">
+            <span class="term-stat-key">Accuracy</span>
+            <span class="term-stat-val hi">96.4%</span>
+          </div>
+          <div class="term-stat">
+            <span class="term-stat-key">Elapsed</span>
+            <span class="term-stat-val">00:23</span>
+          </div>
+          <div class="term-stat">
+            <span class="term-stat-key">Errors</span>
+            <span class="term-stat-val">1</span>
+          </div>
+          <div class="term-stat">
+            <span class="term-stat-key">Slowest key</span>
+            <span class="term-stat-val">n (+38ms)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Keystrokes are captured using raw terminal input mode — the app puts the terminal in <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">cbreak</code> mode to get each keypress immediately without waiting for Enter. Every keypress is timestamped in microseconds. After the session, that timestamp array is walked to compute inter-key intervals, bigram pairs, and error positions. The analytics report is rendered right back in the terminal at the end of the session.
+    </p>
+
+    <div class="flow">
+      <span class="flow-step">Raw keypress</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Timestamp</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Compare to target</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Update live stats</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">End → report</span>
+    </div>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.38s">
+
+  <section class="ani" style="animation-delay:0.40s">
+    <p class="section-label">How it was built</p>
+    <p class="body-text">
+      Python with the <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">curses</code> standard library for the terminal UI and <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">windows-curses</code> for Windows compatibility. Packaged to a single binary using PyInstaller — no Python installation required on the target machine. Session history is stored locally in a SQLite file in the user's home directory.
+    </p>
+    <p class="body-text">
+      Cross-platform raw input handling was the main pain point. <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">curses</code> on Windows behaves differently from POSIX curses in ways that aren't well-documented. The Windows path required a separate input loop and careful handling of arrow keys and function keys that Windows terminal emulators represent differently.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.42s">
+
+  <section class="ani" style="animation-delay:0.44s">
+    <p class="section-label">What I learned</p>
+    <p class="body-text">
+      Microsecond-precision timing in Python is less reliable than you'd expect because of the GIL and garbage collection pauses. The latency numbers are real but noisy — I had to apply a light median filter over rolling windows to make the per-key stats stable enough to be meaningful. That was a good lesson in the difference between measuring something precisely and measuring it accurately.
+    </p>
+    <p class="body-text">
+      The other thing I underestimated was word set design. Common English word lists are dominated by short function words, which produce unrealistically high WPM numbers. I ended up curating a few different word sets — common-1k, programming-keywords, punctuation-heavy — and making them selectable. Users who care about accurate measurement want the harder sets.
+    </p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:0.46s">
+
+  <section class="ani" style="animation-delay:0.48s">
+    <p class="section-label">Links</p>
+    <div class="links-row">
+      <a href="https://github.com/LoneMagma/Key4ce/releases" target="_blank" class="proj-link">↓ Download</a>
+      <a href="https://github.com/LoneMagma/Key4ce" target="_blank" class="proj-link">GitHub →</a>
+      <a href="https://github.com/LoneMagma/Key4ce#readme" target="_blank" class="proj-link">Docs →</a>
+    </div>
+  </section>
+
+  <footer class="ani" style="animation-delay:0.52s">
+    <span class="footer-text">pacify.site</span>
+    <span class="footer-text">2026</span>
+  </footer>
+
+</div>
+<script>
+  const els = document.querySelectorAll('.ani');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
