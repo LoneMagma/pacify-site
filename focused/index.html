@@ -5,121 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FocusED — LoneMagma</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg:           #111111;
-      --border:       #272727;
-      --border-hover: #424242;
-      --fg:           #e2e2e2;
-      --fg-bright:    #f8f8f8;
-      --dim:          #888888;
-      --mid:          #b0b0b0;
-      --faint:        #555555;
-      --mono:         'DM Mono', monospace;
-      --sans:         'Sora', sans-serif;
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--mono);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 100;
-    }
-    .wrap { max-width: 660px; margin: 0 auto; padding: 0 28px; }
+    /* ── page-specific overrides ── */
+    #projects, #about, #contact { display: none; } /* not used on project pages */
 
-    /* nav */
-    nav { padding: 36px 0 0; }
-    .nav-back {
+    .page-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* back nav */
+    .back-nav {
+      padding: 32px 0 0;
+    }
+    .back-link {
       font-family: var(--mono);
       font-size: 11px;
       letter-spacing: 0.14em;
       color: var(--faint);
       text-decoration: none;
       text-transform: uppercase;
-      transition: color 0.18s;
+      transition: color 0.15s;
     }
-    .nav-back:hover { color: var(--fg-bright); }
+    .back-link:hover { color: var(--fg-bright); }
 
     /* hero */
-    .hero { padding: 72px 0 56px; }
-    .project-title {
+    .proj-hero { padding: 64px 0 48px; }
+    .proj-title {
       font-family: var(--sans);
-      font-size: clamp(38px, 8vw, 56px);
+      font-size: clamp(40px, 8vw, 60px);
       font-weight: 600;
-      letter-spacing: -0.025em;
-      line-height: 1.05;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
       color: var(--fg-bright);
       margin-bottom: 16px;
     }
-    .title-meta {
+    .proj-meta {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
-    .tag {
+    .proj-tag {
       font-family: var(--mono);
       font-size: 9px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       padding: 2px 8px;
       border-radius: 2px;
-      border: 1px solid var(--border);
-      color: var(--faint);
+      border: 1px solid var(--green-dim);
+      color: var(--green);
     }
-    .tag.live  { border-color: #1f3320; color: #5a9960; }
-    .tag.indev { border-color: #1e1e35; color: #6060b0; }
-    .tag.beta  { border-color: #332a18; color: #8a7040; }
-    .tagline {
+    .proj-tagline {
       font-family: var(--mono);
       font-size: 14px;
       font-weight: 300;
       color: var(--mid);
-      letter-spacing: 0.02em;
-      line-height: 1.7;
+      line-height: 1.8;
+      max-width: 480px;
     }
 
-    /* divider */
-    .rule {
+    .proj-rule {
       border: none;
       border-top: 1px solid var(--border);
-      margin: 44px 0;
+      margin: 40px 0;
     }
 
-    /* sections */
-    .section-label {
+    .proj-section-label {
       font-family: var(--mono);
       font-size: 10px;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       color: var(--faint);
       text-transform: uppercase;
       margin-bottom: 20px;
     }
-    .body-text {
+    .proj-body {
       font-family: var(--mono);
       font-size: 13px;
       font-weight: 300;
       color: var(--mid);
       line-height: 2;
     }
-    .body-text + .body-text { margin-top: 16px; }
+    .proj-body + .proj-body { margin-top: 14px; }
 
-    /* flow inline */
+    /* flow pill strip */
     .flow {
       display: flex;
       align-items: center;
-      gap: 0;
       flex-wrap: wrap;
       margin: 28px 0;
       border: 1px solid var(--border);
@@ -131,111 +109,290 @@
       font-size: 11px;
       letter-spacing: 0.06em;
       color: var(--dim);
-      padding: 12px 16px;
+      padding: 11px 15px;
       background: #161616;
       border-right: 1px solid var(--border);
       white-space: nowrap;
     }
     .flow-step:last-child { border-right: none; }
     .flow-arrow {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--faint);
-      padding: 12px 6px;
+      padding: 11px 5px;
       background: #161616;
       border-right: 1px solid var(--border);
     }
 
-    /* phone mockup */
-    .phone-wrap {
+    /* ───────────────────────────────────────────
+     * PHONE DEMO
+     * ─────────────────────────────────────────── */
+    .demo-wrap {
       display: flex;
       justify-content: center;
-      margin: 36px 0;
+      margin: 36px 0 44px;
     }
-    .phone {
-      width: 180px;
-      background: #161616;
-      border: 1.5px solid var(--border);
-      border-radius: 28px;
-      padding: 22px 14px 20px;
+
+    /* outer shell — the glow frame */
+    .phone-shell {
       position: relative;
+      width: 220px;
+      border-radius: 36px;
+      /* subtle glow matching the green accent */
+      box-shadow:
+        0 0 0 1px rgba(90,153,96,0.18),
+        0 0 0 2px rgba(90,153,96,0.08),
+        0 0 28px rgba(90,153,96,0.10),
+        0 0 60px rgba(90,153,96,0.04),
+        inset 0 0 0 1px rgba(255,255,255,0.04);
+      background: #000;
     }
-    .phone-notch {
-      width: 56px;
-      height: 10px;
-      background: #0e0e0e;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      margin: 0 auto 18px;
-    }
-    .phone-screen {
-      background: #0e0e0e;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-    .phone-status-bar {
+
+    /* status bar */
+    .phone-status {
       display: flex;
       justify-content: space-between;
-      padding: 6px 10px 4px;
-      font-family: var(--mono);
-      font-size: 8px;
-      color: var(--faint);
-    }
-    .phone-app-row {
-      padding: 8px 10px;
-      border-top: 1px solid var(--border);
-      display: flex;
       align-items: center;
-      justify-content: space-between;
-    }
-    .phone-app-name {
+      padding: 10px 18px 6px;
       font-family: var(--mono);
       font-size: 9px;
-      color: var(--mid);
+      color: rgba(255,255,255,0.5);
     }
-    .phone-badge {
-      font-family: var(--mono);
-      font-size: 7px;
-      padding: 1px 5px;
-      border-radius: 2px;
+    .phone-status-icons { display: flex; gap: 4px; align-items: center; }
+    .status-icon {
+      width: 10px; height: 7px;
+      border: 1.5px solid rgba(255,255,255,0.4);
+      border-radius: 1px;
+      position: relative;
     }
-    .phone-badge.blocked { background: #2a1a1a; color: #805050; border: 1px solid #3a2020; }
-    .phone-badge.ok      { background: #1a2a1a; color: #507850; border: 1px solid #203020; }
+    .status-icon::after {
+      content: '';
+      position: absolute;
+      right: -4px; top: 50%;
+      transform: translateY(-50%);
+      width: 2px; height: 4px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 0 1px 1px 0;
+    }
 
-    /* install steps */
-    .steps { margin: 28px 0 0; }
-    .step {
-      display: flex;
-      gap: 16px;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--border);
+    /* app content area */
+    .phone-screen {
+      padding: 20px 22px 28px;
+      min-height: 380px;
+      position: relative;
     }
-    .step:last-child { border-bottom: none; }
-    .step-num {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--faint);
-      min-width: 24px;
-      padding-top: 2px;
-    }
-    .step-text {
-      font-family: var(--mono);
-      font-size: 13px;
-      font-weight: 300;
-      color: var(--mid);
-      line-height: 1.75;
-    }
-    .step-text code {
+
+    /* app title — "FocusED" spaced like the real UI */
+    .app-title {
       font-family: var(--mono);
       font-size: 11px;
-      background: #1a1a1a;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 1px 6px;
-      color: var(--fg);
+      letter-spacing: 0.22em;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 8px;
+    }
+    .app-title-rule {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 44px;
     }
 
-    /* links */
+    /* status dot */
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      margin-bottom: 18px;
+      transition: background 0.5s ease;
+    }
+    .status-dot.inactive { background: rgba(255,255,255,0.25); }
+    .status-dot.active   { background: #fff; }
+
+    /* big status word */
+    .status-word {
+      font-family: var(--sans);
+      font-size: 42px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 10px;
+      transition: opacity 0.3s ease;
+    }
+
+    /* sub-status */
+    .status-sub {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 36px;
+      transition: opacity 0.3s ease;
+    }
+
+    /* divider */
+    .app-rule {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 18px;
+    }
+
+    /* app rows */
+    .app-rows { margin-bottom: 18px; }
+    .app-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 9px 0;
+    }
+    .app-row-name {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.35);
+    }
+    .app-row-status {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 400;
+      transition: color 0.5s ease;
+    }
+    .app-row-status.guarded   { color: rgba(255,255,255,0.9); }
+    .app-row-status.unguarded { color: rgba(255,255,255,0.25); }
+
+    .app-rule-2 {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 22px;
+    }
+
+    /* CTA button */
+    .phone-cta {
+      width: 100%;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      padding: 13px 0;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: default;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    /* pacify.site footer inside phone */
+    .phone-footer {
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 8px;
+      color: rgba(255,255,255,0.12);
+      margin-top: 14px;
+      letter-spacing: 0.1em;
+    }
+
+    /* android nav bar */
+    .phone-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 0 16px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .phone-nav-btn {
+      width: 18px; height: 18px;
+      opacity: 0.3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── BLOCK FLASH OVERLAY ── */
+    .block-flash {
+      position: absolute;
+      inset: 0;
+      border-radius: 0 0 36px 36px;
+      background: rgba(90,153,96,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+      z-index: 10;
+    }
+    .block-flash.show { opacity: 1; }
+    .block-flash-icon {
+      font-family: var(--mono);
+      font-size: 28px;
+      color: var(--green);
+    }
+    .block-flash-text {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    /* demo caption */
+    .demo-caption {
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--faint);
+      text-transform: uppercase;
+      margin-top: -28px;
+      margin-bottom: 12px;
+    }
+    .demo-caption span {
+      display: inline-block;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .demo-caption span.active-cap {
+      color: var(--green);
+      border-color: var(--green-dim);
+    }
+
+    /* permission audit table */
+    .audit-table {
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 24px 0;
+    }
+    .audit-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+    .audit-row:last-child { border-bottom: none; }
+    .audit-row.header .audit-cell {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--faint);
+      background: #161616;
+    }
+    .audit-cell {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--mid);
+      padding: 10px 14px;
+      border-right: 1px solid var(--border);
+    }
+    .audit-cell:last-child { border-right: none; }
+    .audit-cell.yes  { color: var(--green); }
+    .audit-cell.no   { color: var(--faint); }
+    .audit-cell.warn { color: var(--amber); }
+
+    /* links row */
     .links-row {
       display: flex;
       gap: 24px;
@@ -251,78 +408,165 @@
       text-decoration: none;
       border-bottom: 1px solid var(--border);
       padding-bottom: 1px;
-      transition: color 0.18s, border-color 0.18s;
+      transition: color 0.15s, border-color 0.15s;
     }
     .proj-link:hover { color: var(--fg-bright); border-color: var(--mid); }
 
-    /* footer */
-    footer {
-      padding: 28px 0 44px;
+    /* footer override for project pages */
+    .proj-footer {
+      padding: 24px 0 40px;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-top: 64px;
     }
-    .footer-text {
+    .proj-footer span {
       font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
+      font-size: 10px;
+      letter-spacing: 0.12em;
       color: var(--faint);
       text-transform: uppercase;
     }
 
-    /* animations */
-    @keyframes up {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .ani { opacity: 0; animation: up 0.55s ease forwards; animation-play-state: paused; }
-
-    @media (max-width: 520px) {
-      .wrap { padding: 0 20px; }
-      .hero { padding: 56px 0 40px; }
-      .flow { flex-direction: column; }
-      .flow-arrow { display: none; }
+    @media (max-width: 540px) {
+      .page-wrap { padding: 0 20px; }
+      .proj-hero  { padding: 48px 0 36px; }
     }
   </style>
 </head>
 <body>
-<div class="wrap">
 
-  <nav class="ani" style="animation-delay:0.05s">
-    <a href="/" class="nav-back">← Back to pacify.site</a>
+<canvas id="margin-canvas"></canvas>
+<svg id="tension-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+<div class="page-wrap">
+
+  <!-- back -->
+  <nav class="back-nav ani" style="animation-delay:0.04s">
+    <a href="/" class="back-link">← Back to pacify.site</a>
   </nav>
 
-  <section class="hero">
-    <h1 class="project-title ani" style="animation-delay:0.12s">FocusED</h1>
-    <div class="title-meta ani" style="animation-delay:0.18s">
-      <span class="tag live">Android</span>
-      <span class="tag live">Live</span>
+  <!-- hero -->
+  <section class="proj-hero">
+    <h1 class="proj-title ani" style="animation-delay:0.10s">FocusED</h1>
+    <div class="proj-meta ani" style="animation-delay:0.16s">
+      <span class="proj-tag">Android</span>
+      <span class="proj-tag">Live</span>
+      <span class="proj-tag">No Internet</span>
     </div>
-    <p class="tagline ani" style="animation-delay:0.24s">
-      Kills Reels and Shorts. Leaves everything else alone.
+    <p class="proj-tagline ani" style="animation-delay:0.22s">
+      Kills Reels and Shorts before you even register they loaded.<br>
+      Everything else — DMs, feed, watch history — untouched.
     </p>
   </section>
 
-  <hr class="rule ani" style="animation-delay:0.28s">
+  <hr class="proj-rule ani" style="animation-delay:0.26s">
 
-  <section class="ani" style="animation-delay:0.32s">
-    <p class="section-label">What it is</p>
-    <p class="body-text">
-      FocusED is an Android accessibility service that intercepts short-form video feeds — Instagram Reels and YouTube Shorts — and closes them before you even register what happened. It doesn't block the apps, doesn't break DMs, doesn't need internet, doesn't have an account system. It just watches for those specific UI patterns and immediately redirects you out. One permission, zero data collection.
+  <!-- what it is -->
+  <section class="ani" style="animation-delay:0.30s">
+    <p class="proj-section-label">What it is</p>
+    <p class="proj-body">
+      FocusED is an Android accessibility service that watches for Instagram Reels
+      and YouTube Shorts and fires a back-press the instant they appear —
+      before you've had a chance to start scrolling. It doesn't block the apps,
+      doesn't touch DMs, doesn't require an account, and has no internet permission
+      in the manifest. One toggle, zero footprint.
     </p>
   </section>
 
-  <hr class="rule ani" style="animation-delay:0.34s">
+  <hr class="proj-rule ani" style="animation-delay:0.32s">
 
-  <section class="ani" style="animation-delay:0.36s">
-    <p class="section-label">How it works</p>
-    <p class="body-text">
-      Android's Accessibility Service API gives apps the ability to observe UI events across the system — the same mechanism used by screen readers. FocusED registers as an accessibility service and listens for <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">TYPE_WINDOW_STATE_CHANGED</code> events. When an activity matching the Reels or Shorts fingerprint appears, it fires a back press immediately. No overlay, no network call, no persistent storage write.
-    </p>
+  <!-- live demo -->
+  <section class="ani" style="animation-delay:0.34s">
+    <p class="proj-section-label">How it behaves</p>
 
+    <!-- phone mockup -->
+    <div class="demo-wrap">
+      <div class="phone-shell" id="phone">
+
+        <!-- status bar -->
+        <div class="phone-status">
+          <span id="phone-time">17:27</span>
+          <div class="phone-status-icons">
+            <svg width="12" height="9" viewBox="0 0 12 9" fill="none">
+              <path d="M1 8 C1 8 3 3 6 3 C9 3 11 8 11 8" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M3 8 C3 8 4 5.5 6 5.5 C8 5.5 9 8 9 8" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="6" cy="8" r="1" fill="rgba(255,255,255,0.6)"/>
+            </svg>
+            <svg width="11" height="9" viewBox="0 0 11 9" fill="rgba(255,255,255,0.4)">
+              <rect x="0" y="5" width="2" height="4" rx="0.5"/>
+              <rect x="3" y="3" width="2" height="6" rx="0.5"/>
+              <rect x="6" y="1" width="2" height="8" rx="0.5"/>
+              <rect x="9" y="0" width="2" height="9" rx="0.5"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- app screen -->
+        <div class="phone-screen">
+          <p class="app-title">FocusED</p>
+          <div class="app-title-rule"></div>
+
+          <div class="status-dot inactive" id="dot"></div>
+          <div class="status-word" id="status-word">Inactive</div>
+          <div class="status-sub"  id="status-sub">Tap below to enable</div>
+
+          <div class="app-rule"></div>
+          <div class="app-rows">
+            <div class="app-row">
+              <span class="app-row-name">Instagram</span>
+              <span class="app-row-status unguarded" id="ig-status">Reels — not guarded</span>
+            </div>
+            <div class="app-row">
+              <span class="app-row-name">YouTube</span>
+              <span class="app-row-status unguarded" id="yt-status">Shorts — not guarded</span>
+            </div>
+          </div>
+          <div class="app-rule-2"></div>
+
+          <div class="phone-cta" id="phone-cta">Enable Focused</div>
+          <div class="phone-footer">pacify.site</div>
+
+          <!-- block flash overlay -->
+          <div class="block-flash" id="block-flash">
+            <div class="block-flash-icon">✕</div>
+            <div class="block-flash-text">Reels blocked</div>
+          </div>
+        </div>
+
+        <!-- android nav -->
+        <div class="phone-nav">
+          <!-- circle -->
+          <div class="phone-nav-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14">
+              <circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
+            </svg>
+          </div>
+          <!-- square -->
+          <div class="phone-nav-btn">
+            <svg width="13" height="13" viewBox="0 0 13 13">
+              <rect x="1" y="1" width="11" height="11" rx="2" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
+            </svg>
+          </div>
+          <!-- back chevron -->
+          <div class="phone-nav-btn">
+            <svg width="10" height="14" viewBox="0 0 10 14">
+              <path d="M8 1L2 7L8 13" stroke="rgba(255,255,255,0.4)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+      </div><!-- /.phone-shell -->
+    </div><!-- /.demo-wrap -->
+
+    <div class="demo-caption">
+      <span id="demo-cap">Inactive — service off</span>
+    </div>
+
+    <!-- flow strip -->
     <div class="flow">
-      <span class="flow-step">UI Event fires</span>
+      <span class="flow-step">UI event fires</span>
       <span class="flow-arrow">→</span>
       <span class="flow-step">Match pattern</span>
       <span class="flow-arrow">→</span>
@@ -333,89 +577,226 @@
       <span class="flow-step">Done</span>
     </div>
 
-    <div class="phone-wrap">
-      <div class="phone">
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <div class="phone-status-bar">
-            <span>9:41</span><span>●●●</span>
-          </div>
-          <div class="phone-app-row">
-            <span class="phone-app-name">Instagram — DMs</span>
-            <span class="phone-badge ok">✓ allowed</span>
-          </div>
-          <div class="phone-app-row">
-            <span class="phone-app-name">Instagram — Feed</span>
-            <span class="phone-badge ok">✓ allowed</span>
-          </div>
-          <div class="phone-app-row">
-            <span class="phone-app-name">Instagram — Reels</span>
-            <span class="phone-badge blocked">✗ blocked</span>
-          </div>
-          <div class="phone-app-row">
-            <span class="phone-app-name">YouTube — Watch</span>
-            <span class="phone-badge ok">✓ allowed</span>
-          </div>
-          <div class="phone-app-row">
-            <span class="phone-app-name">YouTube — Shorts</span>
-            <span class="phone-badge blocked">✗ blocked</span>
-          </div>
-        </div>
+    <p class="proj-body">
+      Android's Accessibility Service API lets apps observe UI events system-wide —
+      the same mechanism screen readers use. FocusED registers as a service and
+      listens for <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 5px;color:var(--fg)">TYPE_WINDOW_STATE_CHANGED</code> events.
+      When an activity matching the Reels or Shorts fingerprint appears,
+      it fires a back press immediately. No overlay, no network call, no storage write.
+    </p>
+  </section>
+
+  <hr class="proj-rule ani" style="animation-delay:0.36s">
+
+  <!-- permission audit -->
+  <section class="ani" style="animation-delay:0.38s">
+    <p class="proj-section-label">Permission audit</p>
+    <p class="proj-body" style="margin-bottom:0">
+      Every permission the app requests — and why.
+    </p>
+    <div class="audit-table">
+      <div class="audit-row header">
+        <div class="audit-cell">Permission</div>
+        <div class="audit-cell">Granted</div>
+        <div class="audit-cell">Reason</div>
+      </div>
+      <div class="audit-row">
+        <div class="audit-cell">BIND_ACCESSIBILITY_SERVICE</div>
+        <div class="audit-cell warn">Required</div>
+        <div class="audit-cell">Core mechanism — observe UI events</div>
+      </div>
+      <div class="audit-row">
+        <div class="audit-cell">INTERNET</div>
+        <div class="audit-cell no">Not requested</div>
+        <div class="audit-cell">Cannot phone home. Ever.</div>
+      </div>
+      <div class="audit-row">
+        <div class="audit-cell">READ_CONTACTS / STORAGE</div>
+        <div class="audit-cell no">Not requested</div>
+        <div class="audit-cell">No user data needed</div>
+      </div>
+      <div class="audit-row">
+        <div class="audit-cell">RECEIVE_BOOT_COMPLETED</div>
+        <div class="audit-cell yes">Yes</div>
+        <div class="audit-cell">Auto-restarts service after reboot</div>
       </div>
     </div>
   </section>
 
-  <hr class="rule ani" style="animation-delay:0.38s">
+  <hr class="proj-rule ani" style="animation-delay:0.40s">
 
-  <section class="ani" style="animation-delay:0.40s">
-    <p class="section-label">How it was built</p>
-    <p class="body-text">
-      Native Android in Java. The core is a single service class extending <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">AccessibilityService</code> with about 80 lines of actual logic. No third-party libraries. The APK is tiny — under 200KB — specifically because there's nothing in it except the service, a minimal settings activity, and the manifest. Internet permission was deliberately excluded from the manifest; it literally cannot phone home even if you wanted it to.
+  <!-- how it was built -->
+  <section class="ani" style="animation-delay:0.42s">
+    <p class="proj-section-label">How it was built</p>
+    <p class="proj-body">
+      Native Android in Java. The core is a single service class extending
+      <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 5px;color:var(--fg)">AccessibilityService</code>
+      with about 80 lines of actual logic. No third-party libraries.
+      The APK is under 200KB — there's nothing in it except the service,
+      a minimal settings activity, and the manifest.
     </p>
-    <p class="body-text">
-      The hardest part was identifying stable UI signatures for Reels and Shorts across app updates. Both Instagram and YouTube change their activity and fragment names regularly, so the matching logic uses a combination of package name, class name patterns, and occasionally content descriptions that are more stable across versions.
-    </p>
-  </section>
-
-  <hr class="rule ani" style="animation-delay:0.42s">
-
-  <section class="ani" style="animation-delay:0.44s">
-    <p class="section-label">What I learned</p>
-    <p class="body-text">
-      The Accessibility Service API is genuinely powerful and genuinely scary in the wrong hands. The permission dialog Android shows users is appropriately alarming — "this app can observe everything you do" — and I spent a lot of time thinking about how to make the app's behaviour as transparent and auditable as possible. Open source was the only honest answer.
-    </p>
-    <p class="body-text">
-      I also learned that "no internet permission" is a surprisingly effective trust signal. Users who care about privacy notice it immediately. It became one of the first things listed in the README, not as an afterthought.
+    <p class="proj-body">
+      The hardest part was identifying stable UI signatures for Reels and Shorts
+      across app updates. Both Instagram and YouTube change their activity and
+      fragment names regularly, so matching uses a combination of package name,
+      class name patterns, and content descriptions that stay stable across versions.
     </p>
   </section>
 
-  <hr class="rule ani" style="animation-delay:0.46s">
+  <hr class="proj-rule ani" style="animation-delay:0.44s">
 
-  <section class="ani" style="animation-delay:0.48s">
-    <p class="section-label">Links</p>
+  <!-- what i learned -->
+  <section class="ani" style="animation-delay:0.46s">
+    <p class="proj-section-label">What I learned</p>
+    <p class="proj-body">
+      The Accessibility Service API is genuinely powerful — and genuinely alarming
+      in the wrong hands. The permission dialog Android shows is appropriately scary:
+      "this app can observe everything you do." Open source was the only honest answer.
+      No internet permission was a deliberate trust signal, not an afterthought —
+      users who care about privacy notice it immediately.
+    </p>
+  </section>
+
+  <hr class="proj-rule ani" style="animation-delay:0.48s">
+
+  <!-- links -->
+  <section class="ani" style="animation-delay:0.50s">
+    <p class="proj-section-label">Links</p>
     <div class="links-row">
       <a href="https://github.com/LoneMagma/FocusED/releases" target="_blank" class="proj-link">↓ Download APK</a>
-      <a href="https://github.com/LoneMagma/FocusED" target="_blank" class="proj-link">GitHub →</a>
+      <a href="https://github.com/LoneMagma/FocusED"          target="_blank" class="proj-link">GitHub →</a>
     </div>
   </section>
 
-  <footer class="ani" style="animation-delay:0.52s">
-    <span class="footer-text">pacify.site</span>
-    <span class="footer-text">2026</span>
+  <footer class="proj-footer ani" style="animation-delay:0.54s">
+    <span>pacify.site — LoneMagma</span>
+    <span>2026</span>
   </footer>
 
-</div>
+</div><!-- /.page-wrap -->
+
+<script src="../js/main.js"></script>
 <script>
-  const els = document.querySelectorAll('.ani');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.animationPlayState = 'running';
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.05 });
-  els.forEach(el => io.observe(el));
+/* ─────────────────────────────────────────────
+ * PHONE DEMO ANIMATION
+ *
+ * Sequence:
+ *  0s   — Inactive state (as shipped)
+ *  2s   — "Enable" button pulses
+ *  2.5s — Transition to Active state
+ *  4s   — Reels block flash
+ *  5s   — Back to steady Active
+ *  8s   — Loop
+ * ─────────────────────────────────────────────
+ */
+
+const dot        = document.getElementById('dot');
+const word       = document.getElementById('status-word');
+const sub        = document.getElementById('status-sub');
+const igStatus   = document.getElementById('ig-status');
+const ytStatus   = document.getElementById('yt-status');
+const cta        = document.getElementById('phone-cta');
+const flash      = document.getElementById('block-flash');
+const cap        = document.getElementById('demo-cap');
+
+function setInactive() {
+  dot.className       = 'status-dot inactive';
+  word.textContent    = 'Inactive';
+  sub.textContent     = 'Tap below to enable';
+  igStatus.textContent = 'Reels — not guarded';
+  igStatus.className  = 'app-row-status unguarded';
+  ytStatus.textContent = 'Shorts — not guarded';
+  ytStatus.className  = 'app-row-status unguarded';
+  cta.textContent     = 'Enable Focused';
+  cta.style.opacity   = '1';
+  flash.classList.remove('show');
+  cap.textContent     = 'Inactive — service off';
+  cap.classList.remove('active-cap');
+}
+
+function setActive() {
+  dot.className       = 'status-dot active';
+  word.textContent    = 'Active';
+  sub.textContent     = 'Scrolling is being blocked';
+  igStatus.textContent = 'Reels — blocked';
+  igStatus.className  = 'app-row-status guarded';
+  ytStatus.textContent = 'Shorts — blocked';
+  ytStatus.className  = 'app-row-status guarded';
+  cta.textContent     = 'Manage in Settings';
+  cap.textContent     = 'Active — Reels & Shorts blocked';
+  cap.classList.add('active-cap');
+}
+
+function runSequence() {
+  // step 1 — inactive
+  setInactive();
+
+  // step 2 — button pulse (2s)
+  setTimeout(() => {
+    cta.style.opacity = '0.5';
+  }, 2000);
+  setTimeout(() => {
+    cta.style.opacity = '1';
+  }, 2300);
+
+  // step 3 — activate (2.6s)
+  setTimeout(() => {
+    setActive();
+    flash.classList.remove('show');
+  }, 2600);
+
+  // step 4 — block event fires (4.5s)
+  setTimeout(() => {
+    flash.querySelector('.block-flash-text').textContent = 'Reels blocked';
+    flash.classList.add('show');
+  }, 4500);
+  setTimeout(() => {
+    flash.classList.remove('show');
+  }, 5400);
+
+  // step 5 — second block (YouTube Shorts) (6.5s)
+  setTimeout(() => {
+    flash.querySelector('.block-flash-text').textContent = 'Shorts blocked';
+    flash.classList.add('show');
+  }, 6500);
+  setTimeout(() => {
+    flash.classList.remove('show');
+  }, 7300);
+
+  // loop (9s)
+  setTimeout(runSequence, 9000);
+}
+
+// live phone clock
+function updatePhoneClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const el = document.getElementById('phone-time');
+  if (el) el.textContent = `${h}:${m}`;
+}
+updatePhoneClock();
+setInterval(updatePhoneClock, 10000);
+
+// start after a short delay so page has settled
+setTimeout(runSequence, 800);
+
+
+/* ─────────────────────────────────────────────
+ * OVERRIDE main.js margin pools for this page
+ * ─────────────────────────────────────────────
+ */
+window.addEventListener('load', () => {
+  if (typeof POOLS !== 'undefined') {
+    // replace all pools with FocusED-specific words
+    const focusPool = {
+      rain:   ['accessibility','back press','TYPE_WINDOW','adb install','apk','manifest','< 200kb','no internet','java','service','intent','onEvent','packageName','className'],
+      popup:  ['BLOCKED','BACK','NO REELS','NO SHORTS','FOCUSED','< 200KB','JAVA','APK','MANIFEST','ADB','SERVICE'],
+      colors: [[90,153,96],[138,112,64],[120,120,200]],
+    };
+    Object.keys(POOLS).forEach(k => { POOLS[k] = focusPool; });
+  }
+});
 </script>
 </body>
 </html>
