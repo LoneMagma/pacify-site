@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacify.site — LoneMagma</title>
+  <meta name="description" content="LoneMagma — building real things." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- margin layer 1: glitch columns -->
+  <canvas id="margin-canvas"></canvas>
+
+  <!-- margin layer 2: tension lines -->
+  <svg id="tension-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+  <div class="wrap">
+
+    <!-- ── NAV ── -->
+    <nav class="ani" style="animation-delay:0.04s">
+      <a href="/" class="nav-brand">pacify.site</a>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-live">
+          <div class="nav-live-dot"></div>
+          <span>online</span>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- ── HERO ── -->
+    <section class="hero" id="section-hero">
+      <p class="hero-eyebrow ani" style="animation-delay:0.10s">LoneMagma</p>
+      <h1 class="hero-name    ani" style="animation-delay:0.16s">Building real things<br>while the world<br>catches up.</h1>
+
+      <div class="hero-meta ani" style="animation-delay:0.28s">
+        <div class="hero-stat">
+          <span class="hero-stat-key">Projects shipped</span>
+          <span class="hero-stat-val">05</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-key">Status</span>
+          <span class="hero-stat-val">Active</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-key">Session</span>
+          <span class="hero-stat-val">
+            <span id="session-time">00:00:00</span><span class="hero-cursor"></span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── PROJECTS ──────────────────────────────────────────────
+         TO ADD A PROJECT: copy one <a class="project-row"> block,
+         paste it before the pipeline-block div, and update:
+           - href="/your-project-folder"
+           - .project-name text
+           - .project-tag class (.live / .indev / .beta / .archived)
+           - .project-desc text
+           - .project-actions links
+         That's it. No JS or CSS changes needed.
+    ──────────────────────────────────────────────────────────── -->
+    <section id="projects">
+      <div class="section-header ani" style="animation-delay:0.32s">
+        <span class="section-label">Projects</span>
+        <span class="section-count">05 shipped · 02 in pipeline</span>
+      </div>
+
+      <!-- FocusED -->
+      <a href="/focused" class="project-row ani" style="animation-delay:0.36s">
+        <div class="project-row-bg"></div>
+        <div class="project-left">
+          <div class="project-name-row">
+            <span class="project-name">FocusED</span>
+            <span class="project-tag live">Android</span>
+            <span class="project-tag live">Live</span>
+          </div>
+          <p class="project-desc">
+            Blocks Reels and Shorts. DMs work. Everything else works.
+            No data, no accounts, no internet permission.
+          </p>
+          <div class="project-actions">
+            <a href="https://github.com/LoneMagma/FocusED/releases" target="_blank" class="project-link" onclick="event.stopPropagation()">Download</a>
+            <a href="https://github.com/LoneMagma/FocusED"          target="_blank" class="project-link" onclick="event.stopPropagation()">GitHub</a>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <!-- IconizeiT -->
+      <a href="/iconizeit" class="project-row ani" style="animation-delay:0.40s">
+        <div class="project-row-bg"></div>
+        <div class="project-left">
+          <div class="project-name-row">
+            <span class="project-name">IconizeiT</span>
+            <span class="project-tag live">Web</span>
+            <span class="project-tag live">Live</span>
+          </div>
+          <p class="project-desc">
+            Deterministic, symmetric pixel-art identicons from any string.
+            Same input, same output — every time.
+          </p>
+          <div class="project-actions">
+            <a href="/iconizeit" class="project-link" onclick="event.stopPropagation()">Try It</a>
+            <a href="https://github.com/LoneMagma/IconizeiT" target="_blank" class="project-link" onclick="event.stopPropagation()">GitHub</a>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <!-- BurnLab -->
+      <a href="/burnlab" class="project-row ani" style="animation-delay:0.44s">
+        <div class="project-row-bg"></div>
+        <div class="project-left">
+          <div class="project-name-row">
+            <span class="project-name">BurnLab</span>
+            <span class="project-tag live">Stable v1</span>
+            <span class="project-tag live">Portable</span>
+          </div>
+          <p class="project-desc">
+            AI-powered dev lab on a USB drive.
+            No internet, no install, no traces left behind.
+          </p>
+          <div class="project-actions">
+            <span class="demo-btn" data-tip="runs locally — no hosted demo" onclick="event.stopPropagation()">Live Demo</span>
+            <a href="https://github.com/LoneMagma/BurnLab"         target="_blank" class="project-link" onclick="event.stopPropagation()">GitHub</a>
+            <a href="https://github.com/LoneMagma/BurnLab#readme"  target="_blank" class="project-link" onclick="event.stopPropagation()">Docs</a>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <!-- Pacify & Defy AI -->
+      <a href="/pacify-defy" class="project-row ani" style="animation-delay:0.48s">
+        <div class="project-row-bg"></div>
+        <div class="project-left">
+          <div class="project-name-row">
+            <span class="project-name">Pacify &amp; Defy AI</span>
+            <span class="project-tag indev">In Dev</span>
+            <span class="project-tag indev">Full-Stack</span>
+          </div>
+          <p class="project-desc">
+            Dual-mode conversational AI — Pacify is balanced, Defy is unhinged.
+            Same model, very different personality.
+          </p>
+          <div class="project-actions">
+            <span class="demo-btn" data-tip="still cooking" onclick="event.stopPropagation()">Live Demo</span>
+            <a href="https://github.com/LoneMagma/Pacify-DefyAI" target="_blank" class="project-link" onclick="event.stopPropagation()">GitHub</a>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <!-- Key4ce -->
+      <a href="/key4ce" class="project-row ani" style="animation-delay:0.52s">
+        <div class="project-row-bg"></div>
+        <div class="project-left">
+          <div class="project-name-row">
+            <span class="project-name">Key4ce</span>
+            <span class="project-tag beta">Beta</span>
+            <span class="project-tag beta">Cross-platform</span>
+          </div>
+          <p class="project-desc">
+            Terminal typing game with keystroke analytics.
+            Cross-platform, offline, no fluff.
+          </p>
+          <div class="project-actions">
+            <a href="https://github.com/LoneMagma/Key4ce/releases" target="_blank" class="project-link" onclick="event.stopPropagation()">Download</a>
+            <a href="https://github.com/LoneMagma/Key4ce"          target="_blank" class="project-link" onclick="event.stopPropagation()">GitHub</a>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <!-- Pipeline — projects in progress, not yet shipped -->
+      <div class="pipeline-block ani" style="animation-delay:0.56s">
+        <p class="pipeline-label">In the pipeline</p>
+        <div class="pipeline-items">
+          <div class="pipeline-item">
+            <span class="pipeline-name">SOUL</span>
+            <span class="pipeline-hint">// coming soon</span>
+          </div>
+          <div class="pipeline-item">
+            <span class="pipeline-name">GhostOps</span>
+            <span class="pipeline-hint">// coming soon</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ── ABOUT ── -->
+    <section id="about">
+      <div class="section-header ani" style="animation-delay:0.30s">
+        <span class="section-label">About</span>
+      </div>
+      <div class="about-body">
+        <p class="about-text ani" style="animation-delay:0.35s">
+          Hey — I'm LoneMagma. Student. Builder. I figured out early that
+          <strong>good ideas + the right tools + willingness to break things</strong>
+          gets you further than waiting until you feel ready.
+        </p>
+        <p class="about-text ani" style="animation-delay:0.40s">
+          Currently deep in Python, Android, and web dev — whatever looks interesting
+          that week. My process: build first, understand deeply later. Surprisingly effective.
+        </p>
+        <p class="about-text ani" style="animation-delay:0.45s">
+          <strong>Real talk on AI-assisted development:</strong> it's not a shortcut,
+          it's a new kind of literacy. I architect the systems, understand the logic,
+          and ship things. The value is in what problem you're solving,
+          not who typed which line.
+        </p>
+        <p class="about-text ani" style="animation-delay:0.50s">
+          This site is both a portfolio and a testing ground. Everything here is a
+          work in progress — because "done" is a myth, and breaking things is
+          how you learn to debug them.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ── CONTACT ── -->
+    <section id="contact">
+      <div class="section-header ani" style="animation-delay:0.30s">
+        <span class="section-label">Contact</span>
+      </div>
+
+      <a href="https://github.com/LoneMagma" target="_blank" class="contact-item ani" style="animation-delay:0.34s">
+        <div class="contact-left">
+          <span class="contact-label">GitHub</span>
+          <span class="contact-hint">@LoneMagma</span>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+
+      <a href="https://www.instagram.com/lonemagma/" target="_blank" class="contact-item ani" style="animation-delay:0.38s">
+        <div class="contact-left">
+          <span class="contact-label">Instagram</span>
+          <span class="contact-hint">@lonemagma</span>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+
+      <a href="mailto:lonemagma29@gmail.com" class="contact-item ani" style="animation-delay:0.42s">
+        <div class="contact-left">
+          <span class="contact-label">Email</span>
+          <span class="contact-hint">lonemagma29@gmail.com</span>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+    </section>
+
+
+    <!-- ── FOOTER ── -->
+    <footer class="ani" style="animation-delay:0.46s">
+      <span class="footer-text">pacify.site — LoneMagma</span>
+      <span class="footer-text">2026</span>
+    </footer>
+
+  </div><!-- /.wrap -->
+
+  <script src="js/main.js"></script>
+</body>
+</html>

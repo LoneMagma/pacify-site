@@ -1,0 +1,665 @@
+/*
+ * pacify.site — style.css
+ * ─────────────────────────────────────────────
+ * TABLE OF CONTENTS
+ *
+ *  1. VARIABLES & RESET
+ *  2. BODY & OVERLAYS
+ *  3. MARGIN LAYERS (canvas, svg — z-index 1-2)
+ *  4. LAYOUT (.wrap)
+ *  5. NAV
+ *  6. HERO
+ *  7. SECTION HEADERS
+ *  8. PROJECTS
+ *     — .project-row        add new projects in index.html, not here
+ *     — .project-tag        colours: .live .indev .beta .archived
+ *     — .project-actions    links + demo-btn
+ *  9. PIPELINE
+ * 10. ABOUT
+ * 11. CONTACT
+ * 12. FOOTER
+ * 13. ANIMATIONS
+ * 14. RESPONSIVE
+ * ─────────────────────────────────────────────
+ */
+
+
+/* ─────────────────────────────────────────────
+ * 1. VARIABLES & RESET
+ * ───────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:           #0e0e0e;
+  --bg-raised:    #141414;
+  --border:       #242424;
+  --border-hover: #3a3a3a;
+  --fg:           #d4d4d4;
+  --fg-bright:    #f0f0f0;
+  --dim:          #787878;
+  --mid:          #a8a8a8;
+  --faint:        #484848;
+
+  /* tag colours — used in .project-tag variants */
+  --green:        #5a9960;
+  --green-dim:    #1f3320;
+  --blue:         #6060b0;
+  --blue-dim:     #1e1e35;
+  --amber:        #8a7040;
+  --amber-dim:    #332a18;
+  --red:          #a05060;
+  --red-dim:      #2a1520;
+
+  --mono: 'DM Mono', monospace;
+  --sans: 'Sora', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+
+/* ─────────────────────────────────────────────
+ * 2. BODY & OVERLAYS
+ * ───────────────────────────────────────────── */
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--mono);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* grain texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* scanlines */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 199;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 3. MARGIN LAYERS
+ * ───────────────────────────────────────────── */
+
+#margin-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#tension-svg {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 4. LAYOUT
+ * ───────────────────────────────────────────── */
+
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 10;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 5. NAV
+ * ───────────────────────────────────────────── */
+
+nav {
+  padding: 32px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+.nav-brand:hover { color: var(--fg-bright); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--fg); }
+
+.nav-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+.nav-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2.5s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+
+/* ─────────────────────────────────────────────
+ * 6. HERO
+ * ───────────────────────────────────────────── */
+
+.hero {
+  padding: 80px 0 72px;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--faint);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::after {
+  content: '';
+  flex: 1;
+  max-width: 48px;
+  height: 1px;
+  background: var(--border);
+}
+
+.hero-name {
+  font-family: var(--sans);
+  font-size: clamp(44px, 9vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  color: var(--fg-bright);
+  margin-bottom: 20px;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.hero-stat-key {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+.hero-stat-val {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--mid);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-stat-sep {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* blinking cursor next to session clock */
+.hero-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 11px;
+  background: var(--faint);
+  vertical-align: text-bottom;
+  margin-left: 3px;
+  position: relative;
+  top: 0px;
+  animation: blink 1.1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+
+/* ─────────────────────────────────────────────
+ * 7. SECTION HEADERS
+ * ───────────────────────────────────────────── */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+
+.section-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--faint);
+  letter-spacing: 0.06em;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 8. PROJECTS
+ *
+ * TO ADD A NEW PROJECT:
+ *   → go to index.html, find the #projects section
+ *   → copy any existing <a class="project-row"> block
+ *   → update: href, project-name, project-tag classes,
+ *              project-desc text, and project-actions links
+ *   → nothing to change here in CSS unless adding a new tag colour
+ *
+ * TAG COLOUR CLASSES: .live .indev .beta .archived
+ * ───────────────────────────────────────────── */
+
+#projects { padding: 0 0 80px; }
+
+.project-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  position: relative;
+  width: 100%;
+}
+
+/* hover states */
+.project-row:hover                  { border-bottom-color: var(--border-hover); }
+.project-row:hover .project-name    { color: var(--fg-bright); }
+.project-row:hover .project-arrow   { opacity: 1; transform: translate(3px, -3px); }
+.project-row:hover .project-row-bg  { opacity: 1; }
+
+/* subtle background wash on hover */
+.project-row-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--bg-raised) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.project-left {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+  z-index: 1;
+  min-width: 0; /* prevent overflow */
+}
+
+.project-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.project-name {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  transition: color 0.15s;
+}
+
+/* ── tag colours ── */
+.project-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  color: var(--faint);
+  white-space: nowrap;
+}
+.project-tag.live     { border-color: var(--green-dim); color: var(--green); }
+.project-tag.indev    { border-color: var(--blue-dim);  color: var(--blue); }
+.project-tag.beta     { border-color: var(--amber-dim); color: var(--amber); }
+.project-tag.archived { border-color: var(--red-dim);   color: var(--red); }
+
+.project-desc {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--dim);
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+}
+
+.project-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+  position: relative;
+  z-index: 2;
+}
+
+.project-link {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.project-link:hover { color: var(--fg); border-color: var(--dim); }
+
+/* disabled demo button */
+.demo-btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 2px 9px;
+  cursor: not-allowed;
+  user-select: none;
+  display: inline-block;
+  position: relative;
+}
+/* tooltip */
+.demo-btn::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--dim);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 2px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 30;
+}
+.demo-btn:hover::after { opacity: 1; }
+
+.project-arrow {
+  font-size: 14px;
+  color: var(--faint);
+  opacity: 0;
+  transition: opacity 0.15s, transform 0.15s;
+  margin-top: 4px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 9. PIPELINE
+ * ───────────────────────────────────────────── */
+
+.pipeline-block {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pipeline-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--faint);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.pipeline-items {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.pipeline-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pipeline-name {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--faint);
+}
+
+.pipeline-hint {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  opacity: 0.6;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 10. ABOUT
+ * ───────────────────────────────────────────── */
+
+#about { padding: 0 0 80px; }
+
+.about-body {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 560px;
+}
+
+.about-text {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.95;
+  letter-spacing: 0.01em;
+}
+.about-text strong {
+  color: var(--fg);
+  font-weight: 400;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 11. CONTACT
+ * ───────────────────────────────────────────── */
+
+#contact { padding: 0 0 100px; margin-top: 80px; }
+
+.contact-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.contact-item:hover                  { border-bottom-color: var(--border-hover); }
+.contact-item:hover .contact-label   { color: var(--fg-bright); }
+.contact-item:hover .contact-hint    { opacity: 1; }
+.contact-item:hover .contact-arrow   { opacity: 1; transform: translate(3px, -3px); }
+
+.contact-left {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.contact-label {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--fg);
+  transition: color 0.15s;
+}
+
+.contact-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+  opacity: 0;
+  transition: opacity 0.15s;
+  letter-spacing: 0.04em;
+}
+
+.contact-arrow {
+  font-size: 13px;
+  color: var(--faint);
+  opacity: 0;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 12. FOOTER
+ * ───────────────────────────────────────────── */
+
+footer {
+  padding: 24px 0 40px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-text {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+
+
+/* ─────────────────────────────────────────────
+ * 13. ANIMATIONS
+ * ───────────────────────────────────────────── */
+
+@keyframes up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* apply .ani to any element to trigger the entry animation */
+.ani {
+  opacity: 0;
+  animation: up 0.5s ease forwards;
+  animation-play-state: paused; /* started by JS IntersectionObserver */
+}
+
+
+/* ─────────────────────────────────────────────
+ * 14. RESPONSIVE
+ * ───────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+  .wrap        { padding: 0 20px; }
+  .hero        { padding: 60px 0 52px; }
+  .hero-name   { font-size: clamp(38px, 11vw, 52px); }
+  .nav-links   { gap: 18px; }
+  .nav-live    { display: none; }
+  .hero-meta   { flex-wrap: wrap; gap: 14px; }
+}
