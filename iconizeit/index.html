@@ -4,425 +4,1060 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IconizeiT — LoneMagma</title>
+  <meta name="description" content="Deterministic pixel-art identicons from any string. Same input, same output — always." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg:           #111111;
-      --border:       #272727;
-      --border-hover: #424242;
-      --fg:           #e2e2e2;
-      --fg-bright:    #f8f8f8;
-      --dim:          #888888;
-      --mid:          #b0b0b0;
-      --faint:        #555555;
-      --mono:         'DM Mono', monospace;
-      --sans:         'Sora', sans-serif;
+      --bg:#111111; --bg-raised:#161616; --border:#272727; --border-hover:#424242;
+      --fg:#e2e2e2; --fg-bright:#f8f8f8; --dim:#888888; --mid:#b0b0b0; --faint:#555555;
+      --green:#5a9960; --green-dim:#1f3320;
+      --mono:'DM Mono',monospace; --sans:'Sora',sans-serif;
     }
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--mono);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 100;
-    }
-    .wrap { max-width: 660px; margin: 0 auto; padding: 0 28px; }
+    body { background:var(--bg); color:var(--fg); font-family:var(--mono); min-height:100vh; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E"); pointer-events:none; z-index:200; }
+    body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.025) 2px,rgba(0,0,0,.025) 4px); pointer-events:none; z-index:199; }
+    #margin-canvas { position:fixed; top:0; left:0; pointer-events:none; z-index:1; }
+    .wrap { max-width:660px; margin:0 auto; padding:0 28px; position:relative; z-index:10; }
 
-    nav { padding: 36px 0 0; }
-    .nav-back {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      color: var(--faint);
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: color 0.18s;
-    }
-    .nav-back:hover { color: var(--fg-bright); }
+    nav { padding:36px 0 0; }
+    .nav-back { font-family:var(--mono); font-size:11px; letter-spacing:.14em; color:var(--faint); text-decoration:none; text-transform:uppercase; transition:color .18s; }
+    .nav-back:hover { color:var(--fg-bright); }
 
-    .hero { padding: 72px 0 56px; }
-    .project-title {
-      font-family: var(--sans);
-      font-size: clamp(38px, 8vw, 56px);
-      font-weight: 600;
-      letter-spacing: -0.025em;
-      line-height: 1.05;
-      color: var(--fg-bright);
-      margin-bottom: 16px;
-    }
-    .title-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
-    .tag {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 2px;
-      border: 1px solid var(--border);
-      color: var(--faint);
-    }
-    .tag.live  { border-color: #1f3320; color: #5a9960; }
-    .tagline { font-family: var(--mono); font-size: 14px; font-weight: 300; color: var(--mid); letter-spacing: 0.02em; line-height: 1.7; }
+    .hero { padding:64px 0 48px; }
+    .project-title { font-family:var(--sans); font-size:clamp(38px,8vw,56px); font-weight:600; letter-spacing:-.025em; line-height:1.05; color:var(--fg-bright); margin-bottom:16px; }
+    .title-meta { display:flex; align-items:center; gap:10px; margin-bottom:24px; }
+    .tag { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:2px 8px; border-radius:2px; border:1px solid var(--border); color:var(--faint); }
+    .tag.live { border-color:var(--green-dim); color:var(--green); }
+    .tagline { font-family:var(--mono); font-size:14px; font-weight:300; color:var(--mid); line-height:1.7; }
 
-    .rule { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+    .rule { border:none; border-top:1px solid var(--border); margin:44px 0; }
+    .section-label { font-family:var(--mono); font-size:10px; letter-spacing:.2em; color:var(--faint); text-transform:uppercase; margin-bottom:20px; }
+    .body-text { font-family:var(--mono); font-size:13px; font-weight:300; color:var(--mid); line-height:2; }
+    .body-text+.body-text { margin-top:16px; }
+    code { font-family:var(--mono); font-size:11px; background:#1a1a1a; border:1px solid var(--border); border-radius:2px; padding:1px 6px; color:var(--fg); }
 
-    .section-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      color: var(--faint);
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .body-text { font-family: var(--mono); font-size: 13px; font-weight: 300; color: var(--mid); line-height: 2; }
-    .body-text + .body-text { margin-top: 16px; }
+    /* ════════════════════════════════════════════
+     * GENERATOR
+     * ════════════════════════════════════════════ */
+    .generator { border:1px solid var(--border); border-radius:4px; background:#0d0d0d; overflow:hidden; margin:32px 0; }
 
-    /* identicon live preview */
-    .identicon-demo {
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      background: #161616;
-      padding: 28px 24px;
-      margin: 28px 0;
-    }
-    .identicon-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      color: var(--faint);
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .identicon-input-row {
-      display: flex;
-      gap: 0;
-      margin-bottom: 28px;
-    }
-    .identicon-input {
-      flex: 1;
-      background: #111;
-      border: 1px solid var(--border);
-      border-right: none;
-      border-radius: 2px 0 0 2px;
-      color: var(--fg);
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 8px 12px;
-      outline: none;
-      transition: border-color 0.18s;
-    }
-    .identicon-input:focus { border-color: var(--border-hover); }
-    .identicon-input::placeholder { color: var(--faint); }
-    .identicon-input-label {
-      background: #1a1a1a;
-      border: 1px solid var(--border);
-      border-radius: 0 2px 2px 0;
-      padding: 8px 12px;
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--faint);
-      letter-spacing: 0.1em;
-      white-space: nowrap;
-    }
-    .identicon-grid {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .identicon-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .identicon-item canvas {
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      image-rendering: pixelated;
-    }
-    .identicon-item-label {
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--faint);
-      letter-spacing: 0.08em;
-      max-width: 80px;
-      text-align: center;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .identicon-note {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--faint);
-      margin-top: 20px;
-      letter-spacing: 0.04em;
-    }
+    /* titlebar */
+    .gen-bar { display:flex; align-items:center; gap:6px; padding:10px 16px; background:#161616; border-bottom:1px solid var(--border); }
+    .gen-dot { width:9px; height:9px; border-radius:50%; }
+    .gen-dot.r { background:#3a1a1a; border:1px solid #4a2020; }
+    .gen-dot.y { background:#2a2a1a; border:1px solid #3a3a20; }
+    .gen-dot.g { background:#1a2a1a; border:1px solid #203020; }
+    .gen-bar-title { font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--faint); margin-left:6px; flex:1; }
 
-    .flow {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      margin: 28px 0;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      overflow: hidden;
+    /* bg mode toggle */
+    .bg-toggle { display:flex; gap:1px; border:1px solid var(--border); border-radius:2px; overflow:hidden; }
+    .bg-btn { width:26px; height:20px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; background:#1a1a1a; transition:background .12s; }
+    .bg-btn:hover { background:#252525; }
+    .bg-btn.active { outline:1px solid var(--green-dim); outline-offset:-1px; }
+    .bg-btn[data-mode="check"] {
+      background-image:linear-gradient(45deg,#888 25%,transparent 25%),linear-gradient(-45deg,#888 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#888 75%),linear-gradient(-45deg,transparent 75%,#888 75%);
+      background-size:6px 6px; background-position:0 0,0 3px,3px -3px,-3px 0; background-color:#555;
     }
-    .flow-step {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      color: var(--dim);
-      padding: 12px 16px;
-      background: #161616;
-      border-right: 1px solid var(--border);
-      white-space: nowrap;
-    }
-    .flow-step:last-child { border-right: none; }
-    .flow-arrow { font-size: 12px; color: var(--faint); padding: 12px 6px; background: #161616; border-right: 1px solid var(--border); }
+    .bg-btn[data-mode="dark"]  { background:#181818; }
+    .bg-btn[data-mode="light"] { background:#e8e8e8; }
+    .bg-btn-lbl { font-family:var(--mono); font-size:7px; letter-spacing:.04em; pointer-events:none; }
+    .bg-btn[data-mode="dark"]  .bg-btn-lbl { color:var(--faint); }
+    .bg-btn[data-mode="light"] .bg-btn-lbl { color:#999; }
+    .bg-btn[data-mode="check"] .bg-btn-lbl { display:none; }
 
-    .links-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 4px; }
-    .proj-link {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--dim);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1px;
-      transition: color 0.18s, border-color 0.18s;
-    }
-    .proj-link:hover { color: var(--fg-bright); border-color: var(--mid); }
+    /* color pickers row — always visible */
+    .cpickers-bar { display:flex; align-items:center; border-bottom:1px solid var(--border); background:#0f0f0f; }
+    .cpick-item { display:flex; align-items:center; gap:8px; padding:8px 16px; border-right:1px solid var(--border); flex:1; }
+    .cpick-item:last-child { border-right:none; }
+    .cpick-lbl { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); white-space:nowrap; }
+    input[type="color"].cpick { width:22px; height:18px; border:1px solid var(--border); border-radius:2px; padding:1px; background:none; cursor:pointer; -webkit-appearance:none; appearance:none; transition:border-color .15s; flex-shrink:0; }
+    input[type="color"].cpick::-webkit-color-swatch-wrapper { padding:0; }
+    input[type="color"].cpick::-webkit-color-swatch { border:none; border-radius:1px; }
+    input[type="color"].cpick:hover { border-color:var(--border-hover); }
+    .cpick-hex { font-family:var(--mono); font-size:10px; color:var(--faint); letter-spacing:.06em; transition:color .2s; min-width:52px; }
+    .cpick-reset { font-family:var(--mono); font-size:9px; color:var(--faint); background:none; border:none; cursor:pointer; padding:0 2px; transition:color .15s; margin-left:auto; opacity:.6; }
+    .cpick-reset:hover { color:var(--mid); opacity:1; }
 
-    footer {
-      padding: 28px 0 44px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      margin-top: 64px;
-    }
-    .footer-text { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--faint); text-transform: uppercase; }
+    /* prompt */
+    .gen-input-wrap { display:flex; align-items:center; padding:14px 20px; border-bottom:1px solid var(--border); }
+    .gen-prompt { font-family:var(--mono); font-size:13px; color:var(--faint); white-space:nowrap; margin-right:8px; user-select:none; }
+    .gen-input { flex:1; background:transparent; border:none; outline:none; font-family:var(--mono); font-size:13px; color:var(--fg); caret-color:var(--fg); }
+    .gen-input::placeholder { color:#363636; }
+    .gen-input-clear { font-family:var(--mono); font-size:10px; color:var(--faint); background:none; border:none; cursor:pointer; padding:2px 4px; transition:color .15s; flex-shrink:0; }
+    .gen-input-clear:hover { color:var(--mid); }
 
-    @keyframes up {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .ani { opacity: 0; animation: up 0.55s ease forwards; animation-play-state: paused; }
+    /* preview grid */
+    .gen-preview { display:grid; grid-template-columns:200px 1fr; }
 
-    @media (max-width: 520px) {
-      .wrap { padding: 0 20px; }
-      .hero { padding: 56px 0 40px; }
+    /* icon stage */
+    .gen-icon-stage {
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:16px; padding:28px 20px; border-right:1px solid var(--border); position:relative; overflow:hidden;
+      transition:background .3s ease;
+    }
+    .gen-icon-stage[data-mode="dark"]  { background:#181818; }
+    .gen-icon-stage[data-mode="light"] { background:#f0f0f0; }
+    /* checker stage — the CSS grid shows "through" the transparent canvas */
+    .gen-icon-stage[data-mode="check"] {
+      background-image:linear-gradient(45deg,#c8c8c8 25%,transparent 25%),linear-gradient(-45deg,#c8c8c8 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#c8c8c8 75%),linear-gradient(-45deg,transparent 75%,#c8c8c8 75%);
+      background-size:16px 16px; background-position:0 0,0 8px,8px -8px,-8px 0; background-color:#e8e8e8;
+    }
+    .gen-icon-stage[data-mode="dark"]  .icon-hash { color:var(--faint); }
+    .gen-icon-stage[data-mode="light"] .icon-hash { color:#aaaaaa; }
+    .gen-icon-stage[data-mode="check"] .icon-hash { color:#aaaaaa; }
+
+    .icon-frame { position:relative; display:flex; align-items:center; justify-content:center; }
+    #main-canvas { border:1px solid transparent; border-radius:3px; image-rendering:pixelated; display:block; transition:border-color .3s ease,box-shadow .3s ease,filter .3s ease; cursor:pointer; }
+
+    .icon-meta { display:flex; flex-direction:column; align-items:center; gap:5px; }
+    .icon-hash { font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-align:center; transition:color .3s ease; font-style:italic; }
+    .icon-color-chip { width:32px; height:3px; border-radius:1px; transition:background .3s ease; opacity:.7; }
+
+    /* right panel */
+    .gen-right { display:flex; flex-direction:column; padding:20px; gap:16px; }
+    .sizes-lbl { font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); margin-bottom:12px; }
+    .sizes-row { display:flex; align-items:flex-end; gap:14px; flex-wrap:wrap; }
+    .size-item { display:flex; flex-direction:column; align-items:center; gap:6px; }
+    .size-item canvas { image-rendering:pixelated; border:1px solid var(--border); border-radius:2px; display:block; transition:border-color .3s ease; }
+    .size-item-lbl { font-family:var(--mono); font-size:9px; color:var(--faint); letter-spacing:.06em; }
+
+    .gen-info-strip { display:flex; gap:18px; flex-wrap:wrap; padding:12px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .gen-stat { display:flex; flex-direction:column; gap:2px; }
+    .gen-stat-key { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); }
+    .gen-stat-val { font-family:var(--mono); font-size:11px; color:var(--mid); transition:color .3s ease; }
+
+    .gen-actions { display:flex; gap:6px; flex-wrap:wrap; }
+    .gen-btn { font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; background:#1a1a1a; border:1px solid var(--border); border-radius:2px; color:var(--dim); padding:7px 12px; cursor:pointer; transition:border-color .15s,color .15s,background .15s; }
+    .gen-btn:hover { border-color:var(--border-hover); color:var(--fg-bright); background:#202020; }
+    .gen-btn.primary { background:#121a12; border-color:var(--green-dim); color:var(--green); }
+    .gen-btn.primary:hover { background:#141f14; border-color:var(--green); }
+    .gen-btn.flash { border-color:var(--green-dim)!important; color:var(--green)!important; background:#0e1a0e!important; }
+
+    /* shortcuts */
+    .shortcuts-strip { display:flex; flex-wrap:wrap; border-top:1px solid var(--border); background:#0e0e0e; }
+    .shortcut-item { display:flex; align-items:center; gap:6px; padding:8px 14px; border-right:1px solid var(--border); flex:1; min-width:0; }
+    .shortcut-item:last-child { border-right:none; }
+    kbd { font-family:var(--mono); font-size:9px; color:var(--dim); background:#1a1a1a; border:1px solid var(--border); border-radius:2px; padding:1px 6px; white-space:nowrap; }
+    .shortcut-desc { font-family:var(--mono); font-size:9px; color:var(--faint); letter-spacing:.04em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    /* ── API REFERENCE BLOCK ── */
+    .api-block { border:1px solid var(--border); border-radius:3px; background:#0a0a0a; overflow:hidden; margin:20px 0 0; }
+    .api-block-bar { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:#161616; border-bottom:1px solid var(--border); }
+    .api-block-title { font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); }
+    .api-tabs { display:flex; gap:1px; }
+    .api-tab { font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; background:#1a1a1a; border:1px solid var(--border); border-radius:2px; padding:3px 10px; color:var(--faint); cursor:pointer; transition:color .15s,border-color .15s; }
+    .api-tab:hover { color:var(--mid); border-color:var(--border-hover); }
+    .api-tab.active { color:var(--green); border-color:var(--green-dim); background:#121a12; }
+    .api-endpoint-strip { display:flex; align-items:center; border-bottom:1px solid var(--border); background:#0e0e0e; }
+    .api-method { font-family:var(--mono); font-size:9px; letter-spacing:.12em; color:var(--green); padding:10px 14px; border-right:1px solid var(--border); text-transform:uppercase; flex-shrink:0; }
+    .api-url { font-family:var(--mono); font-size:11px; color:var(--dim); padding:10px 14px; flex:1; overflow-x:auto; white-space:nowrap; }
+    .api-url .u-base { color:var(--faint); } .api-url .u-path { color:var(--mid); } .api-url .u-param { color:var(--green); }
+    .api-params-table { border-bottom:1px solid var(--border); }
+    .api-prow { display:grid; grid-template-columns:110px 70px 1fr; border-bottom:1px solid var(--border); }
+    .api-prow:last-child { border-bottom:none; }
+    .api-prow.hdr .api-pcell { font-family:var(--mono); font-size:8px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); background:#141414; }
+    .api-pcell { font-family:var(--mono); font-size:11px; color:var(--dim); padding:8px 14px; border-right:1px solid var(--border); line-height:1.6; }
+    .api-pcell:last-child { border-right:none; }
+    .api-pcell .pn { color:var(--mid); } .api-pcell .pt { color:var(--faint); font-style:italic; } .api-pcell .pd { color:var(--green); }
+    .api-panels { }
+    .api-panel { display:none; font-family:var(--mono); font-size:11px; color:var(--dim); padding:16px; line-height:1.9; overflow-x:auto; white-space:pre; }
+    .api-panel.active { display:block; }
+    .api-panel .ck { color:#6060b0; } .api-panel .cs { color:var(--green); } .api-panel .cf { color:#60909a; } .api-panel .cc { color:var(--faint); font-style:italic; } .api-panel .cm { color:var(--mid); }
+    .api-live { color:var(--green); transition:color .2s; }
+
+    /* ── FAVORITES ── */
+    .gallery-block { border:1px solid var(--border); border-radius:4px; background:#0d0d0d; overflow:hidden; }
+    .gallery-header { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:#161616; border-bottom:1px solid var(--border); }
+    .gallery-header-label { font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); }
+    .gallery-clear-btn { font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; background:none; border:1px solid var(--border); border-radius:2px; padding:3px 8px; color:var(--faint); cursor:pointer; transition:color .15s,border-color .15s; }
+    .gallery-clear-btn:hover { color:#a05060; border-color:#2a1520; }
+    .gallery-empty { padding:28px 20px; text-align:center; font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:.06em; line-height:2; }
+    .gallery-empty span { display:block; font-size:9px; margin-top:6px; opacity:.6; }
+    .gallery-grid { display:flex; flex-wrap:wrap; padding:16px; gap:12px; }
+    .gallery-item { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; padding:8px 6px; border-radius:3px; border:1px solid transparent; transition:border-color .15s,background .15s; position:relative; }
+    .gallery-item:hover { border-color:var(--border); background:#141414; }
+    .gallery-item canvas { image-rendering:pixelated; border-radius:2px; display:block; }
+    .gallery-item-lbl { font-family:var(--mono); font-size:9px; color:var(--faint); max-width:68px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center; letter-spacing:.04em; }
+    .gallery-item-rm { position:absolute; top:2px; right:4px; font-family:var(--mono); font-size:9px; color:transparent; background:none; border:none; cursor:pointer; padding:2px; transition:color .15s; line-height:1; }
+    .gallery-item:hover .gallery-item-rm { color:var(--faint); }
+    .gallery-item-rm:hover { color:#a05060!important; }
+
+    /* ── LIVE FLOW DIAGRAM ── */
+    .flow-diagram { margin:28px 0; border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+    .flow-inner { display:flex; align-items:stretch; background:#0d0d0d; overflow-x:auto; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+    .flow-inner::-webkit-scrollbar { height:4px; }
+    .flow-inner::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+    .flow-card { display:flex; align-items:center; flex-shrink:0; }
+    .flow-card-inner { display:flex; flex-direction:column; gap:10px; padding:16px 18px; background:#161616; border-right:1px solid var(--border); min-width:110px; }
+    .flow-card:last-child .flow-card-inner { border-right:none; }
+    .flow-card-name { font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); }
+    .flow-card-val { font-family:var(--mono); font-size:11px; color:var(--dim); line-height:1.5; word-break:break-all; transition:color .2s; min-height:16px; }
+    .flow-mini-grid { display:grid; grid-template-columns:repeat(5,10px); gap:2px; }
+    .flow-mini-cell { width:10px; height:10px; border-radius:1px; transition:background .15s; }
+    .flow-swatch-row { display:flex; align-items:center; gap:8px; }
+    .flow-swatch { width:20px; height:20px; border-radius:2px; border:1px solid rgba(255,255,255,.1); transition:background .25s,border-color .25s; flex-shrink:0; }
+    .flow-swatch-hex { font-family:var(--mono); font-size:11px; color:var(--dim); transition:color .25s; }
+    #flow-mini-canvas { image-rendering:pixelated; border-radius:1px; display:block; border:1px solid rgba(255,255,255,.08); }
+    .flow-arr { font-size:10px; color:var(--faint); padding:0 8px; background:#0d0d0d; flex-shrink:0; align-self:center; user-select:none; }
+    .flow-card:last-child .flow-arr { display:none; }
+    .flow-hint { padding:8px 16px; background:#0e0e0e; border-top:1px solid var(--border); font-family:var(--mono); font-size:9px; color:var(--faint); letter-spacing:.08em; }
+
+    /* links, footer */
+    .links-row { display:flex; gap:24px; flex-wrap:wrap; margin-top:4px; }
+    .proj-link { font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); text-decoration:none; border-bottom:1px solid var(--border); padding-bottom:1px; transition:color .18s,border-color .18s; }
+    .proj-link:hover { color:var(--fg-bright); border-color:var(--mid); }
+    footer { padding:28px 0 44px; border-top:1px solid var(--border); display:flex; justify-content:space-between; margin-top:64px; }
+    .footer-text { font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--faint); text-transform:uppercase; }
+
+    @keyframes up { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .ani { opacity:0; animation:up .55s ease forwards; animation-play-state:paused; }
+    @keyframes iconPop { 0%{transform:scale(.90)} 55%{transform:scale(1.04)} 100%{transform:scale(1)} }
+    .icon-pop { animation:iconPop .24s ease forwards; }
+    @keyframes favPop { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:scale(1)} }
+    .fav-pop { animation:favPop .2s ease forwards; }
+
+    @media (max-width:560px) {
+      .wrap { padding:0 20px; }
+      .gen-preview { grid-template-columns:1fr; }
+      .gen-icon-stage { border-right:none; border-bottom:1px solid var(--border); }
+      .shortcuts-strip { display:none; }
     }
   </style>
 </head>
 <body>
+<canvas id="margin-canvas"></canvas>
 <div class="wrap">
 
-  <nav class="ani" style="animation-delay:0.05s">
+  <nav class="ani" style="animation-delay:.05s">
     <a href="/" class="nav-back">← Back to pacify.site</a>
   </nav>
 
   <section class="hero">
-    <h1 class="project-title ani" style="animation-delay:0.12s">IconizeiT</h1>
-    <div class="title-meta ani" style="animation-delay:0.18s">
+    <h1 class="project-title ani" style="animation-delay:.12s">IconizeiT</h1>
+    <div class="title-meta ani" style="animation-delay:.18s">
       <span class="tag live">Web</span>
       <span class="tag live">Live</span>
     </div>
-    <p class="tagline ani" style="animation-delay:0.24s">
-      Same input, same output — always. Deterministic pixel-art identicons from any string.
-    </p>
+    <p class="tagline ani" style="animation-delay:.24s">Same input, same output — always.<br>Deterministic pixel-art identicons from any string.</p>
   </section>
 
-  <hr class="rule ani" style="animation-delay:0.28s">
+  <hr class="rule ani" style="animation-delay:.28s">
 
-  <section class="ani" style="animation-delay:0.32s">
-    <p class="section-label">What it is</p>
-    <p class="body-text">
-      IconizeiT generates symmetric pixel-art avatars deterministically from any input string. Feed it a username, an email, a UUID — it always produces the same icon for the same input, zero randomness involved. It's the same idea as GitHub's default avatars, but open, embeddable, and with a visual style I actually like: tight 5×5 grids with bold colours, symmetric across the vertical axis.
-    </p>
-  </section>
+  <!-- ══════════════════════════ GENERATOR ══════════════════════════ -->
+  <section class="ani" style="animation-delay:.32s">
+    <p class="section-label">Generator</p>
+    <div class="generator">
 
-  <hr class="rule ani" style="animation-delay:0.34s">
-
-  <section class="ani" style="animation-delay:0.36s">
-    <p class="section-label">How it works</p>
-    <p class="body-text">
-      The input string is hashed using a simple but stable hash function — FNV-1a — producing a 32-bit integer. Bits from that integer determine which cells in the left half of a 5×5 grid are filled; the right half is a mirror. The colour is derived from the hash remainder, mapped to a curated palette of high-contrast colours that always look good against dark backgrounds. No canvas library, no dependencies — just a single <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">&lt;canvas&gt;</code> element and about 60 lines of vanilla JS.
-    </p>
-
-    <div class="flow">
-      <span class="flow-step">Input string</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-step">FNV-1a hash</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-step">Bit → cell map</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-step">Mirror + colour</span>
-      <span class="flow-arrow">→</span>
-      <span class="flow-step">Canvas render</span>
-    </div>
-
-    <!-- live demo -->
-    <div class="identicon-demo">
-      <p class="identicon-label">Live Preview</p>
-      <div class="identicon-input-row">
-        <input class="identicon-input" id="ident-input" type="text" placeholder="type anything…" maxlength="64" autocomplete="off" spellcheck="false">
-        <span class="identicon-input-label">→ identicon</span>
+      <!-- titlebar -->
+      <div class="gen-bar">
+        <div class="gen-dot r"></div><div class="gen-dot y"></div><div class="gen-dot g"></div>
+        <span class="gen-bar-title">iconizeit — live preview</span>
+        <!-- ORDER: check → dark → light -->
+        <div class="bg-toggle" id="bg-toggle">
+          <button class="bg-btn active" data-mode="check" title="Transparent / custom">
+            <!-- checker icon drawn inline -->
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="pointer-events:none">
+              <rect x="0" y="0" width="6" height="6" fill="#aaa" opacity=".7"/>
+              <rect x="6" y="6" width="6" height="6" fill="#aaa" opacity=".7"/>
+            </svg>
+          </button>
+          <button class="bg-btn" data-mode="dark" title="Dark background">
+            <span class="bg-btn-lbl">D</span>
+          </button>
+          <button class="bg-btn" data-mode="light" title="Light background">
+            <span class="bg-btn-lbl">L</span>
+          </button>
+        </div>
       </div>
-      <div class="identicon-grid" id="ident-grid"></div>
-      <p class="identicon-note" id="ident-note">Showing default examples — start typing to generate your own.</p>
+
+      <!-- color pickers — always visible, controls both bg and block color -->
+      <div class="cpickers-bar">
+        <div class="cpick-item">
+          <span class="cpick-lbl">Background</span>
+          <input type="color" class="cpick" id="pick-bg" value="#ffffff" title="Canvas background color">
+          <span class="cpick-hex" id="pick-bg-hex">#ffffff</span>
+          <button class="cpick-reset" id="pick-bg-reset" title="Reset to mode default">↺</button>
+        </div>
+        <div class="cpick-item">
+          <span class="cpick-lbl">Blocks</span>
+          <input type="color" class="cpick" id="pick-block" value="#5a9960" title="Block color (overrides palette)">
+          <span class="cpick-hex" id="pick-block-hex">#5a9960</span>
+          <button class="cpick-reset" id="pick-block-reset" title="Reset to palette-derived color">↺</button>
+        </div>
+      </div>
+
+      <!-- prompt -->
+      <div class="gen-input-wrap">
+        <span class="gen-prompt">iconizeit&gt;</span>
+        <input class="gen-input" id="gen-input" type="text"
+          placeholder="type any string, username, uuid…"
+          maxlength="128" autocomplete="off" spellcheck="false" value="LoneMagma" />
+        <button class="gen-input-clear" id="btn-clear" title="Clear [Esc]">✕</button>
+      </div>
+
+      <!-- preview -->
+      <div class="gen-preview">
+        <!-- stage — data-mode drives CSS background -->
+        <div class="gen-icon-stage" id="icon-stage" data-mode="check">
+          <div class="icon-frame">
+            <canvas id="main-canvas" width="160" height="160"
+              style="width:160px;height:160px" title="Click to download PNG"></canvas>
+          </div>
+          <div class="icon-meta">
+            <div class="icon-color-chip" id="color-chip"></div>
+            <div class="icon-hash" id="icon-hash">0x00000000</div>
+          </div>
+        </div>
+
+        <!-- right -->
+        <div class="gen-right">
+          <div>
+            <div class="sizes-lbl">Sizes</div>
+            <div class="sizes-row" id="sizes-row"></div>
+          </div>
+          <div class="gen-info-strip">
+            <div class="gen-stat">
+              <span class="gen-stat-key">Input</span>
+              <span class="gen-stat-val" id="stat-input" style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">—</span>
+            </div>
+            <div class="gen-stat">
+              <span class="gen-stat-key">Color</span>
+              <span class="gen-stat-val" id="stat-color">—</span>
+            </div>
+            <div class="gen-stat">
+              <span class="gen-stat-key">Cells</span>
+              <span class="gen-stat-val" id="stat-cells">—</span>
+            </div>
+          </div>
+          <div class="gen-actions">
+            <button class="gen-btn primary" id="btn-download">↓ PNG</button>
+            <button class="gen-btn" id="btn-fav">♡ Save</button>
+            <button class="gen-btn" id="btn-copy-url">Copy URL</button>
+            <button class="gen-btn" id="btn-copy-svg">Copy SVG</button>
+            <button class="gen-btn" id="btn-random" title="Space or R">⟳ Random</button>
+          </div>
+        </div>
+      </div><!-- /.gen-preview -->
+
+      <!-- shortcuts -->
+      <div class="shortcuts-strip">
+        <div class="shortcut-item"><kbd>Space</kbd><span class="shortcut-desc">random</span></div>
+        <div class="shortcut-item"><kbd>R</kbd><span class="shortcut-desc">random</span></div>
+        <div class="shortcut-item"><kbd>Ctrl D</kbd><span class="shortcut-desc">download</span></div>
+        <div class="shortcut-item"><kbd>Ctrl S</kbd><span class="shortcut-desc">save</span></div>
+        <div class="shortcut-item"><kbd>Esc</kbd><span class="shortcut-desc">clear</span></div>
+        <div class="shortcut-item"><kbd>↑ ↓</kbd><span class="shortcut-desc">history</span></div>
+      </div>
+
+    </div><!-- /.generator -->
+
+    <!-- API REFERENCE (replaces embed snippet) -->
+    <div class="api-block">
+      <div class="api-block-bar">
+        <span class="api-block-title">API Reference</span>
+        <div class="api-tabs">
+          <button class="api-tab active" data-panel="js">JS</button>
+          <button class="api-tab" data-panel="html">HTML</button>
+          <button class="api-tab" data-panel="python">Python</button>
+          <button class="api-tab" data-panel="react">React</button>
+        </div>
+      </div>
+      <!-- endpoint -->
+      <div class="api-endpoint-strip">
+        <span class="api-method">GET</span>
+        <span class="api-url">
+          <span class="u-base">https://pacify.site</span><span class="u-path">/api/icon/</span><span class="u-param">{username}</span><span class="u-base">?size=</span><span class="u-param">{px}</span>
+        </span>
+      </div>
+      <!-- params -->
+      <div class="api-params-table">
+        <div class="api-prow hdr">
+          <div class="api-pcell">Param</div>
+          <div class="api-pcell">Type</div>
+          <div class="api-pcell">Notes</div>
+        </div>
+        <div class="api-prow">
+          <div class="api-pcell"><span class="pn">username</span></div>
+          <div class="api-pcell"><span class="pt">string</span></div>
+          <div class="api-pcell">Any UTF-8 string. URL-encoded. Same string → same icon, always.</div>
+        </div>
+        <div class="api-prow">
+          <div class="api-pcell"><span class="pn">size</span></div>
+          <div class="api-pcell"><span class="pt">integer</span></div>
+          <div class="api-pcell">Output px. Default <span class="pd">80</span>. Max <span class="pd">512</span>.</div>
+        </div>
+        <div class="api-prow">
+          <div class="api-pcell"><span class="pn">bg</span></div>
+          <div class="api-pcell"><span class="pt">string</span></div>
+          <div class="api-pcell">Background color — hex without #, e.g. <span class="pd">ffffff</span>. Default transparent.</div>
+        </div>
+      </div>
+      <!-- code panels -->
+      <div class="api-panels">
+        <!-- JS -->
+        <div class="api-panel active" id="panel-js"
+><span class="cc">// User profile avatar — works for any app with user accounts</span>
+<span class="ck">async function</span> <span class="cf">getUserAvatar</span>(username, size = <span class="cs">80</span>) {
+  <span class="ck">const</span> url = <span class="cs">`https://pacify.site/api/icon/<span class="cm">${</span><span class="cf">encodeURIComponent</span>(username)<span class="cm">}</span>?size=<span class="cm">${</span>size<span class="cm">}</span>`</span>;
+  <span class="ck">const</span> res = <span class="ck">await</span> <span class="cf">fetch</span>(url);
+  <span class="ck">const</span> blob = <span class="ck">await</span> res.<span class="cf">blob</span>();
+  <span class="ck">return</span> URL.<span class="cf">createObjectURL</span>(blob);
+}
+
+<span class="cc">// In your login/register flow:</span>
+<span class="ck">const</span> avatarUrl = <span class="cf">getUserAvatar</span>(<span class="api-live" id="api-js-live">"LoneMagma"</span>);
+img.src = avatarUrl; <span class="cc">// assign to any &lt;img&gt; element</span>
+
+<span class="cc">// Or just use the URL directly in img.src — no fetch needed:</span>
+img.src = <span class="cs">`https://pacify.site/api/icon/<span class="cm">${</span><span class="cf">encodeURIComponent</span>(username)<span class="cm">}</span>`</span>;</div>
+        <!-- HTML -->
+        <div class="api-panel" id="panel-html"
+><span class="cc">&lt;!-- Drop into any server-rendered template --&gt;</span>
+<span class="cc">&lt;!-- Django, Rails, Laravel, Go templates — all work --&gt;</span>
+
+<span class="cc">&lt;!-- Basic --&gt;</span>
+<span class="cm">&lt;img</span>
+  <span class="ck">src</span>=<span class="cs">"https://pacify.site/api/icon/<span class="api-live" id="api-html-live">LoneMagma</span>"</span>
+  <span class="ck">alt</span>=<span class="cs">"<span class="api-live" id="api-html-alt">LoneMagma</span> avatar"</span>
+  <span class="ck">width</span>=<span class="cs">"80"</span> <span class="ck">height</span>=<span class="cs">"80"</span>
+<span class="cm">/&gt;</span>
+
+<span class="cc">&lt;!-- With size + white bg (email-safe, no transparency) --&gt;</span>
+<span class="cm">&lt;img</span>
+  <span class="ck">src</span>=<span class="cs">"https://pacify.site/api/icon/<span class="api-live" id="api-html-live2">LoneMagma</span>?size=128&amp;bg=ffffff"</span>
+  <span class="ck">width</span>=<span class="cs">"128"</span> <span class="ck">height</span>=<span class="cs">"128"</span>
+<span class="cm">/&gt;</span></div>
+        <!-- Python -->
+        <div class="api-panel" id="panel-python"
+><span class="ck">import</span> requests, urllib.parse
+
+<span class="ck">def</span> <span class="cf">get_avatar_url</span>(username: <span class="cm">str</span>, size: <span class="cm">int</span> = <span class="cs">80</span>) -> <span class="cm">str</span>:
+    <span class="cs">"""Returns the avatar PNG URL for a username."""</span>
+    encoded = urllib.parse.<span class="cf">quote</span>(username, safe=<span class="cs">""</span>)
+    <span class="ck">return</span> <span class="cs">f"https://pacify.site/api/icon/{encoded}?size={size}"</span>
+
+<span class="ck">def</span> <span class="cf">save_avatar</span>(username: <span class="cm">str</span>, path: <span class="cm">str</span>):
+    <span class="ck">with</span> requests.<span class="cf">get</span>(<span class="cf">get_avatar_url</span>(username), stream=<span class="cs">True</span>) <span class="ck">as</span> r:
+        r.<span class="cf">raise_for_status</span>()
+        <span class="ck">with</span> <span class="cf">open</span>(path, <span class="cs">"wb"</span>) <span class="ck">as</span> f:
+            f.<span class="cf">write</span>(r.content)
+
+<span class="cc"># Usage</span>
+url = <span class="cf">get_avatar_url</span>(<span class="cs">"<span class="api-live" id="api-py-live">LoneMagma</span>"</span>)
+<span class="cf">save_avatar</span>(<span class="cs">"<span class="api-live" id="api-py-live2">LoneMagma</span>"</span>, <span class="cs">"avatar.png"</span>)</div>
+        <!-- React -->
+        <div class="api-panel" id="panel-react"
+><span class="ck">import</span> React <span class="ck">from</span> <span class="cs">"react"</span>;
+
+<span class="cc">// Drop-in avatar component for any React app</span>
+<span class="ck">export function</span> <span class="cf">Avatar</span>({ username, size = <span class="cs">80</span>, className }) {
+  <span class="ck">const</span> src = <span class="cs">`https://pacify.site/api/icon/<span class="cm">${</span><span class="cf">encodeURIComponent</span>(username)<span class="cm">}</span>?size=<span class="cm">${</span>size * <span class="cs">2</span><span class="cm">}</span>`</span>;
+  <span class="ck">return</span> (
+    &lt;<span class="cf">img</span>
+      src={src}
+      alt={<span class="cs">`<span class="cm">${</span>username<span class="cm">}</span> avatar`</span>}
+      width={size} height={size}
+      style={{ imageRendering: <span class="cs">"pixelated"</span> }}
+      className={className}
+    /&gt;
+  );
+}
+
+<span class="cc">// Usage</span>
+&lt;<span class="cf">Avatar</span> username=<span class="cs">"<span class="api-live" id="api-react-live">LoneMagma</span>"</span> size={<span class="cs">64</span>} /&gt;</div>
+      </div>
+    </div>
+
+  </section>
+
+  <hr class="rule ani" style="animation-delay:.33s">
+
+  <!-- FAVORITES -->
+  <section class="ani" style="animation-delay:.34s">
+    <p class="section-label">Saved</p>
+    <div class="gallery-block">
+      <div class="gallery-header">
+        <span class="gallery-header-label" id="fav-count-label">Favorites · 0 saved</span>
+        <button class="gallery-clear-btn" id="btn-clear-favs">Clear all</button>
+      </div>
+      <div id="gallery-body"></div>
     </div>
   </section>
 
-  <hr class="rule ani" style="animation-delay:0.38s">
+  <hr class="rule ani" style="animation-delay:.36s">
 
-  <section class="ani" style="animation-delay:0.40s">
+  <!-- WHAT IT IS -->
+  <section class="ani" style="animation-delay:.38s">
+    <p class="section-label">What it is</p>
+    <p class="body-text">IconizeiT generates symmetric pixel-art avatars deterministically from any input string. Feed it a username, an email, a UUID — it always produces the same icon for the same input, zero randomness involved. Same idea as GitHub's default avatars, but open, embeddable via API, and with a visual style I actually like: tight 5×5 grids with bold colours, symmetric across the vertical axis.</p>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:.40s">
+
+  <!-- HOW IT WORKS + LIVE FLOW DIAGRAM -->
+  <section class="ani" style="animation-delay:.42s">
+    <p class="section-label">How it works</p>
+    <p class="body-text">The input string is hashed using FNV-1a — producing a 32-bit integer. Bits from that integer determine which cells in the left half of a 5×5 grid are filled; the right half is a mirror. Colour is derived from the hash remainder, mapped to a curated palette of high-contrast values. No canvas library, no dependencies — just a <code>&lt;canvas&gt;</code> element and about 60 lines of vanilla JS.</p>
+
+    <div class="flow-diagram">
+      <div class="flow-inner">
+        <div class="flow-card">
+          <div class="flow-card-inner">
+            <span class="flow-card-name">Input</span>
+            <span class="flow-card-val" id="fd-input">"LoneMagma"</span>
+          </div>
+          <span class="flow-arr">→</span>
+        </div>
+        <div class="flow-card">
+          <div class="flow-card-inner">
+            <span class="flow-card-name">FNV-1a hash</span>
+            <span class="flow-card-val" id="fd-hash" style="font-size:10px;letter-spacing:.04em;">0x00000000</span>
+          </div>
+          <span class="flow-arr">→</span>
+        </div>
+        <div class="flow-card">
+          <div class="flow-card-inner">
+            <span class="flow-card-name">Cell map</span>
+            <div class="flow-mini-grid" id="fd-grid"></div>
+          </div>
+          <span class="flow-arr">→</span>
+        </div>
+        <div class="flow-card">
+          <div class="flow-card-inner">
+            <span class="flow-card-name">Colour</span>
+            <div class="flow-swatch-row">
+              <div class="flow-swatch" id="fd-swatch"></div>
+              <span class="flow-swatch-hex" id="fd-hex">#000000</span>
+            </div>
+          </div>
+          <span class="flow-arr">→</span>
+        </div>
+        <div class="flow-card">
+          <div class="flow-card-inner">
+            <span class="flow-card-name">Canvas</span>
+            <canvas id="flow-mini-canvas" width="50" height="50" style="width:50px;height:50px;"></canvas>
+          </div>
+          <span class="flow-arr"></span>
+        </div>
+      </div>
+      <div class="flow-hint">↑ values update live as you type in the generator above</div>
+    </div>
+  </section>
+
+  <hr class="rule ani" style="animation-delay:.44s">
+
+  <section class="ani" style="animation-delay:.46s">
     <p class="section-label">How it was built</p>
-    <p class="body-text">
-      Pure vanilla JS — no build step, no npm. The generator itself is a single file you can drop into any project. There's also a lightweight REST API wrapper (Node/Express) that accepts a string via URL param and returns a PNG — useful for <code style="font-family:var(--mono);font-size:11px;background:#1a1a1a;border:1px solid var(--border);border-radius:2px;padding:1px 6px;color:var(--fg)">&lt;img src="/icon/username"&gt;</code> use cases in backend-rendered apps. The hosted version runs on a single Cloudflare Worker, so it's essentially free to operate at any scale.
-    </p>
-    <p class="body-text">
-      The palette selection was the most iterative part. I went through about a dozen colour sets before landing on one that looked good across different background colours, didn't produce ugly combinations, and still felt varied enough that users looked noticeably different from each other.
-    </p>
+    <p class="body-text">Pure vanilla JS — no build step, no npm. The generator is a single file you can drop into any project. The API wrapper is Node/Express, deployed as a Cloudflare Worker — essentially free to operate at any scale, returns PNG with proper cache headers so browsers won't re-fetch the same icon twice.</p>
+    <p class="body-text">The palette selection was the most iterative part — about a dozen colour sets before landing on one that looked good across dark and light backgrounds, didn't produce ugly combinations, and felt varied enough that users looked noticeably different from each other.</p>
   </section>
 
-  <hr class="rule ani" style="animation-delay:0.42s">
+  <hr class="rule ani" style="animation-delay:.48s">
 
-  <section class="ani" style="animation-delay:0.44s">
+  <section class="ani" style="animation-delay:.50s">
     <p class="section-label">What I learned</p>
-    <p class="body-text">
-      FNV-1a is delightfully simple and surprisingly well-distributed for this use case. I initially used a more complex hash and then realised I was massively over-engineering it — the avalanche effect you need for good visual variety kicks in even with a very simple hash.
-    </p>
-    <p class="body-text">
-      The more interesting lesson was about API design. The hosted version gets used in ways I didn't anticipate — people passing it emoji strings, multi-line text, even binary-looking data. Making it robust to arbitrary input without breaking the determinism guarantee was trickier than the core algorithm.
-    </p>
+    <p class="body-text">FNV-1a is delightfully simple and surprisingly well-distributed for this use case. The avalanche effect you need for good visual variety kicks in even with a very simple hash — I was massively over-engineering it at first.</p>
+    <p class="body-text">The more interesting lesson was about API design. The hosted version gets used in ways I didn't anticipate — emoji strings, multi-line text, binary-looking data. Making it robust to arbitrary input without breaking the determinism guarantee was trickier than the core algorithm.</p>
   </section>
 
-  <hr class="rule ani" style="animation-delay:0.46s">
+  <hr class="rule ani" style="animation-delay:.52s">
 
-  <section class="ani" style="animation-delay:0.48s">
+  <section class="ani" style="animation-delay:.54s">
     <p class="section-label">Links</p>
     <div class="links-row">
-      <a href="/iconizeit" class="proj-link">Try It →</a>
       <a href="https://github.com/LoneMagma/IconizeiT" target="_blank" class="proj-link">GitHub →</a>
     </div>
   </section>
 
-  <footer class="ani" style="animation-delay:0.52s">
+  <footer class="ani" style="animation-delay:.58s">
     <span class="footer-text">pacify.site</span>
     <span class="footer-text">2026</span>
   </footer>
 
-</div>
+</div><!-- /.wrap -->
 <script>
-  // IntersectionObserver for animations
-  const els = document.querySelectorAll('.ani');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.animationPlayState = 'running';
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.05 });
-  els.forEach(el => io.observe(el));
+/* ─── entry animations ─── */
+const entryIO = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.animationPlayState='running'; entryIO.unobserve(e.target); } });
+}, { threshold: 0.04 });
+document.querySelectorAll('.ani').forEach(el => entryIO.observe(el));
 
-  // Identicon generator
-  const PALETTE = [
-    '#5a9960','#6060b0','#9060a0','#60909a','#a07040',
-    '#5a7ab0','#a05060','#60a090','#8080c0','#b06050'
-  ];
+/* ══════════════════════════════════════════════
+ * IDENTICON ENGINE
+ * ══════════════════════════════════════════════ */
+const PALETTE = [
+  { hex:'#5a9960', rgb:[90,153,96]   },
+  { hex:'#6060b0', rgb:[96,96,176]   },
+  { hex:'#9060a0', rgb:[144,96,160]  },
+  { hex:'#60909a', rgb:[96,144,154]  },
+  { hex:'#a07040', rgb:[160,112,64]  },
+  { hex:'#5a7ab0', rgb:[90,122,176]  },
+  { hex:'#a05060', rgb:[160,80,96]   },
+  { hex:'#60a090', rgb:[96,160,144]  },
+  { hex:'#8080c0', rgb:[128,128,192] },
+  { hex:'#b06050', rgb:[176,96,80]   },
+];
 
-  function fnv1a(str) {
-    let h = 0x811c9dc5;
-    for (let i = 0; i < str.length; i++) {
-      h ^= str.charCodeAt(i);
-      h = (h * 0x01000193) >>> 0;
-    }
-    return h;
+function fnv1a(str) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h;
+}
+
+function computeIdenticon(str) {
+  const hash  = fnv1a(str || '\x00');
+  const color = PALETTE[hash % PALETTE.length];
+  const grid  = [];
+  let bit = 0;
+  for (let row = 0; row < 5; row++) {
+    grid[row] = [];
+    for (let col = 0; col < 3; col++) { grid[row][col] = (hash >> bit) & 1; bit++; }
   }
+  let cellsOn = 0;
+  for (let row = 0; row < 5; row++)
+    for (let col = 0; col < 5; col++)
+      if (grid[row][col < 3 ? col : 4-col]) cellsOn++;
+  return { hash, color, grid, cellsOn };
+}
 
-  function drawIdenticon(canvas, str, size = 80) {
-    const ctx = canvas.getContext('2d');
-    const cell = size / 5;
-    canvas.width = size;
-    canvas.height = size;
-    const hash = fnv1a(str);
-    const color = PALETTE[hash % PALETTE.length];
-    ctx.fillStyle = '#161616';
+/* drawIdenticon — pad:0 removes all gaps between blocks */
+function drawIdenticon(canvas, str, size, bgColor, blockColor) {
+  const ctx = canvas.getContext('2d');
+  const cell = size / 5;
+  canvas.width = size; canvas.height = size;
+  const { grid, color } = computeIdenticon(str);
+  const resolvedBlock = blockColor || color.hex;
+
+  // bg: if bgColor is null/transparent, clear to transparent
+  if (bgColor) {
+    ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, size, size);
-    ctx.fillStyle = color;
-    // 5x5 grid, symmetric on vertical axis
-    // left 3 columns determined by bits: col 0,1,2 — col 3 mirrors col 1, col 4 mirrors col 0
-    let bit = 0;
-    const grid = [];
-    for (let row = 0; row < 5; row++) {
-      grid[row] = [];
-      for (let col = 0; col < 3; col++) {
-        grid[row][col] = (hash >> bit) & 1;
-        bit++;
-      }
-    }
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 5; col++) {
-        const srcCol = col < 3 ? col : 4 - col;
-        if (grid[row][srcCol]) {
-          ctx.fillRect(col * cell + 2, row * cell + 2, cell - 2, cell - 2);
-        }
-      }
-    }
+  } else {
+    ctx.clearRect(0, 0, size, size);
   }
 
-  const defaults = ['LoneMagma','IconizeiT','pacify.site','hello@world','user#0001'];
-  const grid = document.getElementById('ident-grid');
+  // blocks — pad=0, full cell, no gaps
+  ctx.fillStyle = resolvedBlock;
+  for (let row = 0; row < 5; row++)
+    for (let col = 0; col < 5; col++)
+      if (grid[row][col < 3 ? col : 4-col])
+        ctx.fillRect(col * cell, row * cell, cell, cell);
+}
 
-  function renderGrid(input, custom) {
-    grid.innerHTML = '';
-    const items = custom
-      ? [custom, ...defaults.slice(0,4)]
-      : defaults;
-    items.forEach((str, i) => {
-      const item = document.createElement('div');
-      item.className = 'identicon-item';
-      const canvas = document.createElement('canvas');
-      canvas.width = 80; canvas.height = 80;
-      canvas.style.width = '80px'; canvas.style.height = '80px';
-      drawIdenticon(canvas, str, 80);
-      const lbl = document.createElement('div');
-      lbl.className = 'identicon-item-label';
-      lbl.textContent = str;
-      item.appendChild(canvas);
-      item.appendChild(lbl);
-      grid.appendChild(item);
-    });
-  }
+/* ══════════════════════════════════════════════
+ * STATE
+ * ══════════════════════════════════════════════ */
+let bgMode = 'check';
 
-  renderGrid();
+/* Per-mode default bg colors */
+const MODE_BG_DEFAULTS = { check: null, dark: '#1c1c1c', light: '#f0f0f0' };
 
-  const inp = document.getElementById('ident-input');
-  const note = document.getElementById('ident-note');
-  inp.addEventListener('input', () => {
-    const val = inp.value.trim();
-    if (val) {
-      note.textContent = `"${val.slice(0,24)}${val.length>24?'…':''}" always produces the same icon.`;
-      renderGrid(null, val);
-    } else {
-      note.textContent = 'Showing default examples — start typing to generate your own.';
-      renderGrid();
-    }
+/* Custom color state — both overridable by pickers */
+let customBg    = null;      // null = transparent (checker mode default)
+let customBlock = null;      // null = use palette-derived color
+
+/* The actual resolved canvas colors */
+function resolvedBg()    { return customBg;    }
+function resolvedBlock() { return customBlock; }
+
+/* ══════════════════════════════════════════════
+ * GENERATOR UI ELEMENTS
+ * ══════════════════════════════════════════════ */
+const genInput   = document.getElementById('gen-input');
+const mainCanvas = document.getElementById('main-canvas');
+const iconStage  = document.getElementById('icon-stage');
+const iconHash   = document.getElementById('icon-hash');
+const colorChip  = document.getElementById('color-chip');
+const statInput  = document.getElementById('stat-input');
+const statColor  = document.getElementById('stat-color');
+const statCells  = document.getElementById('stat-cells');
+const sizesRow   = document.getElementById('sizes-row');
+
+/* Build size canvases */
+[40, 64, 80].forEach(px => {
+  const item = document.createElement('div'); item.className = 'size-item';
+  const c = document.createElement('canvas'); c.width=px; c.height=px; c.style.width=px+'px'; c.style.height=px+'px'; c.dataset.size=px;
+  const lbl = document.createElement('div'); lbl.className='size-item-lbl'; lbl.textContent=px+'px';
+  item.appendChild(c); item.appendChild(lbl); sizesRow.appendChild(item);
+});
+
+/* ══════════════════════════════════════════════
+ * FLOW DIAGRAM — declared BEFORE updateGenerator
+ * ══════════════════════════════════════════════ */
+const fdGridEl = document.getElementById('fd-grid');
+for (let i = 0; i < 25; i++) {
+  const c = document.createElement('div'); c.className='flow-mini-cell'; fdGridEl.appendChild(c);
+}
+const fdCells        = fdGridEl.querySelectorAll('.flow-mini-cell');
+const flowMiniCanvas = document.getElementById('flow-mini-canvas');
+const fdInputEl      = document.getElementById('fd-input');
+const fdHashEl       = document.getElementById('fd-hash');
+const fdSwatch       = document.getElementById('fd-swatch');
+const fdHex          = document.getElementById('fd-hex');
+
+function updateFlowDiagram(rawStr, val, info) {
+  const { hash, color, grid } = info;
+  const blockHex = resolvedBlock() || color.hex;
+
+  fdInputEl.textContent = '"' + (rawStr.length > 12 ? rawStr.slice(0,10)+'…' : (rawStr||'(empty)')) + '"';
+  fdHashEl.textContent = '0x' + hash.toString(16).padStart(8,'0').toUpperCase();
+  fdHashEl.style.color = blockHex;
+
+  fdCells.forEach((cell, i) => {
+    const row = Math.floor(i/5), col = i%5;
+    const on = grid[row][col < 3 ? col : 4-col];
+    cell.style.background = on ? blockHex : (bgMode==='light' ? '#e0e0e0' : '#1e1e1e');
+    cell.style.opacity = on ? '1' : '0.5';
   });
+
+  fdSwatch.style.background = blockHex;
+  fdSwatch.style.borderColor = blockHex+'44';
+  fdHex.textContent = blockHex;
+  fdHex.style.color = blockHex;
+
+  drawIdenticon(flowMiniCanvas, val, 50, resolvedBg(), resolvedBlock());
+}
+
+/* ══════════════════════════════════════════════
+ * UPDATE GENERATOR
+ * ══════════════════════════════════════════════ */
+let lastColorHex = null;
+
+function updateGenerator(str) {
+  const val  = str || '\x00';
+  const info = computeIdenticon(val);
+  const { color, hash, cellsOn } = info;
+  const blockHex = resolvedBlock() || color.hex;
+  const [r,g,b]  = hexToRgb(blockHex);
+
+  drawIdenticon(mainCanvas, val, 160, resolvedBg(), resolvedBlock());
+
+  if (blockHex !== lastColorHex) {
+    mainCanvas.classList.remove('icon-pop');
+    void mainCanvas.offsetWidth;
+    mainCanvas.classList.add('icon-pop');
+    lastColorHex = blockHex;
+  }
+
+  /* Stage glow / shadow depends on mode */
+  if (bgMode === 'dark') {
+    mainCanvas.style.boxShadow = `0 0 20px rgba(${r},${g},${b},.30), 0 0 50px rgba(${r},${g},${b},.12)`;
+    mainCanvas.style.borderColor = `rgba(${r},${g},${b},.35)`;
+    iconStage.style.filter = `drop-shadow(0 0 14px rgba(${r},${g},${b},.22))`;
+    iconHash.style.color = `rgba(${r},${g},${b},.65)`;
+  } else if (bgMode === 'light') {
+    mainCanvas.style.boxShadow = `3px 3px 0 rgba(${r},${g},${b},.25)`;
+    mainCanvas.style.borderColor = `rgba(${r},${g},${b},.4)`;
+    iconStage.style.filter = 'none';
+    iconHash.style.color = `rgba(${r},${g},${b},.55)`;
+  } else {
+    /* checker — icon floats on the transparency grid */
+    mainCanvas.style.boxShadow = `0 4px 12px rgba(0,0,0,.22)`;
+    mainCanvas.style.borderColor = `rgba(${r},${g},${b},.3)`;
+    iconStage.style.filter = 'none';
+    iconHash.style.color = `rgba(${r},${g},${b},.55)`;
+  }
+
+  colorChip.style.background = blockHex;
+  iconHash.textContent = '0x' + hash.toString(16).padStart(8,'0').toUpperCase();
+
+  sizesRow.querySelectorAll('canvas').forEach(c => {
+    drawIdenticon(c, val, parseInt(c.dataset.size), resolvedBg(), resolvedBlock());
+    c.style.borderColor = `rgba(${r},${g},${b},.22)`;
+  });
+
+  statInput.textContent = str || '(empty)';
+  statColor.textContent = blockHex;
+  statColor.style.color = blockHex;
+  statCells.textContent = cellsOn + ' / 25';
+
+  /* Update API reference live URLs */
+  const enc = encodeURIComponent(str || '');
+  const safe = (str||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  document.querySelectorAll('.api-live').forEach(el => {
+    const id = el.id;
+    if (id==='api-js-live')      el.textContent = '"' + (str||'') + '"';
+    else if (id==='api-html-live'||id==='api-html-live2') el.textContent = enc;
+    else if (id==='api-html-alt') el.textContent = safe;
+    else if (id==='api-py-live'||id==='api-py-live2') el.textContent = str||'';
+    else if (id==='api-react-live') el.textContent = str||'';
+  });
+
+  updateFlowDiagram(str, val, info);
+}
+
+/* ══════════════════════════════════════════════
+ * COLOR PICKER LOGIC
+ * ══════════════════════════════════════════════ */
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return [isNaN(r)?128:r, isNaN(g)?128:g, isNaN(b)?128:b];
+}
+
+const pickBg       = document.getElementById('pick-bg');
+const pickBgHex    = document.getElementById('pick-bg-hex');
+const pickBgReset  = document.getElementById('pick-bg-reset');
+const pickBlock    = document.getElementById('pick-block');
+const pickBlockHex = document.getElementById('pick-block-hex');
+const pickBlockReset = document.getElementById('pick-block-reset');
+
+/* Sync picker value to state */
+pickBg.addEventListener('input', () => {
+  customBg = pickBg.value;
+  pickBgHex.textContent = pickBg.value;
+  pickBgHex.style.color = pickBg.value;
+  updateGenerator(genInput.value);
+});
+pickBlock.addEventListener('input', () => {
+  customBlock = pickBlock.value;
+  pickBlockHex.textContent = pickBlock.value;
+  pickBlockHex.style.color = pickBlock.value;
+  updateGenerator(genInput.value);
+});
+
+/* Reset bg to mode default */
+pickBgReset.addEventListener('click', () => {
+  customBg = MODE_BG_DEFAULTS[bgMode];
+  pickBg.value = customBg || '#ffffff';
+  pickBgHex.textContent = pickBg.value;
+  pickBgHex.style.color = '';
+  updateGenerator(genInput.value);
+});
+
+/* Reset block to palette-derived (null = auto) */
+pickBlockReset.addEventListener('click', () => {
+  customBlock = null;
+  const info = computeIdenticon(genInput.value || '\x00');
+  pickBlock.value = info.color.hex;
+  pickBlockHex.textContent = info.color.hex;
+  pickBlockHex.style.color = info.color.hex;
+  updateGenerator(genInput.value);
+});
+
+/* Sync pickers when mode changes */
+function syncPickersToMode() {
+  const defaultBg = MODE_BG_DEFAULTS[bgMode];
+  customBg = defaultBg;
+  customBlock = null;
+  pickBg.value = defaultBg || '#ffffff';
+  pickBgHex.textContent = pickBg.value;
+  pickBgHex.style.color = '';
+  const info = computeIdenticon(genInput.value || '\x00');
+  pickBlock.value = info.color.hex;
+  pickBlockHex.textContent = info.color.hex;
+  pickBlockHex.style.color = info.color.hex;
+}
+
+/* ── initial state: checker mode, transparent bg, palette block ── */
+syncPickersToMode();
+updateGenerator(genInput.value);
+genInput.addEventListener('input', () => updateGenerator(genInput.value));
+
+/* ══════════════════════════════════════════════
+ * BG MODE TOGGLE
+ * ══════════════════════════════════════════════ */
+document.querySelectorAll('.bg-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    bgMode = btn.dataset.mode;
+    iconStage.dataset.mode = bgMode;
+    syncPickersToMode();
+    updateGenerator(genInput.value);
+    renderFavGallery();
+  });
+});
+
+/* ══════════════════════════════════════════════
+ * API TABS
+ * ══════════════════════════════════════════════ */
+document.querySelectorAll('.api-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.api-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.api-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+  });
+});
+
+/* ══════════════════════════════════════════════
+ * BUTTONS
+ * ══════════════════════════════════════════════ */
+function flashBtn(btn, text, ms=1800) {
+  const orig = btn.textContent; btn.textContent = text; btn.classList.add('flash');
+  setTimeout(() => { btn.textContent = orig; btn.classList.remove('flash'); }, ms);
+}
+
+document.getElementById('btn-download').addEventListener('click', () => {
+  const off = document.createElement('canvas');
+  drawIdenticon(off, genInput.value||'\x00', 400, resolvedBg(), resolvedBlock());
+  const a = document.createElement('a');
+  a.href = off.toDataURL('image/png');
+  a.download = 'iconizeit-' + (genInput.value||'icon').replace(/[^a-z0-9]/gi,'_').slice(0,32) + '.png';
+  a.click();
+});
+mainCanvas.addEventListener('click', () => document.getElementById('btn-download').click());
+
+document.getElementById('btn-copy-url').addEventListener('click', function() {
+  const url = 'https://pacify.site/api/icon/' + encodeURIComponent(genInput.value||'');
+  navigator.clipboard.writeText(url).then(() => flashBtn(this, '✓ Copied'));
+});
+
+document.getElementById('btn-copy-svg').addEventListener('click', function() {
+  const val  = genInput.value || '\x00';
+  const info = computeIdenticon(val);
+  const cell = 40, size = 200;
+  const bg   = resolvedBg() || 'none';
+  const bk   = resolvedBlock() || info.color.hex;
+  let rects = '';
+  for (let row=0;row<5;row++)
+    for (let col=0;col<5;col++)
+      if (info.grid[row][col<3?col:4-col])
+        rects += `<rect x="${col*cell}" y="${row*cell}" width="${cell}" height="${cell}" fill="${bk}"/>`;
+  const bgRect = bg !== 'none' ? `<rect width="${size}" height="${size}" fill="${bg}"/>` : '';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${bgRect}${rects}</svg>`;
+  navigator.clipboard.writeText(svg).then(() => flashBtn(this, '✓ SVG'));
+});
+
+document.getElementById('btn-clear').addEventListener('click', () => {
+  genInput.value = ''; updateGenerator(''); genInput.focus();
+});
+
+/* ══════════════════════════════════════════════
+ * RANDOM + HISTORY
+ * History fix: every input event pushes to stack via debounce.
+ * ↑↓ then works naturally because the stack is always populated.
+ * ══════════════════════════════════════════════ */
+const RANDOM_BANK = [
+  'mercury','solar','drift','echo-7','ghost','phantom','nebula','quark','0xdeadbeef',
+  'admin@404','user#8821','null_ptr','init.sh','alpha-one','darkstar','void','root',
+  'anonymous','sentinel','burnlab','keyforce','pacify','lonemagma','matrix','sigma',
+  'x0001','bifrost','daemon','kernel','sandbox','relay','entropy','sync',
+];
+
+/* History stack — every unique typed value lives here */
+let historyStack = ['LoneMagma'];
+let historyIdx   = 0;
+let historyDebounce;
+
+/* Push current input to history after 600ms of no typing */
+genInput.addEventListener('input', () => {
+  clearTimeout(historyDebounce);
+  historyDebounce = setTimeout(() => {
+    const v = genInput.value.trim();
+    if (!v) return;
+    /* Don't push duplicates of the current tip */
+    if (historyStack[historyStack.length - 1] !== v) {
+      historyStack.push(v);
+      historyIdx = historyStack.length - 1;
+    }
+  }, 600);
+  updateGenerator(genInput.value);
+});
+
+function doRandom() {
+  const w = RANDOM_BANK[Math.floor(Math.random()*RANDOM_BANK.length)]
+    + (Math.random()<.5 ? '' : Math.floor(Math.random()*999));
+  historyStack.push(w); historyIdx = historyStack.length - 1;
+  genInput.value = w; updateGenerator(w);
+}
+document.getElementById('btn-random').addEventListener('click', doRandom);
+
+/* ══════════════════════════════════════════════
+ * KEYBOARD SHORTCUTS
+ * ══════════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  const focused = document.activeElement === genInput;
+  if (e.key === 'Escape') { genInput.value=''; updateGenerator(''); genInput.focus(); return; }
+  if (e.ctrlKey && e.key==='d') { e.preventDefault(); document.getElementById('btn-download').click(); return; }
+  if (e.ctrlKey && e.key==='s') { e.preventDefault(); document.getElementById('btn-fav').click(); return; }
+  if (!focused && (e.key===' '||e.key==='r'||e.key==='R')) { e.preventDefault(); doRandom(); return; }
+
+  /* ↑↓ history — only when input is focused */
+  if (focused && e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (historyIdx > 0) {
+      /* Snapshot current unsaved value on first ↑ */
+      if (historyIdx === historyStack.length - 1 && genInput.value !== historyStack[historyIdx]) {
+        historyStack.push(genInput.value);
+        historyIdx = historyStack.length - 1;
+      }
+      historyIdx--;
+      genInput.value = historyStack[historyIdx];
+      updateGenerator(genInput.value);
+    }
+    return;
+  }
+  if (focused && e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIdx < historyStack.length - 1) {
+      historyIdx++;
+      genInput.value = historyStack[historyIdx];
+      updateGenerator(genInput.value);
+    }
+    return;
+  }
+});
+
+/* ══════════════════════════════════════════════
+ * FAVORITES — localStorage
+ * ══════════════════════════════════════════════ */
+const FAV_KEY = 'iconizeit_favs_v1';
+const loadFavs = () => { try { return JSON.parse(localStorage.getItem(FAV_KEY)||'[]'); } catch { return []; } };
+const saveFavs = arr => localStorage.setItem(FAV_KEY, JSON.stringify(arr));
+
+function renderFavGallery() {
+  const favs = loadFavs();
+  document.getElementById('fav-count-label').textContent = `Favorites · ${favs.length} saved`;
+  const body = document.getElementById('gallery-body');
+  if (!favs.length) {
+    body.innerHTML = `<div class="gallery-empty">No favorites yet — generate an identicon and press <kbd>Ctrl S</kbd> or ♡ Save.<span>Saved locally in your browser. Up to 40 entries.</span></div>`;
+    return;
+  }
+  const grid = document.createElement('div'); grid.className='gallery-grid';
+  favs.forEach((seed, idx) => {
+    const item = document.createElement('div'); item.className='gallery-item fav-pop'; item.style.animationDelay=(idx*.03)+'s';
+    const c = document.createElement('canvas'); c.width=60; c.height=60; c.style.width='60px'; c.style.height='60px';
+    drawIdenticon(c, seed, 60, resolvedBg(), resolvedBlock());
+    const info = computeIdenticon(seed); const [r,g,b] = info.color.rgb;
+    c.style.border = `1px solid rgba(${r},${g},${b},.3)`;
+    const lbl = document.createElement('div'); lbl.className='gallery-item-lbl'; lbl.textContent=seed;
+    const rm = document.createElement('button'); rm.className='gallery-item-rm'; rm.textContent='×'; rm.title='Remove';
+    rm.addEventListener('click', e => { e.stopPropagation(); saveFavs(loadFavs().filter((_,i)=>i!==idx)); renderFavGallery(); });
+    item.appendChild(rm); item.appendChild(c); item.appendChild(lbl);
+    item.addEventListener('click', () => { genInput.value=seed; updateGenerator(seed); genInput.scrollIntoView({behavior:'smooth',block:'center'}); genInput.focus(); });
+    grid.appendChild(item);
+  });
+  body.innerHTML=''; body.appendChild(grid);
+}
+
+document.getElementById('btn-fav').addEventListener('click', function() {
+  const val = genInput.value.trim(); if (!val) return;
+  const favs = loadFavs();
+  if (favs.includes(val)) { flashBtn(this,'✓ Already saved'); return; }
+  if (favs.length >= 40) { flashBtn(this,'✗ Max 40'); return; }
+  favs.unshift(val); saveFavs(favs); renderFavGallery(); flashBtn(this,'✓ Saved!');
+});
+document.getElementById('btn-clear-favs').addEventListener('click', () => {
+  if (loadFavs().length && confirm('Clear all saved favorites?')) { saveFavs([]); renderFavGallery(); }
+});
+renderFavGallery();
+
+/* ══════════════════════════════════════════════
+ * MARGIN CANVAS
+ * ══════════════════════════════════════════════ */
+const mc=document.getElementById('margin-canvas'),mct=mc.getContext('2d');
+const NOISE='01アイウエオカキクケコ█▓▒░│┤╣║╗╝┐└┴┬├─┼╠═╬┘┌ΦΨΩ∂∆∇';
+let mW,mH,mCL,mCR,mMW,mCols=[];
+function mRecalc(){mW=window.innerWidth;mH=window.innerHeight;const r=document.querySelector('.wrap').getBoundingClientRect();mCL=r.left;mCR=r.right;mMW=Math.max(0,mCL);}
+function mResize(){mc.width=mW;mc.height=mH;}
+function mBuild(){mCols=[];if(mMW<20)return;const g=13;const lc=Math.floor(mMW/g),rc=Math.floor((mW-mCR)/g);for(let i=0;i<lc;i++)mCols.push({x:i*g+g*.45,y:Math.random()*mH,speed:.2+Math.random()*.7,op:.03+Math.random()*.07});for(let i=0;i<rc;i++)mCols.push({x:mCR+i*g+g*.45,y:Math.random()*mH,speed:.2+Math.random()*.7,op:.03+Math.random()*.07});}
+function mDraw(){mct.clearRect(0,0,mW,mH);if(mMW>=20){mct.font="11px 'DM Mono',monospace";mCols.forEach(c=>{c.y+=c.speed;if(c.y>mH+20)c.y=-20;for(let t=0;t<5;t++){mct.fillStyle=`rgba(190,190,190,${Math.min(c.op*(1-t/5),.12)})`;mct.fillText(NOISE[Math.floor(Math.random()*NOISE.length)],c.x,c.y-t*11);}});}requestAnimationFrame(mDraw);}
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{mRecalc();mResize();mBuild();},100);});
+(document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{mRecalc();mResize();mBuild();mDraw();});
 </script>
 </body>
 </html>
