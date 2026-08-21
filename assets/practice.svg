@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Illustrated practice tools for drawing, typing and speaking">
+<defs>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#251F1A" flood-opacity=".15"/></filter>
+  <style>
+    .ink{stroke:#1E1A17;stroke-linecap:round;stroke-linejoin:round}
+    .serif{font-family:Georgia,'Times New Roman',serif;fill:#1E1A17}
+    .sans{font-family:'Trebuchet MS',Arial,sans-serif}
+  </style>
+</defs>
+<rect width="1200" height="300" rx="24" fill="#FFF7EC"/>
+
+<!-- practice card -->
+<g transform="translate(58 42) rotate(-2.5)">
+  <rect x="0" y="0" width="300" height="216" rx="16" fill="#E7EEF9" class="ink" stroke-width="4" filter="url(#shadow)"/>
+  <text x="24" y="42" class="serif" font-size="24" font-weight="700">practice card</text>
+  <rect x="24" y="58" width="252" height="102" rx="12" fill="#FFFDF7" class="ink" stroke-width="3"/>
+  <circle cx="88" cy="109" r="28" fill="#F4EAD8" class="ink" stroke-width="3"/>
+  <path d="M88 86V109L106 120" fill="none" stroke="#E26A5B" stroke-width="5" stroke-linecap="round"/>
+  <text x="131" y="103" class="sans" font-size="17" fill="#5A5149">one prompt</text>
+  <text x="131" y="128" class="sans" font-size="17" fill="#1E1A17">one more rep</text>
+  <path d="M24 184Q96 174 165 184T276 183" fill="none" stroke="#4C72C9" stroke-width="4" stroke-linecap="round"/>
+  <text x="24" y="205" class="sans" font-size="16" fill="#5A5149">draw it. say it. type it. repeat.</text>
+</g>
+
+<!-- terminal keyboard -->
+<g transform="translate(393 64)">
+  <rect x="0" y="0" width="350" height="178" rx="18" fill="#2E3340" class="ink" stroke-width="4" filter="url(#shadow)"/>
+  <rect x="18" y="18" width="314" height="86" rx="12" fill="#3B4352"/>
+  <g fill="#F7F0E3" stroke="#1E1A17" stroke-width="2">
+    <rect x="30" y="31" width="40" height="34" rx="6"/><rect x="76" y="31" width="40" height="34" rx="6"/>
+    <rect x="122" y="31" width="40" height="34" rx="6"/><rect x="168" y="31" width="40" height="34" rx="6"/>
+    <rect x="214" y="31" width="40" height="34" rx="6"/><rect x="260" y="31" width="40" height="34" rx="6"/>
+  </g>
+  <g font-family="Trebuchet MS,Arial,sans-serif" font-size="18" font-weight="700" fill="#1E1A17">
+    <text x="42" y="54">A</text><text x="88" y="54">S</text><text x="134" y="54">D</text>
+    <text x="180" y="54">F</text><text x="226" y="54">J</text><text x="272" y="54">K</text>
+  </g>
+  <rect x="18" y="118" width="314" height="40" rx="10" fill="#F7F0E3"/>
+  <text x="34" y="144" class="sans" font-size="17" fill="#1E1A17">muscle memory, but for software</text>
+</g>
+
+<!-- sketch note -->
+<g transform="translate(796 44) rotate(3)">
+  <rect x="0" y="0" width="340" height="214" rx="16" fill="#FFFDF7" class="ink" stroke-width="4" filter="url(#shadow)"/>
+  <text x="24" y="42" class="serif" font-size="24" font-weight="700">one more rep</text>
+  <path d="M24 58H313" stroke="#D7C5AE" stroke-width="2"/>
+  <path d="M44 104q40 -55 86 0t88 0" fill="none" stroke="#4C72C9" stroke-width="6" stroke-linecap="round"/>
+  <path d="M48 139q40 -28 84 0t100 0" fill="none" stroke="#E26A5B" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="248" cy="102" r="18" fill="#D8B766" class="ink" stroke-width="3"/>
+  <path d="M247 82l27 -27 9 10-28 28Z" fill="#E26A5B" class="ink" stroke-width="3"/>
+  <path d="M24 171Q140 158 313 171" fill="none" stroke="#6B9D69" stroke-width="4" stroke-linecap="round"/>
+  <text x="24" y="198" class="sans" font-size="16" fill="#5A5149">progress is a little boring. useful, though.</text>
+</g>
+</svg>

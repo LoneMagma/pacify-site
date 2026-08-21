@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-theme-mode="system">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#efe4d0" />
+  <meta name="description" content="Pacify is a little illustrated workshop containing software, tools, experiments and ideas by Lone." />
+  <meta name="color-scheme" content="light dark" />
+  <title>Pacify</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="paper-stage" aria-hidden="true"><div class="paper-map"></div><div class="paper-grain"></div></div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="Pacify home"><span class="brand-word">Pacify</span><span class="brand-pencil">workshop?</span></a>
+    <nav class="main-nav" aria-label="Main navigation"><a href="#work">My work</a><a href="#about">about</a></nav>
+    <div class="weather-wrap">
+      <button class="weather-button" id="weather-toggle" type="button" aria-label="Change weather" aria-pressed="false">
+        <span class="weather-icon"><img src="assets/weather-light.svg" alt="" /></span>
+      </button>
+      <span class="weather-note">click here to change weather.</span>
+      <span class="weather-arrow" aria-hidden="true">↙</span>
+      <button class="system-reset" id="weather-system" type="button" hidden>back to system weather</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section-shell" id="about" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="hero-kicker">A growing collection</p>
+        <h1 id="hero-title">What i've made.</h1>
+        <p class="hero-lede">below is a slightly untidy collection of websites, software, tools, experiments and ideas that escaped the notebook.</p>
+        <a class="see-work" href="#work">see it <span>↓</span></a>
+      </div>
+      <div class="hero-art"><img src="assets/hero.svg" alt="Hand-drawn notebook, computer and paper scraps on a desk." /></div>
+    </section>
+
+    <section class="desk-section section-shell" aria-labelledby="desk-title">
+      <div class="section-mark">the desk</div>
+      <div class="desk-layout">
+        <div class="desk-art"><img src="assets/desk.svg" alt="Hand-drawn desk with notebook, books, terminal, plant and companion." /></div>
+        <div class="desk-note paper-note cream-note">
+          <p class="section-kicker">come in.</p>
+          <h2 id="desk-title">The workshop itself is the project.</h2>
+          <p>Some things on this site turned into products. Some stayed tools. Some are still trying to become something.</p>
+          <p>The shelves below are ordered by how much of me is in them.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section section-shell" id="work" aria-labelledby="work-title">
+      <div class="section-intro flagship-intro">
+        <div><span class="section-number">01 /</span><span class="section-name">THE FLAGSHIP</span><p>these are the ones that survived several rewrites.</p></div>
+        <img src="assets/flagship.svg" alt="Four hand-drawn objects representing the flagship projects." />
+      </div>
+      <div class="project-grid flagship-grid" id="flagship-grid"></div>
+
+      <div class="section-intro compact"><div><span class="section-number">02 /</span><span class="section-name">MAIN</span><p>these got suspiciously serious.</p></div><div class="section-pencil">↳ four substantial machines</div></div>
+      <div class="project-grid main-grid" id="main-grid"></div>
+
+      <div class="section-intro compact"><div><span class="section-number">03 /</span><span class="section-name">PERIPHERALS</span><p>not the main character but still causing trouble.</p></div><div class="section-pencil">around the edges</div></div>
+      <div class="project-grid peripheral-grid" id="peripheral-grid"></div>
+
+      <div class="section-intro compact"><div><span class="section-number">04 /</span><span class="section-name">EXPERIMENTS</span><p>somewhere fighting my lazy ass and asking for more time.</p></div><div class="section-pencil">in development</div></div>
+      <div class="project-grid experiments-grid" id="experiments-grid"></div>
+    </section>
+
+    <section class="threads-section section-shell" aria-labelledby="threads-title">
+      <div class="thread-paper paper-note yellow-note">
+        <span class="section-kicker">the threads</span>
+        <h2 id="threads-title">Different projects.<br />Same questions.</h2>
+        <div class="thread-list">
+          <p><span>01</span> Can software help us reclaim our attention?</p>
+          <p><span>02</span> Can a mountain loads of information become one useful thing?</p>
+          <p><span>03</span> Can a piece of code feel like an delibrate presence instead of another tab asking for attention?</p>
+        </div>
+      </div>
+      <div class="thread-art"><img src="assets/companion.svg" alt="A friendly little computer companion at a terminal." /></div>
+    </section>
+
+<!--    <section class="practice-section section-shell" aria-labelledby="practice-title">
+      <div class="practice-art"><img src="assets/practice.svg" alt="Hand-drawn practice tools for drawing, typing and speaking." /></div>
+      <div class="practice-note paper-note blue-note">
+        <span class="section-kicker">the practice itch</span>
+        <h2 id="practice-title">Make practice a little harder to ignore.</h2>
+        <p>FocusED, Intention, PrepZero, Key4ce and Poscure all come from different corners of the same problem: making the next useful action easier to start than the next distraction.</p>
+      </div>
+    </section> -->
+
+    <section class="ai-section section-shell" aria-labelledby="ai-title">
+      <div class="ai-heading"><div><span class="section-kicker">AI + authorship</span><h2 id="ai-title">and Yes, the robot helped.</h2></div><p>BUT I still am responsible for the mess.</p></div>
+      <div class="ai-layout">
+        <div class="ai-art"><img src="assets/ai-authorship.svg" alt="Playful hand-drawn note about AI-assisted authorship." /></div>
+        <article class="ai-note paper-note pink-note">
+          <p class="big-note">AI makes the first step cheaper.</p>
+          <p>Most of my software is AI-assisted in one way or another. Sometimes that means a stubborn function. Sometimes it means a rough first pass. Sometimes it means an irresponsible amount of code and me pointing at the screen saying, no, not like that.</p>
+          <p>I do not treat that as shame, and I do not treat it as authorship either. The intent, taste, rejection, debugging and decisions still have to come from somewhere {me!} (^ ^)/</p>
+          <p class="last-line">It's copilot, not autopilot.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="notes-section section-shell" aria-labelledby="notes-title">
+      <div class="notes-stack">
+        <div class="paper-note red-note tilt-left"><span class="section-kicker">note to self</span><h2 id="notes-title">Build first?<br />Explain later.</h2><p>This has produced some good software, some weird software, AND several folders named <code>final-real-this-time</code>.</p></div>
+        <div class="paper-note white-note tilt-right"><span class="section-kicker">Point to note:</span><p><strong>FreeShelf</strong> and <strong>Jen1</strong> are the clearest web-facing work right now.</p><p>The rest DO matter- But not everyone gets it. Also Tools, experiments and half formed ideas are still allowed to stay on the wall.</p></div>
+      </div>
+      <div class="quote-art"><img src="assets/quote-card.svg" alt="Handwritten note: software should feel owned, not consuming." /></div>
+    </section>
+  </main>
+
+  <footer class="footer section-shell">
+    <div class="footer-layout">
+      <div class="footer-art"><img src="assets/footer.svg" alt="Hand-drawn Pacify workshop footer scene." /></div>
+      <div class="footer-note paper-note cream-note">
+        <span class="section-kicker">Signing off and Trust...</span>
+        <h2>I'm still making things.</h2>
+        <div class="footer-links"><a href="https://github.com/LoneMagma" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://github.com/LoneMagma?tab=repositories" target="_blank" rel="noreferrer">all repos ↗</a></div>
+        <p class="footer-signoff">Seeya</p>
+      </div>
+    </div>
+  </footer>
+
+  <template id="project-template">
+    <article class="project-card">
+      <div class="project-art"><svg aria-hidden="true"><use></use></svg></div>
+      <div class="project-card-body">
+        <div class="project-title-row"><h3></h3><span class="project-index"></span></div>
+        <p class="project-desc"></p>
+        <div class="tag-row"></div>
+      </div>
+      <a class="project-open" target="_blank" rel="noreferrer"><span></span><b>↗</b></a>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

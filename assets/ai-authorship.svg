@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="A playful note about AI-assisted authorship">
+<defs>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#1E1A17" flood-opacity=".16"/>
+  </filter>
+  <pattern id="paper" width="28" height="28" patternUnits="userSpaceOnUse">
+    <path d="M4 7h7M18 18h6M8 25h5" stroke="#4C4036" stroke-opacity=".06" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="23" cy="6" r="1" fill="#4C4036" opacity=".06"/>
+  </pattern>
+  <style>
+    .ink{stroke:#1E1A17;stroke-linecap:round;stroke-linejoin:round}
+    .serif{font-family:Georgia,'Times New Roman',serif;fill:#1E1A17}
+    .sans{font-family:'Trebuchet MS',Arial,sans-serif;fill:#1E1A17}
+    .small{font-size:18px}
+  </style>
+</defs>
+
+<rect width="1200" height="320" rx="26" fill="#F4EAD8"/>
+<rect x="10" y="10" width="1180" height="300" rx="22" fill="url(#paper)" opacity=".95"/>
+
+<!-- left note -->
+<g transform="translate(52 38) rotate(-1.5)">
+  <rect x="0" y="0" width="610" height="242" rx="18" fill="#FFFDF7" class="ink" stroke-width="4" filter="url(#shadow)"/>
+  <path d="M22 24H588" stroke="#D7C5AE" stroke-width="2"/>
+  <text x="28" y="68" class="serif" font-size="37" font-weight="700">AI is in the toolbox.</text>
+  <text x="28" y="104" class="sans" font-size="23" fill="#5A5149">not the driver's seat.</text>
+
+  <rect x="28" y="128" width="554" height="88" rx="14" fill="#F7F0E3" class="ink" stroke-width="3"/>
+  <circle cx="49" cy="151" r="7" fill="#D8B766" class="ink" stroke-width="2"/>
+  <text x="66" y="158" class="sans" font-size="18">Most of my software is AI-assisted.</text>
+  <text x="66" y="182" class="sans" font-size="18">I still choose the idea, the shape,</text>
+  <text x="66" y="208" class="sans" font-size="18">and what survives the trash folder.</text>
+
+  <path d="M470 35q42 -23 78 -2" fill="none" stroke="#E26A5B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M550 33l-12 -8M550 33l-8 12" fill="none" stroke="#E26A5B" stroke-width="4" class="ink"/>
+</g>
+
+<!-- right character / joke -->
+<g transform="translate(746 24)">
+  <path d="M84 212Q118 203 152 213" fill="none" stroke="#C9B493" stroke-width="9" stroke-linecap="round"/>
+  <path d="M72 104Q77 58 126 44Q177 58 181 105L171 160Q126 185 82 160Z" fill="#A9D6C0" class="ink" stroke-width="4"/>
+  <path d="M86 72L77 41L108 58M167 59L192 38L181 75" fill="#A9D6C0" class="ink" stroke-width="4"/>
+  <circle cx="105" cy="100" r="8" fill="#FFFDF7" class="ink" stroke-width="3"/>
+  <circle cx="149" cy="100" r="8" fill="#FFFDF7" class="ink" stroke-width="3"/>
+  <circle cx="105" cy="100" r="3.5" fill="#1E1A17"/>
+  <circle cx="149" cy="100" r="3.5" fill="#1E1A17"/>
+  <path d="M111 128Q126 140 143 128" fill="none" stroke="#1E1A17" stroke-width="4" stroke-linecap="round"/>
+  <path d="M79 130L55 118M173 132L200 117" stroke="#1E1A17" stroke-width="4" stroke-linecap="round"/>
+  <rect x="95" y="157" width="66" height="28" rx="9" fill="#2E3340" class="ink" stroke-width="4"/>
+  <circle cx="106" cy="171" r="4" fill="#E26A5B"/>
+  <circle cx="119" cy="171" r="4" fill="#D8B766"/>
+  <circle cx="132" cy="171" r="4" fill="#6B9D69"/>
+
+  <!-- tool -->
+  <path d="M43 170l-23 19" stroke="#4C72C9" stroke-width="6" stroke-linecap="round"/>
+  <path d="M20 189l-11 -2 4 10Z" fill="#4C72C9" class="ink" stroke-width="2"/>
+
+  <g transform="translate(214 38) rotate(5)">
+    <rect x="0" y="0" width="224" height="94" rx="14" fill="#F7F0E3" class="ink" stroke-width="3" filter="url(#shadow)"/>
+    <text x="18" y="31" class="serif" font-size="18" font-weight="700">human in the loop</text>
+    <text x="18" y="57" class="sans small">copilot, not autopilot.</text>
+    <path d="M18 72Q62 64 110 73T204 70" fill="none" stroke="#4C72C9" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <text x="10" y="251" class="serif" font-size="23" fill="#E26A5B">lowering the entry fee, not the stakes.</text>
+  <circle cx="434" cy="216" r="7" fill="#D8B766"/>
+  <circle cx="457" cy="232" r="5" fill="#4C72C9"/>
+</g>
+</svg>
