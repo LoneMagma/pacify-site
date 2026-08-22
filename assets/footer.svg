@@ -1,45 +1,200 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-label="Hand-drawn note saying still building">
-<defs>
-  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#251F1A" flood-opacity=".14"/></filter>
-  <style>
-    .ink{stroke:#1E1A17;stroke-linecap:round;stroke-linejoin:round}
-    .serif{font-family:Georgia,'Times New Roman',serif;fill:#1E1A17}
-    .sans{font-family:'Trebuchet MS',Arial,sans-serif}
-  </style>
-</defs>
-<rect width="1200" height="260" rx="24" fill="#EEE0C9"/>
-<path d="M0 212Q160 194 320 214T640 209T930 214T1200 206V260H0Z" fill="#E0CCAB"/>
-<path d="M0 217Q160 200 316 219T642 214T930 218T1200 211" fill="none" stroke="#C8B494" stroke-width="3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="100%" height="100%">
+  <defs>
+    <!-- Soft pencil texture filter -->
+    <filter id="pencil-texture" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    
+    <!-- Subtle sketch jitter -->
+    <filter id="sketch-rough">
+      <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="turbulence" />
+      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="1.8" />
+    </filter>
 
-<!-- left mini lamp -->
-<g transform="translate(66 36)">
-  <path d="M44 166V82M55 166V82" class="ink" stroke-width="5"/>
-  <path d="M27 82L50 51L76 82Z" fill="#D8B766" class="ink" stroke-width="4"/>
-  <path d="M52 53Q45 42 34 38Q48 25 64 38Q54 43 52 53Z" fill="#FFF7D5" class="ink" stroke-width="3"/>
-  <circle cx="49" cy="171" r="30" fill="#F7F0E3" class="ink" stroke-width="4"/>
-  <text x="22" y="177" class="sans" font-size="13" fill="#5A5149">still here</text>
-</g>
+    <!-- Warm palette gradients matching Pacify aesthetic -->
+    <linearGradient id="sky-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FAF6EE" stop-opacity="0" />
+      <stop offset="100%" stop-color="#F2E9D8" stop-opacity="0.6" />
+    </linearGradient>
 
-<!-- center wave -->
-<g transform="translate(270 143)">
-  <path d="M0 34Q46 8 92 34T184 32T276 34" fill="none" stroke="#4C72C9" stroke-width="5" stroke-linecap="round"/>
-  <path d="M24 28l12 22M83 28l12 22M146 28l12 22M208 28l12 22" class="ink" stroke-width="3"/>
-  <text x="0" y="72" class="sans" font-size="16" fill="#5A5149">one small bug at a time.</text>
-</g>
+    <!-- Pencil line markers/styles -->
+    <style>
+      .pencil-line {
+        stroke: #2C2825;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        opacity: 0.85;
+      }
+      .pencil-line-thin {
+        stroke: #4A443F;
+        stroke-width: 1.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        opacity: 0.7;
+      }
+      .pencil-shading {
+        fill: #E8DEC8;
+        opacity: 0.5;
+      }
+      .warm-accent {
+        fill: #D9A05B;
+        opacity: 0.25;
+      }
+      .sage-accent {
+        fill: #8A9A86;
+        opacity: 0.25;
+      }
+      .terracotta-accent {
+        fill: #C87D55;
+        opacity: 0.2;
+      }
+      .stars {
+        fill: #6B5E52;
+        opacity: 0.6;
+      }
+    </style>
+  </defs>
 
-<!-- note -->
-<g transform="translate(730 43) rotate(-2)">
-  <rect x="0" y="0" width="370" height="154" rx="16" fill="#FFFDF7" class="ink" stroke-width="4" filter="url(#shadow)"/>
-  <path d="M22 22H348" stroke="#D7C5AE" stroke-width="2"/>
-  <text x="26" y="61" class="serif" font-size="30" font-weight="700">still building.</text>
-  <rect x="24" y="78" width="320" height="56" rx="10" fill="#F7F0E3" class="ink" stroke-width="2.5"/>
-  <text x="40" y="107" class="sans" font-size="18" fill="#5A5149">temporary permanent mess.</text>
-  <text x="40" y="126" class="sans" font-size="15" fill="#E26A5B">please ignore the sawdust.</text>
-</g>
+  <!-- Background Warm Soft Gradient -->
+  <rect width="1200" height="320" fill="url(#sky-grad)" />
 
-<!-- corner marks -->
-<path d="M1143 40q20 18 0 36" fill="none" stroke="#E26A5B" stroke-width="4" stroke-linecap="round"/>
-<path d="M1168 50q16 11 0 25" fill="none" stroke="#4C72C9" stroke-width="4" stroke-linecap="round"/>
-<circle cx="1128" cy="225" r="7" fill="#6B9D69"/>
-<circle cx="1150" cy="230" r="5" fill="#D8B766"/>
+  <!-- Main Illustration Group with Pencil Roughness -->
+  <g filter="url(#pencil-texture)">
+
+    <!-- BACKGROUND ELEMENTS (Distant Soft Hills & Crescent Moon) -->
+    <!-- Soft Moon -->
+    <path d="M 1020,50 A 22,22 0 1 0 1038,80 A 18,18 0 1 1 1020,50 Z" class="warm-accent" />
+    <path d="M 1020,50 A 22,22 0 1 0 1038,80 A 18,18 0 1 1 1020,50 Z" class="pencil-line-thin" />
+
+    <!-- Distant Gentle Ridge -->
+    <path d="M -10,230 Q 200,190 450,220 T 900,200 Q 1080,185 1210,210 L 1210,330 L -10,330 Z" class="pencil-shading" />
+    <path d="M -10,230 Q 200,190 450,220 T 900,200 Q 1080,185 1210,210" class="pencil-line-thin" />
+
+    <!-- Whimsical Stars & Sparkles -->
+    <!-- Star 1 -->
+    <path d="M 150,70 L 152,78 L 160,80 L 152,82 L 150,90 L 148,82 L 140,80 L 148,78 Z" class="stars" />
+    <!-- Star 2 -->
+    <path d="M 480,50 L 481.5,56 L 488,57.5 L 481.5,59 L 480,65 L 478.5,59 L 472,57.5 L 478.5,56 Z" class="stars" />
+    <!-- Star 3 -->
+    <path d="M 850,85 L 851.5,91 L 858,92.5 L 851.5,94 L 850,100 L 848.5,94 L 842,92.5 L 848.5,91 Z" class="stars" />
+    <!-- Little dots/sparkles -->
+    <circle cx="280" cy="95" r="1.5" class="stars" />
+    <circle cx="730" cy="65" r="2" class="stars" />
+    <circle cx="960" cy="110" r="1.5" class="stars" />
+
+    <!-- MIDGROUND ELEMENTS (Trees, Rolling Meadow, Curved Path) -->
+
+    <!-- Left Pine / Cypress Tree -->
+    <path d="M 90,260 Q 80,210 95,160 Q 110,210 100,260 Z" class="sage-accent" />
+    <path d="M 95,160 Q 75,200 88,260 M 95,160 Q 115,200 102,260" class="pencil-line-thin" />
+    <!-- Tree Trunk & Details -->
+    <path d="M 95,260 L 95,275" class="pencil-line" />
+    <path d="M 90,210 L 100,205 M 87,230 L 103,223 M 85,250 L 105,245" class="pencil-line-thin" />
+
+    <!-- Midground Hill Contour -->
+    <path d="M -10,265 Q 250,225 550,250 T 1210,235 L 1210,330 L -10,330 Z" fill="#F4EBD9" opacity="0.9" />
+    <path d="M -10,265 Q 250,225 550,250 T 1210,235" class="pencil-line" />
+
+    <!-- Winding Meandering Footpath -->
+    <path d="M 520,320 C 510,290 540,270 530,250 C 525,240 515,235 510,230" fill="none" stroke="#D3C3A8" stroke-width="12" stroke-linecap="round" opacity="0.5" />
+    <path d="M 520,320 C 510,290 540,270 530,250 C 525,240 515,235 510,230" class="pencil-line-thin" stroke-dasharray="4,3" />
+
+    <!-- Cozy Midground Cottage -->
+    <g id="cottage" transform="translate(680, 190)">
+      <!-- Roof -->
+      <path d="M 30,35 L 60,15 L 90,35 Z" class="terracotta-accent" />
+      <path d="M 26,37 L 60,13 L 94,37" class="pencil-line" />
+      <!-- House Body -->
+      <path d="M 32,36 L 32,65 L 88,65 L 88,36 Z" fill="#FAF6EE" />
+      <path d="M 32,36 L 32,65 L 88,65 L 88,36" class="pencil-line" />
+      <!-- Door -->
+      <path d="M 54,48 L 54,65 L 66,65 L 66,48 Z" class="warm-accent" />
+      <path d="M 54,48 L 54,65 L 66,65 L 66,48 Z" class="pencil-line-thin" />
+      <!-- Window with warm light -->
+      <rect x="38" y="44" width="10" height="10" rx="1" fill="#EAD08B" />
+      <rect x="38" y="44" width="10" height="10" rx="1" class="pencil-line-thin" />
+      <path d="M 43,44 L 43,54 M 38,49 L 48,49" class="pencil-line-thin" />
+      <!-- Chimney Smoke Puff -->
+      <path d="M 80,18 L 80,8" class="pencil-line-thin" />
+      <path d="M 78,5 Q 73,0 78,-5 Q 85,-10 78,-15" class="pencil-line-thin" opacity="0.5" />
+    </g>
+
+    <!-- Round Deciduous Trees near Cottage -->
+    <circle cx="645" cy="225" r="22" class="sage-accent" />
+    <circle cx="645" cy="225" r="22" class="pencil-line-thin" stroke-dasharray="6,2" />
+    <path d="M 645,247 L 645,260" class="pencil-line" />
+
+    <circle cx="790" cy="235" r="18" class="warm-accent" />
+    <circle cx="790" cy="235" r="18" class="pencil-line-thin" stroke-dasharray="5,2" />
+    <path d="M 790,253 L 790,265" class="pencil-line" />
+
+    <!-- FOREGROUND ELEMENTS (Pencil Grass, Wildflowers, Wooden Bench & Lamp) -->
+
+    <!-- Foreground Ground Slope -->
+    <path d="M -10,290 Q 350,270 700,285 T 1210,270 L 1210,330 L -10,330 Z" fill="#EFE3CF" />
+    <path d="M -10,290 Q 350,270 700,285 T 1210,270" class="pencil-line" />
+
+    <!-- Park Bench (Relaxing / Pacify vibe) -->
+    <g id="bench" transform="translate(320, 260)">
+      <!-- Bench Backrest -->
+      <path d="M 10,8 L 50,8 M 10,13 L 50,13 M 10,18 L 50,18" class="pencil-line" />
+      <!-- Bench Seat -->
+      <path d="M 8,23 L 52,23" class="pencil-line" stroke-width="2.5" />
+      <!-- Bench Legs & Support -->
+      <path d="M 12,23 L 10,35 M 48,23 L 50,35 M 15,8 L 12,35 M 45,8 L 48,35" class="pencil-line-thin" />
+    </g>
+
+    <!-- Hand-Drawn Cozy Street Lamp next to bench -->
+    <g id="street-lamp" transform="translate(390, 230)">
+      <path d="M 10,65 L 10,20 Q 10,10 20,8 L 22,8" class="pencil-line" />
+      <!-- Lantern -->
+      <path d="M 18,8 L 26,12 L 22,22 L 14,22 Z" class="warm-accent" />
+      <path d="M 18,8 L 26,12 L 22,22 L 14,22 Z" class="pencil-line-thin" />
+      <!-- Soft Light Glow Radius -->
+      <circle cx="20" cy="16" r="15" fill="#F3E5AB" opacity="0.35" />
+    </g>
+
+    <!-- Hand-drawn Grass Tufts along the front -->
+    <!-- Left Grass Group -->
+    <path d="M 30,290 Q 25,275 20,270 M 32,290 Q 32,272 35,268 M 35,290 Q 42,275 48,272" class="pencil-line-thin" />
+    <path d="M 140,285 Q 135,270 128,265 M 142,285 Q 145,268 148,262 M 145,285 Q 152,272 158,270" class="pencil-line-thin" />
+    
+    <!-- Wildflowers (Left) -->
+    <circle cx="85" cy="275" r="3" class="terracotta-accent" />
+    <path d="M 85,278 L 85,288 M 82,282 C 80,280 88,280 85,288" class="pencil-line-thin" />
+    <circle cx="100" cy="270" r="2.5" class="warm-accent" />
+    <path d="M 100,272.5 L 100,286" class="pencil-line-thin" />
+
+    <!-- Center-Right Grass & Botanical Accents -->
+    <path d="M 580,288 Q 575,273 570,268 M 582,288 Q 585,270 590,265 M 585,288 Q 592,275 600,273" class="pencil-line-thin" />
+    <path d="M 910,278 Q 905,260 898,255 M 912,278 Q 915,258 920,252 M 915,278 Q 925,262 932,260" class="pencil-line-thin" />
+
+    <!-- Wildflowers & Reed Stalks (Right) -->
+    <g id="reeds-right" transform="translate(1020, 240)">
+      <!-- Tall botanical stalks -->
+      <path d="M 10,50 Q 15,25 8,5 M 10,50 Q 25,30 28,12 M 10,50 Q -2,30 -5,15" class="pencil-line-thin" />
+      <!-- Floral/Seed heads -->
+      <circle cx="8" cy="5" r="3" class="sage-accent" />
+      <circle cx="28" cy="12" r="2.5" class="terracotta-accent" />
+      <circle cx="-5" cy="15" r="3" class="warm-accent" />
+      <!-- Little pencil hatch leaves -->
+      <path d="M 10,40 Q 20,35 24,38 M 10,30 Q -1,25 -4,28" class="pencil-line-thin" />
+    </g>
+
+    <g id="reeds-far-right" transform="translate(1120, 250)">
+      <path d="M 10,40 Q 5,20 2,2 M 10,40 Q 18,22 22,8" class="pencil-line-thin" />
+      <circle cx="2" cy="2" r="2.5" class="warm-accent" />
+      <circle cx="22" cy="8" r="2" class="sage-accent" />
+    </g>
+
+    <!-- Subtle Pencil Hatching/Shading Marks on Ground -->
+    <path d="M 200,305 L 215,298 M 205,307 L 220,300 M 210,309 L 225,302" class="pencil-line-thin" opacity="0.4" />
+    <path d="M 750,295 L 765,288 M 755,297 L 770,290 M 760,299 L 775,292" class="pencil-line-thin" opacity="0.4" />
+    <path d="M 1050,300 L 1065,293 M 1055,302 L 1070,295" class="pencil-line-thin" opacity="0.4" />
+
+  </g>
 </svg>

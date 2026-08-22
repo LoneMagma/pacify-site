@@ -1,17 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" role="img" aria-label="Four hand-drawn objects representing the flagship projects">
-  <defs><filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#2e2924" flood-opacity=".13"/></filter></defs>
-  <g filter="url(#s)" stroke="#2e2924" stroke-width="4" stroke-linejoin="round">
-    <path d="M70 84 l150 -26 35 166 -153 26z" fill="#f0d46e"/>
-    <path d="M100 108 l85 -15 10 54 -86 15z" fill="#f7f1e4"/>
-    <path d="M116 184 h101" stroke="#c95c4c"/>
-    <path d="M360 58 h178 q20 0 20 20 v120 q0 20 -20 20 h-178 q-20 0 -20 -20 v-120 q0 -20 20 -20z" fill="#d8e7ef"/>
-    <circle cx="450" cy="118" r="33" fill="#e36a57"/><path d="M437 120 q13 16 28 0" fill="none"/>
-    <path d="M695 66 q64 -22 123 10 l-18 167 q-63 20 -122 -8z" fill="#dbe3bb"/>
-    <path d="M725 98 h54 m-54 34 h46 m-46 34 h62" stroke="#4b5141"/>
-    <path d="M858 255 q34 -70 78 -40 q-23 12 -37 38 q-18 32 -41 46 q-18 -19 0 -44z" fill="#e1b96b"/>
-    <path d="M60 290 q100 -48 190 0 t200 0 t200 0 t250 0" fill="none" stroke="#7b6d60"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" role="img" aria-label="Four playful hand-drawn project vignettes">
+  <defs>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#111111" flood-opacity=".12"/>
+    </filter>
+    <style>
+      .ink{stroke:#2f2b27;stroke-linecap:round;stroke-linejoin:round}
+      .halo{stroke:#f5efe6;stroke-linecap:round;stroke-linejoin:round}
+      .muted{stroke:#776e64;stroke-linecap:round;stroke-linejoin:round}
+      .serif{font-family:Georgia,'Times New Roman',serif;fill:#2f2b27}
+    </style>
+  </defs>
+
+  <!-- FreeShelf -->
+  <g transform="translate(26 28)" filter="url(#soft)">
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="#f7f0e6" opacity=".95"/>
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="none" class="halo" stroke-width="7"/>
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="none" class="ink" stroke-width="3"/>
+    <!-- shelf -->
+    <path d="M30 184 h158" class="ink" stroke-width="4"/>
+    <path d="M30 184 h158 v10 H30z" fill="#cfa77d" class="ink" stroke-width="2"/>
+    <!-- objects -->
+    <rect x="52" y="122" width="28" height="62" rx="4" fill="#9fb7c5" class="ink" stroke-width="2"/>
+    <rect x="91" y="112" width="31" height="72" rx="4" fill="#9aa77b" class="ink" stroke-width="2"/>
+    <rect x="132" y="130" width="25" height="54" rx="4" fill="#c98576" class="ink" stroke-width="2"/>
+    <!-- tag -->
+    <path d="M78 104 l18 -22 25 17 -22 20z" fill="#e1ba58" class="ink" stroke-width="2"/>
+    <circle cx="102" cy="96" r="3" fill="#f5efe6" class="ink" stroke-width="1"/>
+    <path d="M32 70 q20 -18 44 0 q25 16 48 0 q26 -18 54 2" fill="none" class="muted" stroke-width="2" opacity=".6"/>
+    <text x="26" y="232" class="serif" font-size="24" font-weight="700">FreeShelf</text>
+    <path d="M27 244 q50 -7 104 0" fill="none" stroke="#d1a94b" stroke-width="4" opacity=".75"/>
   </g>
-  <text x="75" y="304" font-family="Georgia,serif" font-size="23" fill="#2e2924">something useful</text>
-  <text x="350" y="304" font-family="Georgia,serif" font-size="23" fill="#2e2924">something watchable</text>
-  <text x="687" y="304" font-family="Georgia,serif" font-size="23" fill="#2e2924">something alive-ish</text>
+
+  <!-- Jen1 -->
+  <g transform="translate(267 28)" filter="url(#soft)">
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="#f7f0e6" opacity=".95"/>
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="none" class="halo" stroke-width="7"/>
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="none" class="ink" stroke-width="3"/>
+    <!-- projector/screen -->
+    <rect x="36" y="42" width="148" height="108" rx="10" fill="#dbe3da" class="ink" stroke-width="3"/>
+    <path d="M94 68 l44 28 -44 28z" fill="#c87868" class="ink" stroke-width="2.5"/>
+    <path d="M26 170 q84 -18 168 0" fill="none" class="muted" stroke-width="2.5"/>
+    <path d="M82 171 l28 26 h0 l28 -26" fill="none" class="ink" stroke-width="3"/>
+    <circle cx="52" cy="67" r="4" fill="#2f2b27"/><circle cx="168" cy="67" r="4" fill="#2f2b27"/>
+    <path d="M52 86 v42 M168 86 v42" class="muted" stroke-width="2" opacity=".45"/>
+    <text x="28" y="232" class="serif" font-size="24" font-weight="700">Jen1</text>
+    <path d="M28 244 q35 -7 75 0" fill="none" stroke="#7892a6" stroke-width="4" opacity=".75"/>
+  </g>
+
+  <!-- SOUL -->
+  <g transform="translate(508 28)" filter="url(#soft)">
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="#f7f0e6" opacity=".95"/>
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="none" class="halo" stroke-width="7"/>
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="none" class="ink" stroke-width="3"/>
+    <path d="M52 151 Q55 63 111 48 Q167 63 170 151 L155 180 Q111 199 66 180Z" fill="#9db68c" opacity=".9" class="ink" stroke-width="3"/>
+    <path d="M78 57 Q64 25 48 15 M144 58 Q160 25 176 15" fill="none" class="ink" stroke-width="3"/>
+    <circle cx="48" cy="15" r="6" fill="#e1ba58" class="ink" stroke-width="2"/>
+    <circle cx="176" cy="15" r="6" fill="#e1ba58" class="ink" stroke-width="2"/>
+    <circle cx="86" cy="108" r="12" fill="#f7f0e6" class="ink" stroke-width="2.5"/>
+    <circle cx="136" cy="108" r="12" fill="#f7f0e6" class="ink" stroke-width="2.5"/>
+    <circle cx="87" cy="108" r="4.5" fill="#2f2b27"/><circle cx="137" cy="108" r="4.5" fill="#2f2b27"/>
+    <path d="M88 137 q22 24 45 0" fill="none" class="ink" stroke-width="3"/>
+    <path d="M72 149 l-22 16 M153 149 l22 16" class="ink" stroke-width="3"/>
+    <text x="26" y="232" class="serif" font-size="24" font-weight="700">SOUL</text>
+    <path d="M26 244 q40 -7 88 0" fill="none" stroke="#9aa77b" stroke-width="4" opacity=".85"/>
+  </g>
+
+  <!-- Poscure -->
+  <g transform="translate(749 28)" filter="url(#soft)">
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="#f7f0e6" opacity=".95"/>
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="none" class="halo" stroke-width="7"/>
+    <rect x="0" y="0" width="220" height="270" rx="12" fill="none" class="ink" stroke-width="3"/>
+    <!-- easel -->
+    <path d="M58 211 L101 52 M163 211 L116 52 M86 133 L67 211 M141 133 L181 211" fill="none" class="ink" stroke-width="3"/>
+    <rect x="43" y="46" width="122" height="94" rx="7" fill="#e7e0d6" class="ink" stroke-width="3"/>
+    <!-- sketch -->
+    <circle cx="104" cy="75" r="15" fill="#d6a39a" opacity=".55" class="ink" stroke-width="1.7"/>
+    <path d="M93 92 q15 10 23 0 v24 M94 104 h26" fill="none" class="muted" stroke-width="2"/>
+    <!-- timer -->
+    <circle cx="177" cy="55" r="18" fill="#e1ba58" class="ink" stroke-width="2.5"/>
+    <path d="M177 45 v11 l7 6" fill="none" class="ink" stroke-width="2.2"/>
+    <text x="26" y="232" class="serif" font-size="24" font-weight="700">Poscure</text>
+    <path d="M26 244 q48 -7 100 0" fill="none" stroke="#c87868" stroke-width="4" opacity=".8"/>
+  </g>
+
+  <!-- quiet connecting doodle line -->
+  <path d="M230 316 q70 -24 140 0 t140 0 q70 -24 140 0 t140 0 q70 -24 140 0" fill="none" class="muted" stroke-width="2" opacity=".30"/>
+  <g fill="none" class="muted" stroke-width="2" opacity=".38">
+    <path d="M86 18 v18 M77 27 h18"/>
+    <path d="M918 24 l9 9 l-9 9 l-9 -9z"/>
+  </g>
 </svg>

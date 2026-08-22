@@ -7,10 +7,11 @@
   <meta name="description" content="Pacify is a little illustrated workshop containing software, tools, experiments and ideas by Lone." />
   <meta name="color-scheme" content="light dark" />
   <title>Pacify</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="paper-stage" aria-hidden="true"><div class="paper-map"></div><div class="paper-grain"></div></div>
+  <div class="paper-stage" aria-hidden="true"><div class="paper-map"></div><div class="paper-marks"></div><div class="paper-grain"></div></div>
 
   <header class="site-header" id="top">
     <a class="brand" href="#top" aria-label="Pacify home"><span class="brand-word">Pacify</span><span class="brand-pencil">workshop?</span></a>
@@ -20,8 +21,7 @@
         <span class="weather-icon"><img src="assets/weather-light.svg" alt="" /></span>
       </button>
       <span class="weather-note">click here to change weather.</span>
-      <span class="weather-arrow" aria-hidden="true">↙</span>
-      <button class="system-reset" id="weather-system" type="button" hidden>back to system weather</button>
+
     </div>
   </header>
 
@@ -31,15 +31,44 @@
         <p class="hero-kicker">A growing collection</p>
         <h1 id="hero-title">What i've made.</h1>
         <p class="hero-lede">below is a slightly untidy collection of websites, software, tools, experiments and ideas that escaped the notebook.</p>
-        <a class="see-work" href="#work">see it <span>↓</span></a>
+        <a class="see-work" href="#work">see it <span>&darr;</span></a>
       </div>
-      <div class="hero-art"><img src="assets/hero.svg" alt="Hand-drawn notebook, computer and paper scraps on a desk." /></div>
+      <div class="hero-art"><img src="assets/hero.svg" alt="Hand-drawn open sketchbook spread with ideas, notes, arrows, and a small companion." /></div>
     </section>
 
     <section class="desk-section section-shell" aria-labelledby="desk-title">
       <div class="section-mark">the desk</div>
       <div class="desk-layout">
-        <div class="desk-art"><img src="assets/desk.svg" alt="Hand-drawn desk with notebook, books, terminal, plant and companion." /></div>
+        <div class="desk-art">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-label="Workshop shelf map showing the four tiers of projects">
+            <!-- loose shelf lines -->
+            <g stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".2">
+              <path d="M50 95 Q200 89 400 96 Q600 103 750 91"/>
+              <path d="M50 195 Q200 189 400 196 Q600 203 750 191"/>
+              <path d="M50 295 Q200 289 400 296 Q600 303 750 291"/>
+            </g>
+            <!-- section labels -->
+            <g fill="var(--ink)" opacity=".75">
+              <text x="70" y="72" font-family="var(--serif)" font-size="30" font-weight="400" letter-spacing="-.03em">flagship</text>
+              <text x="70" y="172" font-family="var(--serif)" font-size="26" font-weight="400" letter-spacing="-.03em">main</text>
+              <text x="70" y="272" font-family="var(--serif)" font-size="24" font-weight="400" letter-spacing="-.03em">peripherals</text>
+              <text x="70" y="378" font-family="var(--serif)" font-size="22" font-weight="400" letter-spacing="-.03em">experiments</text>
+            </g>
+            <!-- small book icons — color-coded, slightly rotated -->
+            <g opacity=".4">
+              <g transform="translate(380 55) rotate(-3)"><rect width="30" height="20" rx="2" fill="var(--grid-flagship)" stroke="var(--ink)" stroke-width="1.5"/></g>
+              <g transform="translate(450 50) rotate(2)"><rect width="26" height="18" rx="2" fill="var(--grid-flagship)" stroke="var(--ink)" stroke-width="1.5" opacity=".7"/></g>
+              <g transform="translate(520 56) rotate(-1)"><rect width="28" height="19" rx="2" fill="var(--grid-flagship)" stroke="var(--ink)" stroke-width="1.5" opacity=".55"/></g>
+              <g transform="translate(380 155) rotate(1.5)"><rect width="28" height="19" rx="2" fill="var(--grid-main)" stroke="var(--ink)" stroke-width="1.5"/></g>
+              <g transform="translate(450 150) rotate(-2)"><rect width="26" height="18" rx="2" fill="var(--grid-main)" stroke="var(--ink)" stroke-width="1.5" opacity=".7"/></g>
+              <g transform="translate(520 156) rotate(1)"><rect width="30" height="20" rx="2" fill="var(--grid-main)" stroke="var(--ink)" stroke-width="1.5" opacity=".55"/></g>
+              <g transform="translate(380 255) rotate(-1)"><rect width="26" height="18" rx="2" fill="var(--grid-peripheral)" stroke="var(--ink)" stroke-width="1.5"/></g>
+              <g transform="translate(450 250) rotate(2.5)"><rect width="28" height="19" rx="2" fill="var(--grid-peripheral)" stroke="var(--ink)" stroke-width="1.5" opacity=".65"/></g>
+              <g transform="translate(380 355) rotate(1)"><rect width="24" height="17" rx="2" fill="var(--grid-experiment)" stroke="var(--ink)" stroke-width="1.5"/></g>
+              <g transform="translate(445 350) rotate(-1.5)"><rect width="26" height="18" rx="2" fill="var(--grid-experiment)" stroke="var(--ink)" stroke-width="1.5" opacity=".6"/></g>
+            </g>
+          </svg>
+        </div>
         <div class="desk-note paper-note cream-note">
           <p class="section-kicker">come in.</p>
           <h2 id="desk-title">The workshop itself is the project.</h2>
@@ -52,11 +81,11 @@
     <section class="work-section section-shell" id="work" aria-labelledby="work-title">
       <div class="section-intro flagship-intro">
         <div><span class="section-number">01 /</span><span class="section-name">THE FLAGSHIP</span><p>these are the ones that survived several rewrites.</p></div>
-        <img src="assets/flagship.svg" alt="Four hand-drawn objects representing the flagship projects." />
+        <img src="assets/flagship.svg" alt="Four hand-drawn vignettes representing FreeShelf, Jen1, SOUL, and Poscure." />
       </div>
       <div class="project-grid flagship-grid" id="flagship-grid"></div>
 
-      <div class="section-intro compact"><div><span class="section-number">02 /</span><span class="section-name">MAIN</span><p>these got suspiciously serious.</p></div><div class="section-pencil">↳ four substantial machines</div></div>
+      <div class="section-intro compact"><div><span class="section-number">02 /</span><span class="section-name">MAIN</span><p>these got suspiciously serious.</p></div><div class="section-pencil">&orarr; four substantial machines</div></div>
       <div class="project-grid main-grid" id="main-grid"></div>
 
       <div class="section-intro compact"><div><span class="section-number">03 /</span><span class="section-name">PERIPHERALS</span><p>not the main character but still causing trouble.</p></div><div class="section-pencil">around the edges</div></div>
@@ -79,19 +108,10 @@
       <div class="thread-art"><img src="assets/companion.svg" alt="A friendly little computer companion at a terminal." /></div>
     </section>
 
-<!--    <section class="practice-section section-shell" aria-labelledby="practice-title">
-      <div class="practice-art"><img src="assets/practice.svg" alt="Hand-drawn practice tools for drawing, typing and speaking." /></div>
-      <div class="practice-note paper-note blue-note">
-        <span class="section-kicker">the practice itch</span>
-        <h2 id="practice-title">Make practice a little harder to ignore.</h2>
-        <p>FocusED, Intention, PrepZero, Key4ce and Poscure all come from different corners of the same problem: making the next useful action easier to start than the next distraction.</p>
-      </div>
-    </section> -->
-
     <section class="ai-section section-shell" aria-labelledby="ai-title">
       <div class="ai-heading"><div><span class="section-kicker">AI + authorship</span><h2 id="ai-title">and Yes, the robot helped.</h2></div><p>BUT I still am responsible for the mess.</p></div>
       <div class="ai-layout">
-        <div class="ai-art"><img src="assets/ai-authorship.svg" alt="Playful hand-drawn note about AI-assisted authorship." /></div>
+        <div class="ai-art"><img src="assets/ai-authorship.svg" alt="A friendly little computer companion at a terminal." /></div>
         <article class="ai-note paper-note pink-note">
           <p class="big-note">AI makes the first step cheaper.</p>
           <p>Most of my software is AI-assisted in one way or another. Sometimes that means a stubborn function. Sometimes it means a rough first pass. Sometimes it means an irresponsible amount of code and me pointing at the screen saying, no, not like that.</p>
@@ -112,11 +132,11 @@
 
   <footer class="footer section-shell">
     <div class="footer-layout">
-      <div class="footer-art"><img src="assets/footer.svg" alt="Hand-drawn Pacify workshop footer scene." /></div>
+      <div class="footer-art"><img src="assets/footer.svg" alt="Hand-drawn sign-off scene: pencil at rest with a small seedling." /></div>
       <div class="footer-note paper-note cream-note">
         <span class="section-kicker">Signing off and Trust...</span>
         <h2>I'm still making things.</h2>
-        <div class="footer-links"><a href="https://github.com/LoneMagma" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://github.com/LoneMagma?tab=repositories" target="_blank" rel="noreferrer">all repos ↗</a></div>
+        <div class="footer-links"><a href="https://github.com/LoneMagma" target="_blank" rel="noreferrer">GitHub &nearr;</a><a href="https://github.com/LoneMagma?tab=repositories" target="_blank" rel="noreferrer">all repos &nearr;</a></div>
         <p class="footer-signoff">Seeya</p>
       </div>
     </div>
@@ -130,7 +150,7 @@
         <p class="project-desc"></p>
         <div class="tag-row"></div>
       </div>
-      <a class="project-open" target="_blank" rel="noreferrer"><span></span><b>↗</b></a>
+      <a class="project-open" target="_blank" rel="noreferrer"><span></span><b>&nearr;</b></a>
     </article>
   </template>
 

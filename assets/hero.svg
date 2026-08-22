@@ -1,32 +1,200 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 430" role="img" aria-label="Hand-drawn notebook, small computer, and paper scraps representing a workshop">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" width="100%" height="100%">
   <defs>
-    <filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#3b332c" flood-opacity=".14"/></filter>
+    <!-- Heavy rough pencil filter -->
+    <filter id="pencil-rough" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+
+    <style>
+      /* Light Mode Default Theme Colors */
+      :root {
+        --pencil-color: #2C2825;
+        --pencil-subtle: #6B5E52;
+        --accent-terracotta: #C87D55;
+        --accent-warm: #D9A05B;
+        --accent-sage: #8A9A86;
+        --accent-sand: #E8DEC8;
+        --accent-charcoal: #2C2825;
+      }
+
+      /* Dark Mode System Preference */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --pencil-color: #E6E1D8;
+          --pencil-subtle: #A39B8E;
+          --accent-terracotta: #E0936B;
+          --accent-warm: #E2B275;
+          --accent-sage: #A2B39E;
+          --accent-sand: #5E564A;
+          --accent-charcoal: #D8CEBE;
+        }
+      }
+
+      /* Dark Mode Manual Class Overrides */
+      .dark, [data-theme="dark"] {
+        --pencil-color: #E6E1D8;
+        --pencil-subtle: #A39B8E;
+        --accent-terracotta: #E0936B;
+        --accent-warm: #E2B275;
+        --accent-sage: #A2B39E;
+        --accent-sand: #5E564A;
+        --accent-charcoal: #D8CEBE;
+      }
+
+      .p-dark {
+        stroke: var(--pencil-color, currentColor);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
+      .p-medium {
+        stroke: var(--pencil-color, currentColor);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
+      .p-light {
+        stroke: var(--pencil-subtle, currentColor);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
+      .p-scribble {
+        stroke: var(--pencil-subtle, currentColor);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        opacity: 0.45;
+      }
+      .fill-terracotta { fill: var(--accent-terracotta); opacity: 0.28; }
+      .fill-warm { fill: var(--accent-warm); opacity: 0.3; }
+      .fill-sage { fill: var(--accent-sage); opacity: 0.3; }
+      .fill-sand { fill: var(--accent-sand); opacity: 0.4; }
+      .fill-charcoal { fill: var(--accent-charcoal); opacity: 0.15; }
+      .dot { fill: var(--pencil-color, currentColor); opacity: 0.65; }
+    </style>
   </defs>
-  <path d="M54 360 Q160 332 246 350 T430 342 T618 348 T875 340" fill="none" stroke="#6d6257" stroke-width="3" stroke-linecap="round" opacity=".45"/>
-  <g filter="url(#s)">
-    <path d="M86 78 q152 -28 270 4 l-10 216 q-134 32 -264 -1z" fill="#f6e6b9" stroke="#2e2924" stroke-width="4"/>
-    <path d="M122 126 q96 -11 194 3" fill="none" stroke="#c95c4c" stroke-width="7" stroke-linecap="round"/>
-    <text x="122" y="172" font-family="Georgia,serif" font-size="38" fill="#2e2924">make a thing</text>
-    <text x="122" y="212" font-family="Georgia,serif" font-size="30" fill="#2e2924">keep poking it</text>
-    <path d="M126 248 q70 -20 136 0" fill="none" stroke="#2e2924" stroke-width="3" stroke-linecap="round"/>
+
+  <g filter="url(#pencil-rough)">
+
+    <!-- BACKGROUND: Abstract Scribbles, Loose Loops & Oversized Shapes -->
+
+    <!-- Large Loose Background Loop extending across upper left -->
+    <path d="M -50,180 C 150,20 400,-20 520,140 C 640,300 320,480 180,380 C 40,280 220,120 450,220 C 680,320 850,150 1050,220 C 1180,260 1250,180 1280,100" class="p-scribble" stroke-width="1.2" stroke-dasharray="12 6" />
+
+    <!-- Expressive Corner Scribble / Hatching (Top Right) -->
+    <g class="p-scribble" stroke-width="0.9">
+      <path d="M 850,40 C 920,10 1020,-10 1150,30" />
+      <path d="M 830,65 C 910,25 1040,15 1170,55" />
+      <path d="M 820,90 C 900,45 1060,30 1190,80" />
+      <path d="M 840,115 C 930,70 1050,60 1180,110" />
+      <path d="M 880,140 C 960,100 1070,90 1160,135" />
+    </g>
+
+    <!-- Raw Loose Circular Charcoal Smudge (Left) -->
+    <path d="M 80,420 C 40,320 120,220 240,240 C 360,260 410,390 310,480 C 210,570 120,520 80,420 Z" class="fill-charcoal" />
+    <path d="M 82,418 C 42,322 118,222 238,238 C 358,258 412,388 312,478 C 212,568 122,518 82,418 Z" class="p-medium" stroke-width="1.5" opacity="0.4" />
+    <path d="M 78,425 C 45,315 125,215 245,245 C 365,265 405,395 305,485 C 205,575 115,525 78,425 Z" class="p-dark" stroke-width="1.8" opacity="0.6" />
+
+    <!-- CENTER-LEFT: Oversized Floating Terracotta Pebble with Expressive Hatching -->
+    <g id="center-pebble">
+      <path d="M 320,320 C 260,220 380,120 540,160 C 700,200 760,340 680,440 C 600,540 380,420 320,320 Z" class="fill-terracotta" />
+      <!-- Double sketched boundary -->
+      <path d="M 320,320 C 260,220 380,120 540,160 C 700,200 760,340 680,440 C 600,540 380,420 320,320 Z" class="p-dark" stroke-width="2.2" opacity="0.85" />
+      <path d="M 324,316 C 265,224 375,125 535,164 C 695,203 755,335 675,435 C 595,535 385,415 324,316 Z" class="p-medium" stroke-width="1.2" opacity="0.5" />
+
+      <!-- Messy Cross-Hatching texture inside pebble -->
+      <g class="p-light" stroke-width="1.2" opacity="0.65">
+        <path d="M 420,240 L 520,180 M 410,265 L 545,185 M 400,290 L 570,190 M 395,315 L 590,200 M 400,340 L 600,220 M 410,365 L 600,250 M 430,390 L 590,290" />
+        <path d="M 450,200 L 410,320 M 480,190 L 430,350 M 510,195 L 450,380 M 540,210 L 480,400 M 570,230 L 520,410" />
+      </g>
+    </g>
+
+    <!-- CENTER-RIGHT: Sage Organic Blob & Stacked Pebble Form -->
+    <path d="M 680,180 C 800,120 960,180 980,300 C 1000,420 880,520 740,500 C 600,480 560,240 680,180 Z" class="fill-sage" />
+    <path d="M 680,180 C 800,120 960,180 980,300 C 1000,420 880,520 740,500 C 600,480 560,240 680,180 Z" class="p-medium" stroke-width="1.8" opacity="0.7" />
+
+    <!-- Asymmetrical Abstract Balance Stack (Right) -->
+    <g transform="translate(860, 260)">
+      <!-- Base Stone -->
+      <path d="M -20,120 C 30,80 150,85 180,125 C 210,165 110,210 20,195 C -70,180 -70,160 -20,120 Z" class="fill-sand" />
+      <path d="M -20,120 C 30,80 150,85 180,125 C 210,165 110,210 20,195 C -70,180 -70,160 -20,120 Z" class="p-dark" stroke-width="2" opacity="0.8" />
+      
+      <!-- Middle Stone -->
+      <path d="M 0,60 C 40,30 120,35 140,65 C 160,95 80,130 20,115 C -40,100 -40,90 0,60 Z" class="fill-warm" />
+      <path d="M 0,60 C 40,30 120,35 140,65 C 160,95 80,130 20,115 C -40,100 -40,90 0,60 Z" class="p-dark" stroke-width="2" opacity="0.85" />
+
+      <!-- Top Small Pebble -->
+      <ellipse cx="65" cy="18" rx="35" ry="16" class="fill-terracotta" />
+      <ellipse cx="65" cy="18" rx="35" ry="16" class="p-dark" stroke-width="2" opacity="0.9" />
+    </g>
+
+    <!-- DYNAMIC LINEWORK: Gestural Swashes, Zig-Zags & Swirls across entire width -->
+
+    <!-- Wild Bottom Gesture Line crossing screen -->
+    <path d="M -20,480 Q 220,580 480,450 T 920,540 Q 1100,600 1240,490" class="p-dark" stroke-width="2.5" opacity="0.8" />
+    <path d="M -10,495 Q 225,590 482,462 T 922,552 Q 1098,610 1235,502" class="p-medium" stroke-width="1.2" opacity="0.5" />
+
+    <!-- Sharp gestural zig-zag / energy mark (Top Center) -->
+    <path d="M 450,90 L 510,60 L 480,130 L 560,80 L 530,150 L 610,100" class="p-dark" stroke-width="1.8" opacity="0.75" />
+
+    <!-- Loose Spirals / Coffee Ring-like Circles -->
+    <!-- Spiral Left -->
+    <path d="M 180,160 A 40,40 0 1,0 260,160 A 30,30 0 1,0 200,160 A 20,20 0 1,0 240,160" class="p-scribble" stroke-width="1.5" />
+    <!-- Spiral Right -->
+    <path d="M 1020,420 A 50,50 0 1,0 1120,420 A 38,38 0 1,0 1040,420 A 24,24 0 1,0 1090,420" class="p-scribble" stroke-width="1.5" />
+
+    <!-- BOTANICAL & GEOMETRIC ABSTRACT ELEMENTS -->
+
+    <!-- Messy Abstract Botanical Branch (Right) -->
+    <g transform="translate(940, 100)">
+      <path d="M 20,240 C 60,160 100,80 150,-10" class="p-dark" stroke-width="2.5" opacity="0.85" />
+      <path d="M 23,242 C 62,162 102,82 152,-8" class="p-medium" stroke-width="1.2" opacity="0.5" />
+
+      <!-- Quick gestural leaf loops -->
+      <path d="M 60,160 C 100,140 110,110 80,120 C 50,130 40,150 60,160 Z" class="fill-sage" />
+      <path d="M 60,160 C 100,140 110,110 80,120 C 50,130 40,150 60,160 Z" class="p-dark" stroke-width="1.5" />
+
+      <path d="M 95,100 C 140,80 145,50 120,65 C 95,80 80,95 95,100 Z" class="fill-sage" />
+      <path d="M 95,100 C 140,80 145,50 120,65 C 95,80 80,95 95,100 Z" class="p-dark" stroke-width="1.5" />
+
+      <path d="M 125,40 C 165,20 170,-10 145,5 C 120,20 110,35 125,40 Z" class="fill-warm" />
+      <path d="M 125,40 C 165,20 170,-10 145,5 C 120,20 110,35 125,40 Z" class="p-dark" stroke-width="1.5" />
+    </g>
+
+    <!-- Abstract Quadrant Grid / Ruler Marks (Top Left - Technical Art Mess) -->
+    <g transform="translate(140, 70)" class="p-light" stroke-width="1" opacity="0.65">
+      <line x1="0" y1="0" x2="180" y2="0" stroke-dasharray="4 4" />
+      <line x1="0" y1="0" x2="0" y2="120" stroke-dasharray="4 4" />
+      <path d="M 20,-10 L 20,10 M 40,-5 L 40,5 M 60,-10 L 60,10 M 80,-5 L 80,5 M 100,-10 L 100,10 M 120,-5 L 120,5 M 140,-10 L 140,10 M 160,-5 L 160,5" />
+      <circle cx="0" cy="0" r="45" stroke-dasharray="2 3" fill="none" />
+    </g>
+
+    <!-- SPARKLES, ACCENT MARKS & RANDOM STIPPLE STRAY DOTS -->
+
+    <!-- Pencil Starbursts -->
+    <path d="M 380,100 L 383,118 L 400,120 L 383,122 L 380,140 L 377,122 L 360,120 L 377,118 Z" class="dot" />
+    <path d="M 760,100 L 762,112 L 774,114 L 762,116 L 760,128 L 758,116 L 746,114 L 758,112 Z" class="dot" />
+    <path d="M 150,520 L 152,532 L 164,534 L 152,536 L 150,548 L 148,536 L 136,534 L 148,532 Z" class="dot" />
+
+    <!-- Scatter of Pencil Stipple Splatters / Stray Hand-drawn Marks -->
+    <circle cx="110" cy="180" r="2.5" class="dot" />
+    <circle cx="125" cy="195" r="1.5" class="dot" />
+    <circle cx="290" cy="90" r="3" class="dot" />
+    <circle cx="310" cy="110" r="2" class="dot" />
+    <circle cx="490" cy="40" r="2" class="dot" />
+    <circle cx="670" cy="80" r="3.5" class="dot" />
+    <circle cx="720" cy="65" r="1.5" class="dot" />
+    <circle cx="850" cy="180" r="2.5" class="dot" />
+    <circle cx="920" cy="220" r="3" class="dot" />
+    <circle cx="1140" cy="360" r="2" class="dot" />
+    <circle cx="1160" cy="380" r="3.5" class="dot" />
+    <circle cx="610" cy="580" r="2.5" class="dot" />
+    <circle cx="430" cy="530" r="3" class="dot" />
+
+    <!-- Stray Expressive Pencil Tick Marks -->
+    <path d="M 220,490 L 235,475 M 228,498 L 243,483 M 235,505 L 250,490" class="p-dark" stroke-width="1.5" opacity="0.7" />
+    <path d="M 780,540 L 798,528 M 790,550 L 808,538" class="p-dark" stroke-width="1.5" opacity="0.7" />
   </g>
-  <g transform="translate(370 70)" filter="url(#s)">
-    <rect x="0" y="0" width="340" height="230" rx="18" fill="#2f302f" stroke="#201d1a" stroke-width="4"/>
-    <rect x="24" y="24" width="292" height="168" rx="10" fill="#d7e2d7"/>
-    <path d="M61 80 q42 -30 78 0 t78 0" fill="none" stroke="#3b4a40" stroke-width="6"/>
-    <circle cx="238" cy="77" r="24" fill="#f1cf6a" stroke="#394138" stroke-width="4"/>
-    <circle cx="248" cy="70" r="4" fill="#394138"/><circle cx="228" cy="70" r="4" fill="#394138"/>
-    <path d="M226 88 q13 10 26 0" fill="none" stroke="#394138" stroke-width="4" stroke-linecap="round"/>
-    <text x="48" y="140" font-family="monospace" font-size="20" fill="#3b4a40">$ still making</text>
-    <text x="48" y="168" font-family="monospace" font-size="16" fill="#3b4a40">one more strange little thing</text>
-    <path d="M118 230 h104 l-22 28 h-60z" fill="#3b3b39"/>
-  </g>
-  <g filter="url(#s)">
-    <path d="M732 92 l132 20 -18 112 -133 -20z" fill="#d9e6f1" stroke="#2e2924" stroke-width="4"/>
-    <text x="751" y="146" transform="rotate(9 751 146)" font-family="Georgia,serif" font-size="25" fill="#2e2924">somewhere</text>
-    <text x="748" y="179" transform="rotate(9 748 179)" font-family="Georgia,serif" font-size="25" fill="#2e2924">between</text>
-    <text x="744" y="212" transform="rotate(9 744 212)" font-family="Georgia,serif" font-size="25" fill="#2e2924">useful + weird</text>
-  </g>
-  <path d="M704 316 q28 20 66 4" fill="none" stroke="#b94f44" stroke-width="4" stroke-linecap="round"/>
-  <path d="M760 322 l-10 2 m10 -2 l-4 -9" fill="none" stroke="#b94f44" stroke-width="4" stroke-linecap="round"/>
 </svg>

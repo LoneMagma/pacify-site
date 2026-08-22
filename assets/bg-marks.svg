@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 4200" preserveAspectRatio="none">
+  <g fill="none" stroke="#8a7d70" stroke-linecap="round" stroke-linejoin="round">
+    <!-- tiny crosses -->
+    <g opacity=".06" stroke-width="1.5">
+      <path d="M200 300 l8 8 M208 300 l-8 8"/>
+      <path d="M1400 500 l6 6 M1406 500 l-6 6"/>
+      <path d="M300 1200 l7 7 M307 1200 l-7 7"/>
+      <path d="M1300 1800 l8 8 M1308 1800 l-8 8"/>
+      <path d="M250 2800 l6 6 M256 2800 l-6 6"/>
+      <path d="M1350 3400 l7 7 M1357 3400 l-7 7"/>
+      <!-- new crosses -->
+      <path d="M800 600 l5 5 M805 600 l-5 5"/>
+      <path d="M100 1500 l6 6 M106 1500 l-6 6"/>
+      <path d="M1500 2200 l5 5 M1505 2200 l-5 5"/>
+      <path d="M400 3000 l7 7 M407 3000 l-7 7"/>
+      <path d="M900 3800 l6 6 M906 3800 l-6 6"/>
+    </g>
+    <!-- tiny circles -->
+    <g opacity=".05" stroke-width="1.2">
+      <circle cx="180" cy="700" r="12"/>
+      <circle cx="1420" cy="1100" r="10"/>
+      <circle cx="200" cy="2100" r="14"/>
+      <circle cx="1380" cy="2600" r="11"/>
+      <circle cx="240" cy="3600" r="12"/>
+      <!-- new circles -->
+      <circle cx="750" cy="400" r="9"/>
+      <circle cx="850" cy="1400" r="13"/>
+      <circle cx="1100" cy="2000" r="10"/>
+      <circle cx="500" cy="2500" r="8"/>
+      <circle cx="1200" cy="3200" r="11"/>
+      <circle cx="350" cy="3900" r="9"/>
+      <circle cx="1050" cy="4000" r="7"/>
+    </g>
+    <!-- tiny dots -->
+    <g opacity=".04" stroke-width="1">
+      <circle cx="300" cy="900" r="3"/>
+      <circle cx="1300" cy="1500" r="3"/>
+      <circle cx="350" cy="2400" r="3"/>
+      <circle cx="1250" cy="3100" r="3"/>
+      <!-- new dots scattered -->
+      <circle cx="600" cy="200" r="2.5"/>
+      <circle cx="1000" cy="800" r="2"/>
+      <circle cx="200" cy="1800" r="3"/>
+      <circle cx="1400" cy="2400" r="2.5"/>
+      <circle cx="500" cy="3300" r="2"/>
+      <circle cx="1100" cy="3600" r="3"/>
+      <circle cx="800" cy="4100" r="2"/>
+    </g>
+    <!-- tiny wavy lines -->
+    <g opacity=".04" stroke-width="1">
+      <path d="M160 500 q10 -8 20 0 t20 0"/>
+      <path d="M1350 900 q10 -8 20 0 t20 0"/>
+      <path d="M200 1600 q10 -8 20 0 t20 0"/>
+      <path d="M1300 2300 q10 -8 20 0 t20 0"/>
+      <path d="M180 3100 q10 -8 20 0 t20 0"/>
+      <path d="M1400 3800 q10 -8 20 0 t20 0"/>
+      <!-- new wavy lines -->
+      <path d="M700 700 q8 -6 16 0 t16 0"/>
+      <path d="M900 1300 q10 -8 20 0 t20 0"/>
+      <path d="M400 2000 q8 -6 16 0 t16 0"/>
+      <path d="M1200 2900 q10 -8 20 0 t20 0"/>
+      <path d="M600 3500 q8 -6 16 0 t16 0"/>
+    </g>
+    <!-- tiny arrows -->
+    <g opacity=".04" stroke-width="1">
+      <path d="M300 1400 l12 0 l-4 -4 M300 1400 l-4 4"/>
+      <path d="M1200 2000 l12 0 l-4 -4 M1200 2000 l-4 4"/>
+      <path d="M250 3300 l12 0 l-4 -4 M250 3300 l-4 4"/>
+      <!-- new arrows -->
+      <path d="M800 1000 l10 0 l-3 -3 M800 1000 l-3 3"/>
+      <path d="M500 2600 l10 0 l-3 -3 M500 2600 l-3 3"/>
+      <path d="M1100 3700 l10 0 l-3 -3 M1100 3700 l-3 3"/>
+    </g>
+    <!-- tiny diagonal dashes -->
+    <g opacity=".03" stroke-width="1">
+      <path d="M400 250 l8 8"/>
+      <path d="M1200 750 l-8 8"/>
+      <path d="M600 1750 l8 8"/>
+      <path d="M1000 2500 l-8 8"/>
+      <path d="M300 3200 l8 8"/>
+      <path d="M1300 3700 l-8 8"/>
+      <path d="M700 4050 l8 8"/>
+    </g>
+    <!-- tiny spirals (simplified as curves) -->
+    <g opacity=".03" stroke-width=".8">
+      <path d="M150 1000 q5 -5 10 0 t10 0"/>
+      <path d="M1450 1600 q5 -5 10 0 t10 0"/>
+      <path d="M250 2300 q5 -5 10 0 t10 0"/>
+      <path d="M1350 3000 q5 -5 10 0 t10 0"/>
+    </g>
+    <!-- tiny plus signs -->
+    <g opacity=".03" stroke-width="1">
+      <path d="M500 550 l0 8 M-4 554 l8 0"/>
+      <path d="M1100 1150 l0 8 M1096 1154 l8 0"/>
+      <path d="M350 1950 l0 8 M346 1954 l8 0"/>
+      <path d="M1250 2750 l0 8 M1246 2754 l8 0"/>
+      <path d="M700 3450 l0 8 M696 3454 l8 0"/>
+    </g>
+  </g>
+</svg>

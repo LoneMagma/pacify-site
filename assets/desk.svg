@@ -1,75 +1,166 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-label="Illustrated work desk with notebook, books, terminal, plant, and companion">
-<defs>
-  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#251F1A" flood-opacity=".14"/></filter>
-  <pattern id="paper" width="34" height="34" patternUnits="userSpaceOnUse">
-    <path d="M4 7h8M20 20h8M8 30h6" stroke="#4C4036" stroke-opacity=".05" stroke-width="1.2" stroke-linecap="round"/>
-  </pattern>
-  <style>
-    .ink{stroke:#1E1A17;stroke-linecap:round;stroke-linejoin:round}
-    .serif{font-family:Georgia,'Times New Roman',serif;fill:#1E1A17}
-    .sans{font-family:'Trebuchet MS',Arial,sans-serif}
-  </style>
-</defs>
-<rect width="1200" height="360" rx="24" fill="#F2E6D3"/>
-<rect x="10" y="10" width="1180" height="340" rx="20" fill="url(#paper)" opacity=".95"/>
-<path d="M0 282Q160 263 300 282T610 280T920 287T1200 278V360H0Z" fill="#E7D4B7"/>
-<path d="M0 289Q165 272 312 289T610 288T912 294T1200 285" fill="none" stroke="#C9B493" stroke-width="3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" width="100%" height="100%">
+  <defs>
+    <!-- Heavy rough pencil filter -->
+    <filter id="pencil-rough" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
 
-<!-- notebook -->
-<g transform="translate(56 58) rotate(-3)">
-  <rect x="0" y="0" width="310" height="188" rx="16" fill="#FFFDF7" class="ink" stroke-width="4" filter="url(#shadow)"/>
-  <path d="M26 31q14 -11 28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0t28 0" fill="none" stroke="#D7C5AE" stroke-width="2"/>
-  <text x="26" y="69" class="serif" font-size="25" font-weight="700">today's idea</text>
-  <text x="26" y="99" class="sans" font-size="17" fill="#5A5149">make the weird thing useful.</text>
-  <path d="M26 121Q85 112 145 121T280 120" fill="none" stroke="#4C72C9" stroke-width="4" stroke-linecap="round"/>
-  <path d="M26 150Q86 140 150 150T278 149" fill="none" stroke="#B7A796" stroke-width="3" stroke-linecap="round"/>
-  <path d="M230 92l19 21-28 18" fill="none" stroke="#E26A5B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
+    <style>
+      /* Light Mode Defaults */
+      :root {
+        --pencil-color: #2C2825;
+        --pencil-subtle: #6B5E52;
+        --accent-terracotta: #C87D55;
+        --accent-warm: #D9A05B;
+        --accent-sage: #8A9A86;
+        --accent-sand: #E8DEC8;
+        --accent-charcoal: #2C2825;
+      }
 
-<!-- books -->
-<g transform="translate(398 226)">
-  <ellipse cx="106" cy="48" rx="114" ry="12" fill="#C9B493" opacity=".45"/>
-  <rect x="0" y="11" width="196" height="34" rx="7" fill="#4C72C9" class="ink" stroke-width="4"/>
-  <rect x="16" y="-30" width="205" height="36" rx="7" fill="#D8B766" class="ink" stroke-width="4" transform="rotate(3 16 -30)"/>
-  <rect x="8" y="-69" width="180" height="34" rx="7" fill="#E26A5B" class="ink" stroke-width="4" transform="rotate(-4 8 -69)"/>
-  <path d="M26 25H168M38 -11H186M26 -53H154" stroke="#FFFDF7" stroke-width="4" stroke-linecap="round"/>
-</g>
+      /* Dark Mode System Preference */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --pencil-color: #E6E1D8;
+          --pencil-subtle: #A39B8E;
+          --accent-terracotta: #E0936B;
+          --accent-warm: #E2B275;
+          --accent-sage: #A2B39E;
+          --accent-sand: #5E564A;
+          --accent-charcoal: #D8CEBE;
+        }
+      }
 
-<!-- terminal -->
-<g transform="translate(650 112) rotate(1.5)">
-  <rect x="0" y="0" width="320" height="176" rx="18" fill="#2E3340" class="ink" stroke-width="4" filter="url(#shadow)"/>
-  <circle cx="28" cy="28" r="6" fill="#E26A5B"/><circle cx="49" cy="28" r="6" fill="#D8B766"/><circle cx="70" cy="28" r="6" fill="#6B9D69"/>
-  <rect x="22" y="52" width="276" height="89" rx="11" fill="#3B4352"/>
-  <path d="M44 86L61 101L44 116" fill="none" stroke="#FFFDF7" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M76 118H162" stroke="#A9D6C0" stroke-width="5" stroke-linecap="round"/>
-  <text x="24" y="163" class="sans" font-size="17" fill="#D6E0E8">$ build something weird</text>
-</g>
+      /* Dark Mode Explicit Class Overrides */
+      .dark, [data-theme="dark"] {
+        --pencil-color: #E6E1D8;
+        --pencil-subtle: #A39B8E;
+        --accent-terracotta: #E0936B;
+        --accent-warm: #E2B275;
+        --accent-sage: #A2B39E;
+        --accent-sand: #5E564A;
+        --accent-charcoal: #D8CEBE;
+      }
 
-<!-- companion peeking from behind terminal -->
-<g transform="translate(582 102)">
-  <ellipse cx="0" cy="170" rx="51" ry="10" fill="#C9B493" opacity=".4"/>
-  <path d="M-42 145Q-35 107 0 102Q35 107 42 145L31 160Q0 171-31 160Z" fill="#1E1A17"/>
-  <path d="M-31 112L-39 82L-12 99M31 112L39 82L12 99" fill="#1E1A17"/>
-  <circle cx="-12" cy="128" r="4.5" fill="#FFFDF7"/><circle cx="12" cy="128" r="4.5" fill="#FFFDF7"/>
-  <path d="M-9 143Q0 149 9 143" fill="none" stroke="#FFFDF7" stroke-width="3" stroke-linecap="round"/>
-  <path d="M-31 137L-50 131M31 137L50 131" stroke="#1E1A17" stroke-width="2.5" stroke-linecap="round"/>
-</g>
+      .p-dark { stroke: var(--pencil-color, currentColor); stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .p-medium { stroke: var(--pencil-color, currentColor); stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .p-light { stroke: var(--pencil-subtle, currentColor); stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .p-scribble { stroke: var(--pencil-subtle, currentColor); stroke-linecap: round; stroke-linejoin: round; fill: none; opacity: 0.45; }
+      
+      .fill-terracotta { fill: var(--accent-terracotta); opacity: 0.28; }
+      .fill-warm { fill: var(--accent-warm); opacity: 0.3; }
+      .fill-sage { fill: var(--accent-sage); opacity: 0.3; }
+      .fill-sand { fill: var(--accent-sand); opacity: 0.4; }
+      .fill-charcoal { fill: var(--accent-charcoal); opacity: 0.15; }
+      .dot { fill: var(--pencil-color, currentColor); opacity: 0.65; }
+    </style>
+  </defs>
 
-<!-- plant -->
-<g transform="translate(1030 202)">
-  <ellipse cx="0" cy="88" rx="64" ry="12" fill="#C9B493" opacity=".4"/>
-  <path d="M-28 58Q-10 45 0 54Q12 45 31 58L18 92H-17Z" fill="#D8B766" class="ink" stroke-width="4"/>
-  <path d="M0 54Q-58 22-58 58Q-48 88-4 67Z" fill="#6B9D69" class="ink" stroke-width="4"/>
-  <path d="M0 54Q48 18 58 54Q46 88 4 68Z" fill="#7DAF7A" class="ink" stroke-width="4"/>
-  <path d="M0 60Q0 15 7 -16" class="ink" stroke-width="4"/>
-  <path d="M-9 41Q-18 22-40 12M10 39Q20 18 39 10" class="ink" stroke-width="3"/>
-</g>
+  <g filter="url(#pencil-rough)">
 
-<!-- small note -->
-<g transform="translate(354 48) rotate(2)">
-  <rect x="0" y="0" width="205" height="82" rx="12" fill="#F7F0E3" class="ink" stroke-width="3" filter="url(#shadow)"/>
-  <text x="18" y="30" class="serif" font-size="18" font-weight="700">things I keep around</text>
-  <text x="18" y="56" class="sans" font-size="15" fill="#5A5149">notes, tabs, half-finished ideas.</text>
-  <path d="M18 68Q78 61 144 68" fill="none" stroke="#E26A5B" stroke-width="3" stroke-linecap="round"/>
-</g>
+    <!-- SECTION 1 (TOP LEFT): PROJECTS / WORK -->
+    <!-- Open Sketchbook with Technical Grid & Wireframes -->
+    <g transform="translate(120, 80)">
+      <!-- Book Base -->
+      <path d="M 0,0 L 260,20 L 250,300 L -10,280 Z" class="fill-sand" />
+      <path d="M 0,0 L 260,20 L 250,300 L -10,280 Z" class="p-dark" stroke-width="2" opacity="0.8" />
+      <!-- Book Spine / Fold -->
+      <path d="M 125,10 L 120,290" class="p-medium" stroke-width="1.5" />
+      <!-- Grid Paper Lines (Left Page) -->
+      <g class="p-light" stroke-width="0.8" opacity="0.5">
+        <line x1="20" y1="20" x2="110" y2="28" />
+        <line x1="20" y1="50" x2="110" y2="58" />
+        <line x1="20" y1="80" x2="110" y2="88" />
+        <line x1="20" y1="110" x2="110" y2="118" />
+        <line x1="20" y1="140" x2="110" y2="148" />
+        <!-- Wireframe Boxes (Right Page) -->
+        <rect x="140" y="40" width="90" height="60" fill="none" />
+        <rect x="140" y="120" width="40" height="40" fill="none" />
+        <rect x="190" y="120" width="40" height="40" fill="none" />
+        <line x1="140" y1="180" x2="230" y2="180" />
+        <line x1="140" y1="195" x2="210" y2="195" />
+      </g>
+      <!-- Stylized Pencil lying across book -->
+      <path d="M -30,220 L 100,120 L 110,128 L -20,228 Z" class="fill-warm" />
+      <path d="M -30,220 L 100,120 L 110,128 L -20,228 Z" class="p-dark" stroke-width="1.5" />
+      <path d="M 100,120 L 120,115 L 110,128 Z" class="fill-terracotta" />
+    </g>
+
+    <!-- SECTION 2 (TOP RIGHT): ARTICLES / WRITING -->
+    <!-- Coffee Mug on Folded Papers & Ink Scribbles -->
+    <g transform="translate(780, 70)">
+      <!-- Stack of Papers -->
+      <path d="M 30,20 L 220,-10 L 250,220 L 60,250 Z" class="fill-sand" />
+      <path d="M 30,20 L 220,-10 L 250,220 L 60,250 Z" class="p-dark" stroke-width="1.8" opacity="0.7" />
+      <path d="M 15,35 L 205,5 L 235,235 L 45,265 Z" class="p-medium" stroke-width="1.2" opacity="0.5" />
+      
+      <!-- Text Lines Preview -->
+      <g class="p-light" stroke-width="1" opacity="0.6">
+        <path d="M 60,60 L 180,40 M 60,80 L 200,60 M 60,100 L 170,80" />
+        <path d="M 80,150 L 210,130 M 80,170 L 190,150 M 80,190 L 220,170" />
+      </g>
+
+      <!-- Overhead Coffee Mug -->
+      <circle cx="120" cy="110" r="42" class="fill-warm" />
+      <circle cx="120" cy="110" r="42" class="p-dark" stroke-width="2.2" />
+      <circle cx="120" cy="110" r="34" class="fill-terracotta" />
+      <circle cx="120" cy="110" r="34" class="p-medium" stroke-width="1.2" />
+      <!-- Mug Handle -->
+      <path d="M 160,95 C 185,90 185,130 160,125" class="p-dark" stroke-width="2.2" />
+    </g>
+
+    <!-- SECTION 3 (BOTTOM LEFT): PROCESS / ABOUT -->
+    <!-- Zen Balance Stones & Botanical Leaf -->
+    <g transform="translate(160, 390)">
+      <!-- Plant Sprig / Botanical -->
+      <path d="M 20,180 C 60,120 120,60 210,20" class="p-dark" stroke-width="2" opacity="0.85" />
+      <path d="M 60,130 C 90,110 100,80 80,90 C 60,100 50,120 60,130 Z" class="fill-sage" />
+      <path d="M 60,130 C 90,110 100,80 80,90 C 60,100 50,120 60,130 Z" class="p-dark" stroke-width="1.5" />
+      <path d="M 120,80 C 160,60 165,30 140,45 C 115,60 105,75 120,80 Z" class="fill-sage" />
+      <path d="M 120,80 C 160,60 165,30 140,45 C 115,60 105,75 120,80 Z" class="p-dark" stroke-width="1.5" />
+
+      <!-- Stacked Balance Stones (Philosophy/Process) -->
+      <g transform="translate(180, 50)">
+        <ellipse cx="60" cy="80" rx="60" ry="28" class="fill-sand" />
+        <ellipse cx="60" cy="80" rx="60" ry="28" class="p-dark" stroke-width="2" />
+        <ellipse cx="62" cy="50" rx="42" ry="20" class="fill-warm" />
+        <ellipse cx="62" cy="50" rx="42" ry="20" class="p-dark" stroke-width="2" />
+        <ellipse cx="65" cy="28" rx="25" ry="12" class="fill-terracotta" />
+        <ellipse cx="65" cy="28" rx="25" ry="12" class="p-dark" stroke-width="2" />
+      </g>
+    </g>
+
+    <!-- SECTION 4 (BOTTOM RIGHT): CONTACT / CONNECT -->
+    <!-- Envelope, Postcard Stamp & Gestural Arrows -->
+    <g transform="translate(740, 370)">
+      <!-- Mail Envelope -->
+      <path d="M 40,60 L 240,60 L 240,180 L 40,180 Z" class="fill-sand" />
+      <path d="M 40,60 L 240,60 L 240,180 L 40,180 Z" class="p-dark" stroke-width="2" />
+      <!-- Flap Lines -->
+      <path d="M 40,60 L 140,135 L 240,60" class="p-dark" stroke-width="1.8" />
+      <path d="M 40,180 L 110,115" class="p-medium" stroke-width="1.2" />
+      <path d="M 240,180 L 170,115" class="p-medium" stroke-width="1.2" />
+
+      <!-- Postage Stamp Accent -->
+      <rect x="190" y="80" width="35" height="40" class="fill-terracotta" />
+      <rect x="190" y="80" width="35" height="40" class="p-dark" stroke-width="1.5" stroke-dasharray="4 3" />
+
+      <!-- Expressive Outward Arrow Marks -->
+      <path d="M 260,120 Q 310,110 330,70" class="p-dark" stroke-width="2" opacity="0.8" />
+      <path d="M 318,72 L 330,70 L 332,85" class="p-dark" stroke-width="2" />
+    </g>
+
+    <!-- CONNECTIVE DESK ELEMENTS & DECORATIVE SCRIBBLES -->
+
+    <!-- Center Desk Divider Line / Subtle Pencil Stroke -->
+    <path d="M 600,60 C 590,220 610,420 595,590" class="p-scribble" stroke-width="1.2" stroke-dasharray="8 6" />
+
+    <!-- Section Labels / Subdued Handwritten Hints -->
+    <g class="p-scribble" stroke-width="0.8" opacity="0.6">
+      <!-- Starbursts & Stipple Details -->
+      <path d="M 520,120 L 522,132 L 534,134 L 522,136 L 520,148 L 518,136 L 506,134 L 518,132 Z" class="dot" />
+      <path d="M 680,480 L 682,492 L 694,494 L 682,496 L 680,508 L 678,496 L 666,494 L 678,492 Z" class="dot" />
+    </g>
+
+  </g>
 </svg>

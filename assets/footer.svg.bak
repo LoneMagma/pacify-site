@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260" role="img" aria-label="Sign-off scene with pencil at rest and a small seedling">
+  <!-- soft watercolor wash background -->
+  <ellipse cx="300" cy="180" rx="260" ry="100" fill="var(--yellow,#f1cf6a)" opacity=".12"/>
+  <ellipse cx="180" cy="160" rx="160" ry="70" fill="var(--blue,#7ea5ca)" opacity=".08"/>
+
+  <!-- pencil at rest — horizontal, left side -->
+  <g transform="translate(50 130) rotate(-8)">
+    <rect x="0" y="0" width="200" height="14" rx="3" fill="var(--yellow,#f1cf6a)" stroke="var(--ink,#2e2924)" stroke-width="2"/>
+    <polygon points="200,0 220,7 200,14" fill="#e8d8a8" stroke="var(--ink,#2e2924)" stroke-width="1.5"/>
+    <polygon points="220,3 232,7 220,11" fill="var(--ink,#2e2924)"/>
+    <rect x="-18" y="0" width="20" height="14" rx="3" fill="var(--red,#c95c4c)" stroke="var(--ink,#2e2924)" stroke-width="1.5"/>
+    <rect x="-4" y="0" width="6" height="14" fill="#888" stroke="var(--ink,#2e2924)" stroke-width="1"/>
+    <path d="M232 7 Q260 5 290 8 Q320 11 340 7" fill="none" stroke="var(--ink,#2e2924)" stroke-width="1.5" stroke-linecap="round" opacity=".3"/>
+  </g>
+
+  <!-- closing bracket -->
+  <text x="340" y="160" font-family="var(--serif)" font-size="54" fill="var(--ink,#2e2924)" opacity=".12">}</text>
+
+  <!-- small seedling in pot -->
+  <g transform="translate(470 110)">
+    <path d="M-15 30 L-10 50 L10 50 L15 30Z" fill="var(--red,#c95c4c)" stroke="var(--ink,#2e2924)" stroke-width="1.5"/>
+    <rect x="-17" y="26" width="34" height="6" rx="2" fill="var(--red,#c95c4c)" stroke="var(--ink,#2e2924)" stroke-width="1.5"/>
+    <path d="M0 26 Q-2 10 0 -5" fill="none" stroke="var(--green,#6a8a4a)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M0 10 Q-12 2 -8 -5" fill="none" stroke="var(--green,#6a8a4a)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M0 5 Q10 -2 8 -8" fill="none" stroke="var(--green,#6a8a4a)" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- "still building" note card -->
+  <g transform="translate(290 195) rotate(-2)">
+    <rect width="120" height="50" rx="4" fill="var(--paper-hi,#f5eee3)" stroke="var(--ink,#2e2924)" stroke-width="1.5"/>
+    <text x="12" y="22" font-family="var(--serif)" font-size="12" fill="var(--muted,#6e655b)" font-style="italic">still</text>
+    <text x="12" y="38" font-family="var(--serif)" font-size="12" fill="var(--muted,#6e655b)" font-style="italic">building.</text>
+  </g>
+</svg>

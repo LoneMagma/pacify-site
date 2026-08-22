@@ -22,7 +22,6 @@ const projects = [
 const root = document.documentElement;
 const media = window.matchMedia('(prefers-color-scheme: dark)');
 const weatherButton = document.getElementById('weather-toggle');
-const systemReset = document.getElementById('weather-system');
 const weatherImg = document.querySelector('.weather-icon img');
 const stored = localStorage.getItem('pacify-theme-mode');
 
@@ -34,7 +33,6 @@ function setTheme(mode, persist=true){
   weatherButton.setAttribute('aria-pressed', theme === 'dark');
   weatherImg.src = theme === 'dark' ? 'assets/weather-dark.svg' : 'assets/weather-light.svg';
   document.querySelector('[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#182027' : '#efe4d0');
-  systemReset.hidden = mode === 'system';
   if (persist) localStorage.setItem('pacify-theme-mode', mode);
 }
 setTheme(stored === 'light' || stored === 'dark' ? stored : 'system', false);
@@ -43,7 +41,6 @@ weatherButton.addEventListener('click', ()=>{
   const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
   setTheme(next);
 });
-systemReset.addEventListener('click', ()=>setTheme('system'));
 media.addEventListener('change', ()=>{ if(root.dataset.themeMode === 'system') setTheme('system', false); });
 
 const map = {
@@ -61,7 +58,43 @@ function card(p, i){
   node.dataset.name = p.name.toLowerCase();
   node.dataset.href = p.live || p.repo;
   node.setAttribute('aria-label', `${p.name}: ${p.available ? 'open project' : 'open source'}`);
-  const use = node.querySelector('use'); use.setAttribute('href', `${inkSprite}#${p.icon}`);
+
+  const artArea = node.querySelector('.project-art');
+  artArea.innerHTML = '';
+
+  const blocked = ['jen1'];
+  const canFrame = p.available && p.live && !blocked.includes(p.name.toLowerCase());
+  if (canFrame) {
+    const iframe = document.createElement('iframe');
+    iframe.src = p.live;
+    iframe.loading = 'lazy';
+    iframe.sandbox = 'allow-scripts allow-same-origin';
+    iframe.title = `${p.name} preview`;
+    iframe.setAttribute('aria-hidden', 'true');
+    artArea.appendChild(iframe);
+    artArea.classList.add('project-art--iframe');
+  } else if (p.available && p.live) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('aria-hidden', 'true');
+    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    use.setAttribute('href', `${inkSprite}#${p.icon}`);
+    svg.appendChild(use);
+    artArea.appendChild(svg);
+  } else {
+    const githubSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    githubSvg.setAttribute('aria-hidden', 'true');
+    githubSvg.classList.add('github-icon');
+    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    use.setAttribute('href', `${inkSprite}#github`);
+    githubSvg.appendChild(use);
+    artArea.appendChild(githubSvg);
+    artArea.classList.add('project-art--shell');
+    const label = document.createElement('span');
+    label.className = 'shell-label';
+    label.textContent = 'source only';
+    artArea.appendChild(label);
+  }
+
   node.querySelector('h3').textContent = p.name;
   node.querySelector('.project-index').textContent = String(i+1).padStart(2,'0');
   node.querySelector('.project-desc').textContent = p.desc;
@@ -84,3 +117,4 @@ window.addEventListener('scroll', ()=>{
   root.style.setProperty('--map-shift', `${Math.sin(y/900) * 18}px`);
   lastY = y;
 },{passive:true});
+
