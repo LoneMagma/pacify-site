@@ -1,159 +1,99 @@
 <!doctype html>
-<html lang="en" data-theme="light" data-theme-mode="system">
+<html lang="en" data-theme="light" data-theme-mode="system" class="no-js">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#efe4d0" />
-  <meta name="description" content="Pacify is a little illustrated workshop containing software, tools, experiments and ideas by Lone." />
+  <meta name="description" content="Pacify is LoneMagma's illustrated workshop: software, tools, experiments and ideas arranged by how much of him is in them." />
   <meta name="color-scheme" content="light dark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Pacify | LoneMagma's workshop" />
+  <meta property="og:description" content="A growing, slightly untidy collection of software, tools, experiments and ideas by LoneMagma." />
+  <meta property="og:url" content="https://pacify.site/" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://pacify.site/" />
   <title>Pacify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=DM+Serif+Display:ital@0;1&amp;family=Gloria+Hallelujah&amp;display=swap" rel="stylesheet" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <a class="skip-link" href="#work">Skip to projects</a>
   <div class="paper-stage" aria-hidden="true"><div class="paper-map"></div><div class="paper-marks"></div><div class="paper-grain"></div></div>
 
   <header class="site-header" id="top">
     <a class="brand" href="#top" aria-label="Pacify home"><span class="brand-word">Pacify</span><span class="brand-pencil">workshop?</span></a>
     <nav class="main-nav" aria-label="Main navigation"><a href="#work">My work</a><a href="#about">about</a></nav>
     <div class="weather-wrap">
-      <button class="weather-button" id="weather-toggle" type="button" aria-label="Change weather" aria-pressed="false">
-        <span class="weather-icon"><img src="assets/weather-light.svg" alt="" /></span>
-      </button>
-      <span class="weather-note">click here to change weather.</span>
-
+      <button class="weather-button" id="weather-toggle" type="button" aria-label="Switch to night weather" aria-pressed="false"><span class="weather-icon"><img src="assets/weather-light.svg" alt="" width="110" height="72" /></span></button>
+      <span class="weather-note" aria-hidden="true">click here to change weather.</span>
     </div>
   </header>
 
   <main>
     <section class="hero section-shell" id="about" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="hero-kicker">A growing collection</p>
-        <h1 id="hero-title">What i've made.</h1>
-        <p class="hero-lede">below is a slightly untidy collection of websites, software, tools, experiments and ideas that escaped the notebook.</p>
-        <a class="see-work" href="#work">see it <span>&darr;</span></a>
-      </div>
-      <div class="hero-art"><img src="assets/hero.svg" alt="Hand-drawn open sketchbook spread with ideas, notes, arrows, and a small companion." /></div>
+      <div class="hero-copy"><p class="hero-kicker">A growing collection</p><h1 id="hero-title">What i've made.</h1><p class="hero-lede">below is a slightly untidy collection of websites, software, tools, experiments and ideas.</p><a class="see-work" href="#work">see it <span aria-hidden="true">&darr;</span></a></div>
+      <div class="hero-art"><img src="assets/hero.svg" width="1200" height="650" alt="Hand-drawn open sketchbook spread with ideas, notes, arrows, and a small companion." /></div>
     </section>
 
     <section class="desk-section section-shell" aria-labelledby="desk-title">
       <div class="section-mark">the desk</div>
       <div class="desk-layout">
-        <div class="desk-art">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-label="Workshop shelf map showing the four tiers of projects">
-            <!-- loose shelf lines -->
-            <g stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".2">
-              <path d="M50 95 Q200 89 400 96 Q600 103 750 91"/>
-              <path d="M50 195 Q200 189 400 196 Q600 203 750 191"/>
-              <path d="M50 295 Q200 289 400 296 Q600 303 750 291"/>
-            </g>
-            <!-- section labels -->
-            <g fill="var(--ink)" opacity=".75">
-              <text x="70" y="72" font-family="var(--serif)" font-size="30" font-weight="400" letter-spacing="-.03em">flagship</text>
-              <text x="70" y="172" font-family="var(--serif)" font-size="26" font-weight="400" letter-spacing="-.03em">main</text>
-              <text x="70" y="272" font-family="var(--serif)" font-size="24" font-weight="400" letter-spacing="-.03em">peripherals</text>
-              <text x="70" y="378" font-family="var(--serif)" font-size="22" font-weight="400" letter-spacing="-.03em">experiments</text>
-            </g>
-            <!-- small book icons — color-coded, slightly rotated -->
-            <g opacity=".4">
-              <g transform="translate(380 55) rotate(-3)"><rect width="30" height="20" rx="2" fill="var(--grid-flagship)" stroke="var(--ink)" stroke-width="1.5"/></g>
-              <g transform="translate(450 50) rotate(2)"><rect width="26" height="18" rx="2" fill="var(--grid-flagship)" stroke="var(--ink)" stroke-width="1.5" opacity=".7"/></g>
-              <g transform="translate(520 56) rotate(-1)"><rect width="28" height="19" rx="2" fill="var(--grid-flagship)" stroke="var(--ink)" stroke-width="1.5" opacity=".55"/></g>
-              <g transform="translate(380 155) rotate(1.5)"><rect width="28" height="19" rx="2" fill="var(--grid-main)" stroke="var(--ink)" stroke-width="1.5"/></g>
-              <g transform="translate(450 150) rotate(-2)"><rect width="26" height="18" rx="2" fill="var(--grid-main)" stroke="var(--ink)" stroke-width="1.5" opacity=".7"/></g>
-              <g transform="translate(520 156) rotate(1)"><rect width="30" height="20" rx="2" fill="var(--grid-main)" stroke="var(--ink)" stroke-width="1.5" opacity=".55"/></g>
-              <g transform="translate(380 255) rotate(-1)"><rect width="26" height="18" rx="2" fill="var(--grid-peripheral)" stroke="var(--ink)" stroke-width="1.5"/></g>
-              <g transform="translate(450 250) rotate(2.5)"><rect width="28" height="19" rx="2" fill="var(--grid-peripheral)" stroke="var(--ink)" stroke-width="1.5" opacity=".65"/></g>
-              <g transform="translate(380 355) rotate(1)"><rect width="24" height="17" rx="2" fill="var(--grid-experiment)" stroke="var(--ink)" stroke-width="1.5"/></g>
-              <g transform="translate(445 350) rotate(-1.5)"><rect width="26" height="18" rx="2" fill="var(--grid-experiment)" stroke="var(--ink)" stroke-width="1.5" opacity=".6"/></g>
-            </g>
-          </svg>
-        </div>
-        <div class="desk-note paper-note cream-note">
-          <p class="section-kicker">come in.</p>
-          <h2 id="desk-title">The workshop itself is the project.</h2>
-          <p>Some things on this site turned into products. Some stayed tools. Some are still trying to become something.</p>
-          <p>The shelves below are ordered by how much of me is in them.</p>
-        </div>
+        <nav class="shelf-map" aria-label="Project shelves">
+          <a class="shelf shelf-flagship" href="#flagship"><span class="shelf-name">flagship</span><span class="shelf-tabs" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="shelf-count">04</span></a>
+          <a class="shelf shelf-main" href="#main-projects"><span class="shelf-name">main</span><span class="shelf-tabs" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="shelf-count">04</span></a>
+          <a class="shelf shelf-peripheral" href="#peripherals"><span class="shelf-name">peripherals</span><span class="shelf-tabs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="shelf-count">05</span></a>
+          <a class="shelf shelf-experiment" href="#experiments"><span class="shelf-name">experiments</span><span class="shelf-tabs" aria-hidden="true"><i></i><i></i></span><span class="shelf-count">02</span></a>
+          <p class="shelf-hint" aria-hidden="true">pick a shelf &nearr;</p>
+        </nav>
+        <div class="desk-note paper-note cream-note"><p class="section-kicker">come in.</p><h2 id="desk-title">This is where the projects live.</h2><p>Some became products. Some stayed tools. A few are still deciding what they are.</p><p>The shelves below are ordered by how much of me is in them.</p></div>
       </div>
     </section>
 
     <section class="work-section section-shell" id="work" aria-labelledby="work-title">
-      <div class="section-intro flagship-intro">
-        <div><span class="section-number">01 /</span><span class="section-name">THE FLAGSHIP</span><p>these are the ones that survived several rewrites.</p></div>
-        <img src="assets/flagship.svg" alt="Four hand-drawn vignettes representing FreeShelf, Jen1, SOUL, and Poscure." />
+      <h2 id="work-title" class="sr-only">Project shelves</h2>
+      <div class="section-intro flagship-intro" id="flagship"><div><span class="section-number">01 /</span><span class="section-name">THE FLAGSHIP</span><p>the work I keep coming back to.</p></div></div>
+      <div class="project-grid flagship-grid">
+        <article class="project-card"><a class="project-card-link" href="https://freeshelf.pacify.site" target="_blank" rel="noreferrer" aria-labelledby="project-freeshelf"><div class="project-art project-live"><iframe src="https://freeshelf.pacify.site" title="Live preview of FreeShelf" loading="lazy" tabindex="-1" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin"></iframe><span class="live-label" aria-hidden="true">live</span></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-freeshelf">FreeShelf</h3><span class="project-index">01</span></div><p class="project-desc">Free games worth claiming, before the offer ends.</p><div class="tag-row"><span class="tag tag-web">Web Project</span><span class="tag tag-practice">Product</span></div><span class="project-open">open <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://jen1.pacify.site" target="_blank" rel="noreferrer" aria-labelledby="project-jen1"><div class="project-art project-direct" aria-hidden="true"><span>jen1.pacify.site</span><small>click to open</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-jen1">Jen1</h3><span class="project-index">02</span></div><p class="project-desc">Watch movies and webseries for free!</p><div class="tag-row"><span class="tag tag-web">Web Project</span><span class="tag tag-software">Media</span></div><span class="project-open">open <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://github.com/LoneMagma/SOUL" target="_blank" rel="noreferrer" aria-labelledby="project-soul"><div class="project-art project-source" aria-hidden="true"><span>github.com/LoneMagma/SOUL</span><small>source only</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-soul">SOUL</h3><span class="project-index">03</span></div><p class="project-desc">A desktop AI companion I kept rebuilding. Version 1.6 runs on Windows.</p><div class="tag-row"><span class="tag tag-software">Software</span><span class="tag tag-ai">AI</span></div><span class="project-open">source <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://poscure.pacify.site" target="_blank" rel="noreferrer" aria-labelledby="project-poscure"><div class="project-art project-direct" aria-hidden="true"><span>poscure.pacify.site</span><small>click to open</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-poscure">Poscure</h3><span class="project-index">04</span></div><p class="project-desc">A timed figure and gesture drawing tool for Artists. Add a reference, set the timer and draw.</p><div class="tag-row"><span class="tag tag-tool">Tool</span><span class="tag tag-practice">Practice</span></div><span class="project-open">open <b>&nearr;</b></span></div></a></article>
       </div>
-      <div class="project-grid flagship-grid" id="flagship-grid"></div>
 
-      <div class="section-intro compact"><div><span class="section-number">02 /</span><span class="section-name">MAIN</span><p>these got suspiciously serious.</p></div><div class="section-pencil">&orarr; four substantial machines</div></div>
-      <div class="project-grid main-grid" id="main-grid"></div>
-
-      <div class="section-intro compact"><div><span class="section-number">03 /</span><span class="section-name">PERIPHERALS</span><p>not the main character but still causing trouble.</p></div><div class="section-pencil">around the edges</div></div>
-      <div class="project-grid peripheral-grid" id="peripheral-grid"></div>
-
-      <div class="section-intro compact"><div><span class="section-number">04 /</span><span class="section-name">EXPERIMENTS</span><p>somewhere fighting my lazy ass and asking for more time.</p></div><div class="section-pencil">in development</div></div>
-      <div class="project-grid experiments-grid" id="experiments-grid"></div>
-    </section>
-
-    <section class="threads-section section-shell" aria-labelledby="threads-title">
-      <div class="thread-paper paper-note yellow-note">
-        <span class="section-kicker">the threads</span>
-        <h2 id="threads-title">Different projects.<br />Same questions.</h2>
-        <div class="thread-list">
-          <p><span>01</span> Can software help us reclaim our attention?</p>
-          <p><span>02</span> Can a mountain loads of information become one useful thing?</p>
-          <p><span>03</span> Can a piece of code feel like an delibrate presence instead of another tab asking for attention?</p>
-        </div>
+      <div class="section-intro compact" id="main-projects"><div><span class="section-number">02 /</span><span class="section-name">MAIN</span><p>things I use and keep working on.</p></div></div>
+      <div class="project-grid main-grid">
+        <article class="project-card"><a class="project-card-link" href="https://focused.pacify.site" target="_blank" rel="noreferrer" aria-labelledby="project-focused"><div class="project-art project-direct" aria-hidden="true"><span>focused.pacify.site</span><small>click to open</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-focused">FocusED</h3><span class="project-index">01</span></div><p class="project-desc">Makes you pause before opening the apps you meant to avoid.</p><div class="tag-row"><span class="tag tag-software">Software</span><span class="tag tag-practice">Practice</span></div><span class="project-open">open <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://shellnote.pacify.site" target="_blank" rel="noreferrer" aria-labelledby="project-shellnote"><div class="project-art project-direct" aria-hidden="true"><span>shellnote.pacify.site</span><small>click to open</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-shellnote">ShellNote</h3><span class="project-index">02</span></div><p class="project-desc">Terminal notes with Vim-style movement, local persistence and a small AI companion.</p><div class="tag-row"><span class="tag tag-tool">Tool</span><span class="tag tag-terminal">Terminal</span><span class="tag tag-software">Software</span></div><span class="project-open">open <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://intention.pacify.site" target="_blank" rel="noreferrer" aria-labelledby="project-intention"><div class="project-art project-direct" aria-hidden="true"><span>intention.pacify.site</span><small>click to open</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-intention">Intention</h3><span class="project-index">03</span></div><p class="project-desc">Asks why you are opening Instagram before letting you in.</p><div class="tag-row"><span class="tag tag-tool">Tool</span><span class="tag tag-web">Web Extension</span></div><span class="project-open">open <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://prepzero.vercel.app" target="_blank" rel="noreferrer" aria-labelledby="project-prepzero"><div class="project-art project-live"><iframe src="https://prepzero.vercel.app" title="Live preview of PrepZero" loading="lazy" tabindex="-1" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin"></iframe><span class="live-label" aria-hidden="true">live</span></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-prepzero">PrepZero</h3><span class="project-index">04</span></div><p class="project-desc">Impromptu speaking practice: prompt, think, record, transcribe, review.</p><div class="tag-row"><span class="tag tag-web">Web Project</span><span class="tag tag-practice">Practice</span></div><span class="project-open">open <b>&nearr;</b></span></div></a></article>
       </div>
-      <div class="thread-art"><img src="assets/companion.svg" alt="A friendly little computer companion at a terminal." /></div>
-    </section>
 
-    <section class="ai-section section-shell" aria-labelledby="ai-title">
-      <div class="ai-heading"><div><span class="section-kicker">AI + authorship</span><h2 id="ai-title">and Yes, the robot helped.</h2></div><p>BUT I still am responsible for the mess.</p></div>
-      <div class="ai-layout">
-        <div class="ai-art"><img src="assets/ai-authorship.svg" alt="A friendly little computer companion at a terminal." /></div>
-        <article class="ai-note paper-note pink-note">
-          <p class="big-note">AI makes the first step cheaper.</p>
-          <p>Most of my software is AI-assisted in one way or another. Sometimes that means a stubborn function. Sometimes it means a rough first pass. Sometimes it means an irresponsible amount of code and me pointing at the screen saying, no, not like that.</p>
-          <p>I do not treat that as shame, and I do not treat it as authorship either. The intent, taste, rejection, debugging and decisions still have to come from somewhere {me!} (^ ^)/</p>
-          <p class="last-line">It's copilot, not autopilot.</p>
-        </article>
+      <div class="section-intro compact" id="peripherals"><div><span class="section-number">03 /</span><span class="section-name">PERIPHERALS</span><p>smaller things, still useful.</p></div></div>
+      <div class="project-grid peripheral-grid">
+        <article class="project-card"><a class="project-card-link" href="https://github.com/LoneMagma/NewZ" target="_blank" rel="noreferrer" aria-labelledby="project-newz"><div class="project-art project-source" aria-hidden="true"><span>github.com/LoneMagma/NewZ</span><small>source only</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-newz">NewZ</h3><span class="project-index">01</span></div><p class="project-desc">News filtered into something closer to useful information.</p><div class="tag-row"><span class="tag tag-web">Web Project</span><span class="tag tag-experiment">Experiment</span></div><span class="project-open">source <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://github.com/LoneMagma/BurnLab" target="_blank" rel="noreferrer" aria-labelledby="project-burnlab"><div class="project-art project-source" aria-hidden="true"><span>github.com/LoneMagma/BurnLab</span><small>source only</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-burnlab">BurnLab</h3><span class="project-index">02</span></div><p class="project-desc">Portable shell tooling for an offline development lab that fits in a pocket.</p><div class="tag-row"><span class="tag tag-software">Software</span><span class="tag tag-experiment">Experiment</span></div><span class="project-open">source <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://github.com/LoneMagma/Key4ce" target="_blank" rel="noreferrer" aria-labelledby="project-key4ce"><div class="project-art project-source" aria-hidden="true"><span>github.com/LoneMagma/Key4ce</span><small>source only</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-key4ce">Key4ce</h3><span class="project-index">03</span></div><p class="project-desc">Terminal-based typing practice. Small, local, stubbornly keyboard-first.</p><div class="tag-row"><span class="tag tag-tool">Tool</span><span class="tag tag-terminal">Terminal</span><span class="tag tag-practice">Practice</span></div><span class="project-open">source <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://github.com/LoneMagma/Pacify-DefyAI" target="_blank" rel="noreferrer" aria-labelledby="project-defyai"><div class="project-art project-source" aria-hidden="true"><span>github.com/LoneMagma/Pacify-DefyAI</span><small>source only</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-defyai">Pacify / DefyAI</h3><span class="project-index">04</span></div><p class="project-desc">A conversational CLI with two modes: one pacifies, the other pushes back.</p><div class="tag-row"><span class="tag tag-software">Software</span><span class="tag tag-ai">AI</span><span class="tag tag-experiment">Experiment</span></div><span class="project-open">source <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://pacificia.vercel.app" target="_blank" rel="noreferrer" aria-labelledby="project-pacificia"><div class="project-art project-direct" aria-hidden="true"><span>pacificia.vercel.app</span><small>click to open</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-pacificia">Pacificia</h3><span class="project-index">05</span></div><p class="project-desc">The one that started it all. Try it?</p><div class="tag-row"><span class="tag tag-software">Presence</span><span class="tag tag-ai">AI</span><span class="tag tag-experiment">Experiment</span></div><span class="project-open">open <b>&nearr;</b></span></div></a></article>
+      </div>
+
+      <div class="section-intro compact" id="experiments"><div><span class="section-number">04 /</span><span class="section-name">EXPERIMENTS</span><p>somewhere fighting my lazy ass and asking for more time.</p></div><div class="section-pencil">in development</div></div>
+      <div class="project-grid experiments-grid">
+        <article class="project-card"><a class="project-card-link" href="https://github.com/LoneMagma/graphiic" target="_blank" rel="noreferrer" aria-labelledby="project-graphiic"><div class="project-art project-source" aria-hidden="true"><span>github.com/LoneMagma/graphiic</span><small>source only</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-graphiic">graphiic</h3><span class="project-index">01</span></div><p class="project-desc">In development. The repository is the source of truth for now.</p><div class="tag-row"><span class="tag tag-experiment">Experiment</span></div><span class="project-open">source <b>&nearr;</b></span></div></a></article>
+        <article class="project-card"><a class="project-card-link" href="https://github.com/LoneMagma/purrpause" target="_blank" rel="noreferrer" aria-labelledby="project-purrpause"><div class="project-art project-source" aria-hidden="true"><span>github.com/LoneMagma/purrpause</span><small>source only</small></div><div class="project-card-body"><div class="project-title-row"><h3 id="project-purrpause">purrpause</h3><span class="project-index">02</span></div><p class="project-desc">In development.</p><div class="tag-row"><span class="tag tag-experiment">Experiment</span></div><span class="project-open">source <b>&nearr;</b></span></div></a></article>
       </div>
     </section>
 
-    <section class="notes-section section-shell" aria-labelledby="notes-title">
-      <div class="notes-stack">
-        <div class="paper-note red-note tilt-left"><span class="section-kicker">note to self</span><h2 id="notes-title">Build first?<br />Explain later.</h2><p>This has produced some good software, some weird software, AND several folders named <code>final-real-this-time</code>.</p></div>
-        <div class="paper-note white-note tilt-right"><span class="section-kicker">Point to note:</span><p><strong>FreeShelf</strong> and <strong>Jen1</strong> are the clearest web-facing work right now.</p><p>The rest DO matter- But not everyone gets it. Also Tools, experiments and half formed ideas are still allowed to stay on the wall.</p></div>
-      </div>
-      <div class="quote-art"><img src="assets/quote-card.svg" alt="Handwritten note: software should feel owned, not consuming." /></div>
-    </section>
+    <section class="threads-section section-shell" aria-labelledby="threads-title"><div class="thread-paper paper-note yellow-note"><span class="section-kicker">what keeps coming up</span><h2 id="threads-title">Questions I keep building around.</h2><div class="thread-list"><p><span>01</span> Can software help us reclaim our attention?</p><p><span>02</span> Can a mountain of information become one useful thing?</p><p><span>03</span> Can a piece of code feel like a deliberate presence instead of another tab asking for attention?</p></div></div><div class="thread-art"><img src="assets/companion.svg" width="1100" height="270" loading="lazy" alt="A friendly little computer companion at a terminal." /></div></section>
+
+    <section class="ai-section section-shell" aria-labelledby="ai-title"><div class="ai-heading"><div><span class="section-kicker">AI + authorship</span><h2 id="ai-title">How I use AI.</h2></div><p>I am still responsible for the mess.</p></div><div class="ai-layout"><div class="ai-art"><img src="assets/ai-authorship.svg" width="1200" height="320" loading="lazy" alt="An AI toolbox note and a small companion labelled human in the loop." /></div><article class="ai-note paper-note pink-note"><p class="big-note">AI makes the first step cheaper.</p><p>Most of my software is AI-assisted in one way or another. Sometimes that means a stubborn function. Sometimes it means a rough first pass. Sometimes it means an irresponsible amount of code and me pointing at the screen saying, no, not like that.</p><p>I do not treat that as shame, and I do not treat it as authorship either. The intent, taste, rejection, debugging and decisions still have to come from somewhere {me!} (^ ^)/</p><p class="last-line">It's copilot, not autopilot.</p></article></div></section>
+
+    <section class="notes-section section-shell" aria-labelledby="notes-title"><div class="notes-stack"><div class="paper-note red-note tilt-left"><span class="section-kicker">note to self</span><h2 id="notes-title">I usually build before I understand it.</h2><p>This has produced some good software, some weird software, AND several folders named <code>final-real-this-time</code>.</p></div><div class="paper-note white-note tilt-right"><span class="section-kicker">Point to note:</span><p><strong>FreeShelf</strong> and <strong>Jen1</strong> are the clearest web-facing work right now.</p><p>The rest DO matter, even if not everyone gets them. Tools, experiments and half-formed ideas are still allowed to stay on the wall.</p></div></div><div class="quote-art"><img src="assets/quote-card.svg" width="900" height="260" loading="lazy" alt="Handwritten note: software should feel owned, not consuming." /></div></section>
   </main>
 
-  <footer class="footer section-shell">
-    <div class="footer-layout">
-      <div class="footer-art"><img src="assets/footer.svg" alt="Hand-drawn sign-off scene: pencil at rest with a small seedling." /></div>
-      <div class="footer-note paper-note cream-note">
-        <span class="section-kicker">Signing off and Trust...</span>
-        <h2>I'm still making things.</h2>
-        <div class="footer-links"><a href="https://github.com/LoneMagma" target="_blank" rel="noreferrer">GitHub &nearr;</a><a href="https://github.com/LoneMagma?tab=repositories" target="_blank" rel="noreferrer">all repos &nearr;</a></div>
-        <p class="footer-signoff">Seeya</p>
-      </div>
-    </div>
-  </footer>
-
-  <template id="project-template">
-    <article class="project-card">
-      <div class="project-art"><svg aria-hidden="true"><use></use></svg></div>
-      <div class="project-card-body">
-        <div class="project-title-row"><h3></h3><span class="project-index"></span></div>
-        <p class="project-desc"></p>
-        <div class="tag-row"></div>
-      </div>
-      <a class="project-open" target="_blank" rel="noreferrer"><span></span><b>&nearr;</b></a>
-    </article>
-  </template>
-
+  <footer class="footer section-shell"><div class="footer-layout"><div class="footer-art"><img src="assets/footer.svg" width="1200" height="320" loading="lazy" alt="Hand-drawn sign-off scene: a quiet landscape with a small house, pencil and moon." /></div><div class="footer-note paper-note cream-note"><span class="section-kicker">that's all for now.</span><h2>More soon.</h2><div class="footer-links"><a href="https://lonemagma.github.io/">LoneMagma &nearr;</a><a href="https://github.com/LoneMagma" target="_blank" rel="noreferrer">GitHub &nearr;</a><a href="https://github.com/LoneMagma?tab=repositories" target="_blank" rel="noreferrer">all repos &nearr;</a></div><p class="footer-signoff">Seeya</p></div></div></footer>
   <script src="script.js"></script>
 </body>
 </html>
